@@ -1,6 +1,5 @@
 :scrollbar:
 :data-uri:
-:toc2:
 :linkattrs:
 
 = erdemo.io
@@ -9,5 +8,5 @@
 
 == Documentation
 
-link:modules/modules/02_Execute_Demo/02_1_setup_Lab.adoc[02_1: Setup Lab]
+link:modules/02_Execute_Demo/02_1_setup_Lab.adoc[02_1: Setup Lab]
 
