@@ -1,0 +1,362 @@
+:noaudio:
+:scrollbar:
+:data-uri:
+:toc2:
+:linkattrs:
+
+= Lab Setup
+
+.Prerequisites
+.. The `ssh` utility installed on your laptop.
++
+NOTE: If your network connection is intermittent, consider installing the https://mosh.org/[mosh] utility (`yum install mosh`) as an alternative to the `ssh` utility.
+
+.. Web browser installed on your laptop.
+.. Broadband internet connectivity.
+.. link:https://account.opentlc.com/account/[Red Hat GPTE _Opentlc_ userId]
+
+:numbered:
+
+
+
+== Overview
+TODO
+
+=== Background
+TODO
+
+=== Deployment Topology
+
+TODO
+
+== Course Virtual Machine
+
+Your lab environment is remote and consists of the following:
+
+. *OpenShift Container Platform* (OCP)  
+. link:TODO[Emergency Response Demo]
+
+This lab environment can be accessed via ssh as well as through your local browser.
+
+=== Order Virtual Machine
+This section guides you through the procedure to order a virtual machine (VM) for this course.
+
+==== Access VM via OPENTLC or RHSE
+
+NOTE: [blue]#This section is applicable if you are an existing student of either Red Hat's _Open Partner Enablement Network (OPEN)_ or Skills Exchange (RHSE) programs.#
+
+. In a web browser, navigate to the _Cloud Forms_ environment for OPEN and RHSE at:   https://labs.opentlc.com.
+. Authenticate using your _OPENTLC_ credentials, for example: `johndoe-redhat.com`.
+. Navigate to the following catalog:  `Services -> Catalog -> Catalog Items -> OPENTLC Middleware Solutions Labs`.
+. Select the following catalog item: `RHTE19: Emergency Response Quarkus`.
+. Click `Order` on the next page.
+
+. In the subsequent order form, select the check box confirming you understand the runtime and expiration dates. :
+. At the bottom of the same page, click `Submit`.
+
+/////
+==== Access VM via GUID Grabber
+
+NOTE: [blue]#This section is only applicable if you are a participant in a Red Hat conference such as Red Hat Tech Exchange (RHTE)#.
+
+This section of the lab explains how to access the Red Hat Tech Exchange _GuidGrabber_ to obtain a Globally Unique Identifier (GUID).
+This GUID will be used to access a virtual machine that you will use in this course.
+
+. In a web browser, navigate to: http://bit.ly/rhte-guidgrabber.
+
+. Select the *Lab Code* :  `A1004 - Dynamic Case Mgmt`.
+
+. Enter the *Activation Key* provided to you by your instructor.
+
+. Click `Next`.
+
+. The resulting page will display your lab's GUID and other useful information about your lab environment.
++
+image::images/guid_grabber_response.png[Guid Grabber Information Page]
+
+. Your remote virtual machine is accessible via the `SSH` protocol.
++
+Follow the directions exactly as indicated in the Guid Grabber Information Page to log into your remote lab VM via SSH.
+
+. When you are finished with your lab environment at the end of this course, please click *Reset Workstation* so that you can move on to the next lab.
+If you fail to do this, you will be locked into the GUID from the previous lab.
++
+[NOTE]
+Clicking *Reset Workstation* will not stop or delete the lab environment.
+/////
+
+=== Confirmation Emails
+
+Upon ordering the lab environment, you will receive the following two emails:
+
+. *Your lab environment is building*
+.. Save this email.
+.. This email Includes details of the three VMs that make up your lab application similar to the following:
++
+image::images/aio_first_email.png[]
+
+.. Make note of the 4 digit GUID (aka: REGION CODE)
++
+* Whenever you see "GUID" or "$GUID" in a command, make sure to replace it with your GUID.
+
+.. Make note of the URL of the `workstation` VM.
++
+You will use this when ssh'ing to your application.
+
+.. Make note of the URL of the `master` VM.
++
+You will use this when accessing the OCP Web Console.
+
+** The OpenShift master URL varies based on the region where you are located, and may vary from the example shown above.
+** For the duration of the course, you navigate to this OpenShift Container Platform master node.
+
+. *VM ready for authentication*
++
+Once you receive this second email, you can then ssh into the `workstation` VM of your Ravello application.
+
+=== SSH Access and `oc` utility
+
+SSH access to the remote lab environment provides you with the OpenShift `oc` utility.
+
+. ssh access to your lab environment by specifying your _opentlc userId_ and lab environment $GUID in the following command:
++
+-----
+$ ssh <opentlc-userId>@workstation-$GUID.rhpds.opentlc.com
+-----
+
+. Authenticate into OpenShift as a non cluster admin user (user1) using the `oc` utility
++ 
+-----
+$ oc login https://master00.example.com -u user1 -p r3dh4t1!
+-----
+
+
+. OCP cluster admin access
++
+OCP cluster admin access is provided by switching to the root operating system of your lab environment as follows.
++
+-----
+$ sudo -i
+
+# oc login -u system:admin      # NOTE: This command is typically not needed
+                                #       /root/.kube/config already contains the _system:admin_ user's token
+
+
+# exit
+-----
+
+=== Refresh Red Hat SSO state
+
+Your Red Hat SSO needs to be refreshed with valid _redirect_ and _web_origin_ URLs to support your Emergency Response demo.
+For this purpose, a script has been provided as follows: 
+
+. Gain OCP cluster access via the shell of the root operating system user:
++
+-----
+$ sudo -i
+-----
+
+. Execute the following:
++
+-----
+
+# mkdir -p $HOME/lab && \
+       wget https://bit.ly/2KHE90g -O $HOME/lab/erd_rhsso_state_update.sh \
+       && chmod 755 $HOME/lab/erd_rhsso_state_update.sh \
+       && $HOME/lab/erd_rhsso_state_update.sh 43b5
+-----
+
+. You should see a response similar to the following:
++
+-----
+will update the following stale guid in RHSSO from: 43b5 to 5dff
+
+UPDATE 3
+UPDATE 2
+
+...
+
+deploymentconfig.apps.openshift.io/sso rolled out
+
+-----
++
+If you are curious as to what exactly is getting modified in the RH-SSO, you can review link:https://bit.ly/2KHE90g[the script].
++
+In particular, notice that the _redirect_uris_ and _web_origins_  are modified to reflect the actual URL of your Emergency Response lab environment.
+
+. After a couple of minutes, expect your RH-SSO pod to have re-started:
++
+-----
+$ oc get pods -n sso
+
+keycloak-operator-d894597dc-pkfkc   1/1       Running   1          5h
+sso-3-4rg52                         1/1       Running   0          1m
+sso-postgresql-1-dn4fl              1/1       Running   1          5h
+-----
+
+. Exit out of the root operating system user shell:
++
+-----
+# exit
+-----
++
+[blue]#Make sure to exit out of the root shell after every use#
+
+[[env_vars]]
+== Environment Variables
+
+TODO:   This entire section may not be necessary
+
+The instructions in this course require use of environment variables.
+Now that you have a lab environment, in this section, you set these environment variables in your remote client environment.
+
+. As the non-root operating system user of your remote VM, execute the following commands:
++
+-----
+echo "export OCP_USERNAME=user1" >> ~/.bashrc
+echo 'export OCP_PASSWD=r3dh4t1!' >> ~/.bashrc
+
+echo "export OCP_REGION=`echo $HOSTNAME | cut -d'.' -f1 | cut -d'-' -f2`" >> ~/.bashrc
+echo "export OCP_DOMAIN=\$OCP_REGION.generic.opentlc.com" >> ~/.bashrc
+echo "export OCP_WILDCARD_DOMAIN=apps-\$OCP_DOMAIN" >> ~/.bashrc
+echo "export rhsso_url=sso-sso.\$OCP_WILDCARD_DOMAIN" >> ~/.bashrc
+echo "export web_app_url=emergency-console-emergency-response-demo.\$OCP_WILDCARD_DOMAIN" >> ~/.bashrc
+
+source ~/.bashrc
+-----
+
+. Create a directory to store files related to this lab:
++
+-----
+$ mkdir -p $HOME/lab
+-----
+
+
+== OpenShift Container Platform
+
+Your lab environment is built on Red Hat's OpenShift Container Platform (OCP).
+
+Access to your OCP resources can be gained via both the `oc` CLI utility and the OCP web console.
+
+
+. Validate the ability to _impersonate_ cluster admin:
++
+-----
+$ oc get nodes --as=system:admin
+
+NAME                      STATUS    ROLES            AGE       VERSION
+infranode00.example.com   Ready     infra            4d        v1.11.0+d4cacc0
+master00.example.com      Ready     compute,master   4d        v1.11.0+d4cacc0
+-----
++
+For the purpose of this lab, the cluster-admin of your OCP environment has provided you with the ability to _impersonate_ the _cluster-admin_.
+You would not have had the ability to execute the above command (by specifying `--as=system:admin`) if the cluster-admin had not already done so.
+In the next lab you will use this ability to impersonate the cluster admin.
+
+
+. View existing projects:
++
+-----
+$ oc get projects
+
+...
+
+    console-config
+    emergency-response-demo
+    emergency-response-monitoring
+    kafka-operator-erd
+    middleware-monitoring
+...
+    sso
+    tools-erd
+
+-----
+
+TODO:  Explanations
+
+=== OCP Web Console
+
+. Point your browser to the URL created by executing the following :
++
+-----
+$ echo -en "\nhttps://master00-$OCP_REGION.generic.opentlc.com\n\n"
+-----
+
+. Authenticate using the following user credentials
+.. Username:    user1
+.. Password:    r3dh4t1!
+
+
+== Emergency Response Demo web app
+
+=== Overview
+
+TODO
+
+=== Scenario
+
+TODO
+
+== Add Maven support
+
+. Update your path for Maven
++
+----
+$ echo "PATH=/usr/local/apache-maven-3.5.4/bin:$PATH" >> ~/.bashrc
+
+$ source ~/.bashrc
+----
+
+. Verify Maven version
++
+----
+$ mvn -v
+----
+
+* You should see the updated Apache Maven version *3.5.4*:
++
+----
+Apache Maven 3.5.4 
+...
+----
+
+== GraalVM
+
+. Extract the GraalVM distribution
++
+-----
+$ tar -zxvf /opt/download/graalvm-ce-linux-amd64-19.0.2.tar.gz
+-----
+
+. Set environment variables for GRAALVM_HOME, JAVA_HOME and PATH in $HOME/.bashrc
++
+-----
+echo "export GRAALVM_HOME=$HOME/graalvm-ce-19.0.2" >> ~/.bashrc
+echo "export JAVA_HOME=$HOME/graalvm-ce-19.0.2" >> ~/.bashrc
+echo "PATH=$HOME/graalvm-ce-19.0.2/bin:$PATH" >> ~/.bashrc
+
+source ~/.bashrc
+-----
+
+. Install supporting GraalVM component
++
+-----
+$ gu install native-image
+-----
+
+== Appendix
+
+=== Optional:  Lab Environment Provisioning
+This section provides an overview of the ansible used to provision your own lab environment.
+
+It is offered to those that are interested in provisioning an environment to support this lab using their own resources.
+
+The lab environment assumes an existing OCP 3.11 installation with cluster admin access and about 24GB of RAM.
+
+The lab environment can be provisioned via the following Ansible roles:
+
+TODO
+
+ifdef::showscript[]
+
+endif::showscript[]
