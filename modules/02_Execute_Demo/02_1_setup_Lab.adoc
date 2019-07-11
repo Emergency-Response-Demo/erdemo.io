@@ -10,6 +10,7 @@
 .. The `ssh` utility installed on your laptop.
 +
 NOTE: If your network connection is intermittent, consider installing the https://mosh.org/[mosh] utility (`yum install mosh`) as an alternative to the `ssh` utility.
+
 .. Web browser installed on your laptop.
 .. Broadband internet connectivity.
 .. link:https://account.opentlc.com/account/[Red Hat GPTE _Opentlc_ userId]
