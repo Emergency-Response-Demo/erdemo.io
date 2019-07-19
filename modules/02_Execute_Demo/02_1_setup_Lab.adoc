@@ -41,7 +41,7 @@ This lab environment can be accessed via ssh as well as through your local brows
 === Order Virtual Machine
 This section guides you through the procedure to order a virtual machine (VM) for this course.
 
-. In a web browser, navigate to the _Red Hat Partner Demo System_ at:   https://rhpds.opentlc.com.
+. In a web browser, navigate to the _Red Hat Partner Demo System_ at:   https://rhpds.redhat.com/catalog/explorer.
 . Authenticate using your _OPENTLC_ credentials, for example: `johndoe-redhat.com`.
 . Navigate to the following catalog:  `Services -> Catalog -> Catalog Items -> Multi-product Demos`.
 . Select the following catalog item: `RHT Emergency Response`.
