@@ -960,10 +960,6 @@ Provide training on the Red Hat middleware product suite running on OpenShift.
 </li>
 </ol></div>
 <div class="paragraph"><p>If you are interested in building this demo from its source code, please refer to the <a href="">TODO</a> document.</p></div>
-<div class="sect2">
-<h3 id="_deployment_topology">1.1. Deployment Topology</h3>
-<div class="paragraph"><p>TODO</p></div>
-</div>
 </div>
 </div>
 <div class="sect1">
@@ -2526,14 +2522,21 @@ For this purpose, a script has been provided as follows:</p></div>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
+SSH into the <em>workstation</em> node of your demo environment as disussed in the previous section.
+</p>
+</li>
+<li>
+<p>
 As the root operating system user, execute the following exactly as listed:
 </p>
 <div class="listingblock">
 <div class="content">
-<pre><code># mkdir -p $HOME/lab &amp;&amp; \
-       wget https://bit.ly/2KHE90g -O $HOME/lab/erd_rhsso_state_update.sh \
-       &amp;&amp; chmod 755 $HOME/lab/erd_rhsso_state_update.sh \
-       &amp;&amp; $HOME/lab/erd_rhsso_state_update.sh 43b5</code></pre>
+<pre><code>$ sudo -i
+
+mkdir -p $HOME/lab &amp;&amp; \
+       wget https://raw.githubusercontent.com/gpte-emergency-response-demo/misc/master/erdemo_state_refresh.sh -O $HOME/lab/erdemo_state_refresh.sh \
+       &amp;&amp; chmod 755 $HOME/lab/erdemo_state_refresh.sh \
+       &amp;&amp; $HOME/lab/erdemo_state_refresh.sh</code></pre>
 </div></div>
 </li>
 <li>
@@ -2549,9 +2552,10 @@ UPDATE 2
 
 ...
 
-deploymentconfig.apps.openshift.io/sso rolled out</code></pre>
+deploymentconfig.apps.openshift.io/sso rolled out
+deploymentconfig.apps.openshift.io/emergency-console rolled out</code></pre>
 </div></div>
-<div class="paragraph"><p>If you are curious as to what exactly is getting modified in the RH-SSO, you can review <a href="https://bit.ly/2KHE90g">the script</a>.</p></div>
+<div class="paragraph"><p>If you are curious as to what exactly is getting modified in the RH-SSO, you can review <a href="https://raw.githubusercontent.com/gpte-emergency-response-demo/misc/master/erdemo_state_refresh.sh">the script</a>.</p></div>
 <div class="paragraph"><p>In particular, notice that the <em>redirect_uris</em> and <em>web_origins</em>  are modified to reflect the actual URL of your Emergency Response lab environment.</p></div>
 </li>
 <li>
@@ -2582,61 +2586,12 @@ Exit out of the root operating system user shell:
 </div>
 </div>
 <div class="sect1">
-<h2 id="env_vars">3. Environment Variables</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>The remainder of the instructions in this lab require use of environment variables.
-Now that you have a lab environment, in this section, you set these environment variables in your remote client environment.</p></div>
-<div class="olist arabic"><ol class="arabic">
-<li>
-<p>
-As the non-root operating system user of your remote VM, execute the following commands:
-</p>
-<div class="listingblock">
-<div class="content">
-<pre><code>echo "export OCP_USERNAME=user1" &gt;&gt; ~/.bashrc
-echo 'export OCP_PASSWD=r3dh4t1!' &gt;&gt; ~/.bashrc
-
-echo "export OCP_REGION=`echo $HOSTNAME | cut -d'.' -f1 | cut -d'-' -f2`" &gt;&gt; ~/.bashrc
-echo "export OCP_DOMAIN=\$OCP_REGION.generic.opentlc.com" &gt;&gt; ~/.bashrc
-echo "export OCP_WILDCARD_DOMAIN=apps-\$OCP_DOMAIN" &gt;&gt; ~/.bashrc
-echo "export rhsso_url=sso-sso.\$OCP_WILDCARD_DOMAIN" &gt;&gt; ~/.bashrc
-echo "export web_app_url=emergency-console-emergency-response-demo.\$OCP_WILDCARD_DOMAIN" &gt;&gt; ~/.bashrc
-
-source ~/.bashrc</code></pre>
-</div></div>
-</li>
-</ol></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_openshift_container_platform">4. OpenShift Container Platform</h2>
+<h2 id="_openshift_container_platform">3. OpenShift Container Platform</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Your lab environment is built on Red Hat&#8217;s OpenShift Container Platform (OCP).</p></div>
 <div class="paragraph"><p>Access to your OCP resources can be gained via both the <code>oc</code> CLI utility and the OCP web console.</p></div>
-<div class="olist arabic"><ol class="arabic">
-<li>
-<p>
-View existing projects:
-</p>
-<div class="listingblock">
-<div class="content">
-<pre><code>$ oc get projects
-
-...
-
-    console-config
-    emergency-response-demo
-    emergency-response-monitoring
-    kafka-operator-erd
-    middleware-monitoring
-...
-    sso
-    tools-erd</code></pre>
-</div></div>
-</li>
-</ol></div>
 <div class="sect2">
-<h3 id="_ocp_web_console">4.1. OCP Web Console</h3>
+<h3 id="_ocp_web_console">3.1. OCP Web Console</h3>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
@@ -2644,8 +2599,16 @@ Point your browser to the URL created by executing the following :
 </p>
 <div class="listingblock">
 <div class="content">
-<pre><code>$ echo -en "\nhttps://master00-$OCP_REGION.generic.opentlc.com\n\n"</code></pre>
+<pre><code>$ echo -en "\nhttps://master00-$GUID.generic.opentlc.com\n\n"</code></pre>
 </div></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">Substitute <code>GUID</code> in the above command with the GUID of your lab environment.</td>
+</tr></table>
+</div>
 </li>
 <li>
 <p>
@@ -2669,7 +2632,7 @@ Password:    r3dh4t1!
 </div>
 </div>
 <div class="sect1">
-<h2 id="_emergency_response_demo_web_app">5. Emergency Response Demo web app</h2>
+<h2 id="_emergency_response_demo_web_app">4. Emergency Response Demo web app</h2>
 <div class="sectionbody">
 <div class="olist arabic"><ol class="arabic">
 <li>
@@ -5130,7 +5093,7 @@ TkSuQmCC" />
 <div id="footnotes"><hr /></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-07-19 10:08:49 EDT
+Last updated 2019-08-09 14:03:03 EDT
 </div>
 </div>
 </body>
