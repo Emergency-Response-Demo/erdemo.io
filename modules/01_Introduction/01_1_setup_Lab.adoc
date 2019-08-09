@@ -121,11 +121,12 @@ For this purpose, a script has been provided as follows:
 . As the root operating system user, execute the following exactly as listed:
 +
 -----
+$ sudo -i
 
-# mkdir -p $HOME/lab && \
-       wget https://bit.ly/2KHE90g -O $HOME/lab/erd_rhsso_state_update.sh \
-       && chmod 755 $HOME/lab/erd_rhsso_state_update.sh \
-       && $HOME/lab/erd_rhsso_state_update.sh 43b5
+mkdir -p $HOME/lab && \
+       wget https://raw.githubusercontent.com/gpte-emergency-response-demo/misc/master/erdemo_state_refresh.sh -O $HOME/lab/erdemo_state_refresh.sh \
+       && chmod 755 $HOME/lab/erdemo_state_refresh.sh \
+       && $HOME/lab/erdemo_state_refresh.sh
 -----
 
 . You should see a response similar to the following:
@@ -139,10 +140,10 @@ UPDATE 2
 ...
 
 deploymentconfig.apps.openshift.io/sso rolled out
-
+deploymentconfig.apps.openshift.io/emergency-console rolled out
 -----
 +
-If you are curious as to what exactly is getting modified in the RH-SSO, you can review link:https://bit.ly/2KHE90g[the script].
+If you are curious as to what exactly is getting modified in the RH-SSO, you can review link:https://raw.githubusercontent.com/gpte-emergency-response-demo/misc/master/erdemo_state_refresh.sh[the script].
 +
 In particular, notice that the _redirect_uris_ and _web_origins_  are modified to reflect the actual URL of your Emergency Response lab environment.
 
