@@ -7,9 +7,9 @@ permalink: /install/
 By this time you are excited and want to try out this demo. There are a few ways you can get hands on with this demo. 
 Following is the logical breakdown for an installation. In many cases you might just need to install the demo only. However assuming you might just have an Openshift (OCP) Cluster or a Red Hat Managed Integration. We have put the instructions for the following scenario.
 The installation can be broken into three steps:
-- Openshift Installation (Assumption: Installed)
-- Installing Integreatly (If you dont have RHMI)
-- Installing the Demo (Ansible playbooks)
+- You have a running Openshift cluster
+- You have RHMI or Integreatly installed on Openshift
+- You are a Red Hat Partner or Employee and have access to Demo system
 
 The last secton on this page is for the partner demo system, which Red Hat Consultants, Solution Architect and Partners use. This might not apply to everyone.
 
