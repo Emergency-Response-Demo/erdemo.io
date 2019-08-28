@@ -15,6 +15,6 @@ As an architect you might wonder how could I put together all the awesomeness fr
 Let's not forget, this is only one way of expressing how you can architect an application environment. There are many other ways to solve problems. This one offcourse has the flavour for an Event driven and reactive architecture. 
   
 Check out the Getting started guide and the install guide to learn more how you can get started. 
-
+You can also head out to the developers page and read more about [Red Hat Application Environment](https://developers.redhat.com/appenv)
 
 
