@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?asciidoc-toc?>
+<?asciidoc-numbered?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xl="http://www.w3.org/1999/xlink" version="5.0" xml:lang="en">
+<info>
+<title>Emergency Response Demo</title>
+<subtitle>Application Overview</subtitle>
+<date>2019-08-15</date>
+</info>
+<itemizedlist>
+<title>Goals</title>
+<listitem>
+<simpara>Learn how to demo the Emergency Response Demo Application</simpara>
+</listitem>
+<listitem>
+<simpara>Understand Emergency Response Demo Application Architecture</simpara>
+</listitem>
+<listitem>
+<simpara>Create Incidents and Responders using the Simulator</simpara>
+</listitem>
+<listitem>
+<simpara>Examine the Process Flow for assigning Responders to Incidents</simpara>
+</listitem>
+<listitem>
+<simpara>View Missions in progress with the Dashboard</simpara>
+</listitem>
+</itemizedlist>
+<section xml:id="_business_case">
+<title>Business Case</title>
+<section xml:id="_the_problem">
+<title>The Problem</title>
+<simpara>In August 2017, Hurricane Harvey caused massive flooding in Southeast Texas, USA. The storm left a number of residents stranded and in need of rescue. Emergency first responders were overwhelmed with the high volume of rescue calls. A loose-knit group of volunteer boaters assisted in the rescue effort. These volunteers explored neighborhoods seeking out residents who needed assistance. In addition, with the support of social media, a group of volunteers served as dispatchers to relay rescue requests to the volunteer boaters. This group of volunteers became known as the <link xl:href="https://en.wikipedia.org/wiki/Cajun_Navy"><emphasis role="strong">Cajun Navy</emphasis></link>. The Cajun Navy has been operating in various forms since Hurricane Katrina in 2005.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/volunteer-boaters-stock-photo.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>volunteer boaters stock photo</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+<section xml:id="_the_solution">
+<title>The Solution</title>
+<simpara>The Emergency Response Demo application is inspired by the Cajun Navy response from Hurricane Harvey. It provides an online solution to connect stranded residents with volunteer responders. This application makes it easy to engage the community to organize volunteer responders.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/dashboard.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>dashboard</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+</section>
+<section xml:id="_terminology">
+<title>Terminology</title>
+<informaltable frame="all" rowsep="1" colsep="1">
+<tgroup cols="2">
+<colspec colname="col_1" colwidth="25*"/>
+<colspec colname="col_2" colwidth="75*"/>
+<thead>
+<row>
+<entry align="left" valign="top">Name</entry>
+<entry align="left" valign="top">Definition</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry align="left" valign="top"><simpara>Incident</simpara></entry>
+<entry align="left" valign="top"><simpara>A request for help from an individual (or group of individuals) that are in need of rescue. Details of an Incident include the location (Lat, Long), the number of people stranded and whether medical assistance is required.</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Responder</simpara></entry>
+<entry align="left" valign="top"><simpara>A volunteer who has a boat and is willing to rescue people who have reported an Incident.  The boat has a capacity and a flag is set if they can/cannot provide first aid. There are two types of responders. People who sign up online via the emergency console and simulated responders via the Responder Simulator.</simpara></entry>
+</row>
+<row>
+<entry align="left" valign="top"><simpara>Mission</simpara></entry>
+<entry align="left" valign="top"><simpara>When a Responder is assigned an Incident, a Mission is created. The Mission defines where the Responder needs to go to collect the victims of the Incident (the Way Point) and what shelter the victims should be dropped off at (the Target Location). The mission also has details of the responders location history.</simpara></entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+</section>
+<section xml:id="_red_hat_technologies">
+<title>Red Hat Technologies</title>
+<simpara>The Emergency Response Demo makes it easy for you to show the power of the integrated Red Hat Middleware Portfolio, running on OpenShift.</simpara>
+<simpara>Red Hat Technologies used in this application:</simpara>
+<itemizedlist>
+<listitem>
+<simpara><link xl:href="https://www.redhat.com/en/technologies/cloud-computing/openshift">Red Hat OpenShift</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.redhat.com/en/technologies/cloud-computing/openshift/application-runtimes">Red Hat OpenShift Application Runtimes (RHOAR)</link> - Vert.x, Spring Boot and Node.js</simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.redhat.com/en/technologies/jboss-middleware/data-grid">Red Hat Data Grid</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.redhat.com/en/technologies/jboss-middleware/decision-manager">Red Hat Decision Manager</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.redhat.com/en/technologies/jboss-middleware/process-automation-manager">Red Hat Process Automation Manager</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.redhat.com/en/technologies/jboss-middleware/fuse">Red Hat Fuse</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.redhat.com/en/technologies/jboss-middleware/amq">Red Hat AMQ Streams</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://www.redhat.com/en/technologies/jboss-middleware/3scale">Red Hat 3scale API Management</link></simpara>
+</listitem>
+<listitem>
+<simpara><link xl:href="https://access.redhat.com/products/red-hat-single-sign-on">Red Hat Single Sign-On</link></simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_application_architecture">
+<title>Application Architecture</title>
+<simpara>In this application, you’ll see Red Hat technologies in action and see how they provide a true hybrid cloud solution, with IT infrastructure that provides consistency, safety, repeatability, reusability, and portability while still helping development teams move fast. The application is based on true polyglot development and it is agile, secure and scalable at every level in the stack.</simpara>
+<simpara>Below is a diagram of the application architecture.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/application-architecture.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>application architecture</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</section>
+<section xml:id="_application_components">
+<title>Application Components</title>
+<simpara>The following application components work together to provide the core implementation for the demo solution.</simpara>
+<section xml:id="_mission_service">
+<title>Mission Service</title>
+<itemizedlist>
+<listitem>
+<simpara>Runtime: Vert.x</simpara>
+</listitem>
+<listitem>
+<simpara>Middleware Products / Components: JDG, AMQ-Streams</simpara>
+</listitem>
+<listitem>
+<simpara>Other Components: None</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The Mission Service exposes an API for managing Missions, including getting a list of mission keys, getting a specific mission by key, clearing all missions and getting missions assigned to a specific responder.</simpara>
+<simpara>The Mission Service listens on Kafka to the topic-mission-command topic for details of new or updated missions being created. New Mission messages trigger a call to MapBox to generate the routes for a mission, using the responders location as a starting point, the victims location as a way point and the shelter location as the final destination. The mission details are then stored in JDG, to service API requests for Mission details.</simpara>
+<simpara>The Mission Service sends updates to Kafka on the topic-mission-event topic in response to mission state change events such as when a mission is created, when an API request is received (e.g. to complete all missions). The Mission service also sends updates to Kafka on the topic-responder-command when missions are completed to indicate that the Responder is available for a new mission.</simpara>
+<itemizedlist>
+<title>Kafka Topics</title>
+<listitem>
+<simpara>Send: topic-mission-event, topic-responder-command</simpara>
+</listitem>
+<listitem>
+<simpara>Receive: topic-mission-command, topic-responder-location-update</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_process_service">
+<title>Process Service</title>
+<itemizedlist>
+<listitem>
+<simpara>Runtime: Spring Boot</simpara>
+</listitem>
+<listitem>
+<simpara>Middleware Components:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Process Automation Manager (PAM)</simpara>
+</listitem>
+<listitem>
+<simpara>Decision Manager (DM)</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Other Components: Postgres DB</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The Process Service is responsible for managing the overall process flow of the system. The Process Service operates purely on Kafka messages and does not expose any HTTP API - although it does invoke HTTP APIs in the Responder and Incident Priority Services.</simpara>
+<simpara>When a new Incident is reported on the topic-incident-event Topic, the process Service kicks off a new BPM process to manage the new Incident. When a Responder is shown as available (via the topic-responder-event Topic), the BPM process is updated to reflect this. As the Mission progresses and additional messages are received on the topic-mission-event Topic, the BPM process is updated to reflect the latest state.</simpara>
+<simpara>The Process Service sends out multiple types of messages on various Topics in response to the Incident progressing through the Business Process.</simpara>
+<itemizedlist>
+<title>Kafka Topics</title>
+<listitem>
+<simpara>Send: topic-mission-command, topic-responder-command, topic-incident-command, topic-incident-event</simpara>
+</listitem>
+<listitem>
+<simpara>Receive: topic-incident-event, topic-responder-event, topic-mission-event</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_incident_service">
+<title>Incident Service</title>
+<itemizedlist>
+<listitem>
+<simpara>Runtime: Spring Boot</simpara>
+</listitem>
+<listitem>
+<simpara>Middleware Products / Components: AMQ-Streams</simpara>
+</listitem>
+<listitem>
+<simpara>Other Components: Postgres DB</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The Incident Service exposes an API for registering new Incidents and retrieving information about existing Incidents. An endpoint is also exposed for resetting Incident state (this is typically used by simulator services for managing and resetting the demo).</simpara>
+<simpara>When a new Incident is received, the Incident details are stored in the database and a new message is sent out on the topic-incident-event Kafka Topic.</simpara>
+<simpara>The Service also listens on Kafka to the topic topic-incident-command for updates to Incidents and stores the latest Incident state in the Database.</simpara>
+<itemizedlist>
+<title>Kafka Topics</title>
+<listitem>
+<simpara>Send: topic-incident-event</simpara>
+</listitem>
+<listitem>
+<simpara>Listen: topic-incident-command</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_responder_service">
+<title>Responder Service</title>
+<itemizedlist>
+<listitem>
+<simpara>Runtime: Spring Boot</simpara>
+</listitem>
+<listitem>
+<simpara>Middleware Products / Components: AMQ-Streams</simpara>
+</listitem>
+<listitem>
+<simpara>Other Components: Postgres DB</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The Responder Service exposes an API for managing Responders, including registering new Responders, retrieving information about all available responders and retrieving information about specific responders. Endpoints are also exposed for removing responders and resetting responder state (these are typically used by simulator services for managing and resetting the demo).</simpara>
+<simpara>When a new Responder is registered, the Responder details are stored in the database.</simpara>
+<simpara>The Service also listens on Kafka to the topic test-topic for updates to Responders and stores the latest Responder state in the Database. If the update to the responder includes an Incident Id (i.e. if the responder has been assigned to work on an Incident) the services also sends a new Kafka message to the topic test-topic.</simpara>
+<itemizedlist>
+<title>Kafka Topics</title>
+<listitem>
+<simpara>Send: test-topic</simpara>
+</listitem>
+<listitem>
+<simpara>Listen: test-topic</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_emergency_web_console">
+<title>Emergency Web Console</title>
+<itemizedlist>
+<listitem>
+<simpara>Runtime: Node.js, Angular</simpara>
+</listitem>
+<listitem>
+<simpara>Middleware Products / Components: None</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The emergency console is the front end UI for the Demo Solution. It provides the following main views:</simpara>
+<itemizedlist>
+<listitem>
+<simpara>Incident Commander Dashboard: The overall view of all Incidents, Responders and Missions</simpara>
+</listitem>
+<listitem>
+<simpara>Responder Interface: The view for an individual responder which shows their current mission, including the router to the Incident and onward route to the shelter</simpara>
+</listitem>
+<listitem>
+<simpara>Incidents: A tabular list of all incidents</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The console communicates with several of the back end services (Incident, Mission &amp; Responder) to display real time data via WebSockets.</simpara>
+</section>
+</section>
+<section xml:id="_demo_simulators">
+<title>Demo Simulators</title>
+<simpara>The following components are used to control the demo and simulate events which are needed for the demo, but which can not be sourced from / represented in the real world (i.e. Incidents, Responder Bots, Responder movement around the map).</simpara>
+<section xml:id="_responder_simulator">
+<title>Responder Simulator</title>
+<itemizedlist>
+<listitem>
+<simpara>Runtime: Vert.x</simpara>
+</listitem>
+<listitem>
+<simpara>Middleware Components: None</simpara>
+</listitem>
+<listitem>
+<simpara>Other Components: None</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The Responder Simulator is responsible for moving responders (both bots and humans) around the map during missions. As the demo requires the movement of personnel to function and since we can not have real people actually moving many miles for each Mission, this simulator is required to allow the demo to function.</simpara>
+<simpara>The Responder simulator listens on the topic-mission-event for details of active responders that need to be moved on the map. The simulator them periodically updates (default every 10 seconds) the responders location (based on the mission route received) to show the responder at the next location. As the simulator moves responders, it emits messages on the topic-responder-location-update Topic.</simpara>
+<itemizedlist>
+<title>Kafka Topics</title>
+<listitem>
+<simpara>Send: topic-mission-event</simpara>
+</listitem>
+<listitem>
+<simpara>Receive: topic-responder-location-update</simpara>
+</listitem>
+</itemizedlist>
+</section>
+<section xml:id="_disaster_simulator">
+<title>Disaster Simulator</title>
+<itemizedlist>
+<listitem>
+<simpara>Runtime: Vert.x</simpara>
+</listitem>
+<listitem>
+<simpara>Middleware Components: None</simpara>
+</listitem>
+<listitem>
+<simpara>Other Components: None</simpara>
+</listitem>
+</itemizedlist>
+<simpara>The Disaster Simulator is used for managing / coordinating the demo. It exposes a basic UI which allows a user to add and remove Incidents and Responders in order to drive the demo forward.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/create-incidents.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>create incidents</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<simpara>The Disaster Simulator uses HTTP API requests to the Incident Service, the Responder Service the Mission Service and the Incident Priority Service in order to manage data creation / deletion.</simpara>
+</section>
+</section>
+<section xml:id="_view_the_emergency_response_demo_web_console">
+<title>View the Emergency Response Demo Web Console</title>
+<simpara>To get started with the Emergency Response Demo, you need the URL to the demo. You can access the URL from the OpenShift Web Console. Follow the steps below.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>In your terminal window, display the OpenShift Admin Web console</simpara>
+<screen>$ echo $OCP_CONSOLE_URL</screen>
+</listitem>
+<listitem>
+<simpara>Start a web browser and visit the URL for <literal>$OCP_CONSOLE_URL</literal></simpara>
+</listitem>
+<listitem>
+<simpara>On the OpenShift login page, enter the following credentials:</simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>Username: <literal>user1</literal></simpara>
+</listitem>
+<listitem>
+<simpara>Password: <literal>r3dh4t1!</literal></simpara>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<simpara>Once logged in, select the project <emphasis role="strong">emergency-response-demo</emphasis></simpara>
+</listitem>
+<listitem>
+<simpara>In the list of applications, click the link for <emphasis role="strong">emergency-console</emphasis></simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/launch-emergency-console.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>launch emergency console</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+<listitem>
+<simpara>This link takes you to the login screen for the Emergency Web Console</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/emergency-console-login-screen.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>emergency console login screen</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+<listitem>
+<simpara>Click the <emphasis role="strong">Register Now!</emphasis> button. This is for registering as a volunteer responder.</simpara>
+</listitem>
+<listitem>
+<simpara>Enter the relevant information for your account. You can select any test data.</simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>Make note of the fields for Boat Capacity and Medical Support.</simpara>
+</listitem>
+<listitem>
+<simpara>You can specify how many people you can carry in your boat. Also, you can indicate if you provide medical / first-aid support.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/register-now-responder.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>register now responder</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<simpara>Click <emphasis role="strong">Register</emphasis></simpara>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_explore_the_application">
+<title>Explore the Application</title>
+<simpara>Once you are successfully registered, you will see the main application screen.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/main-application-screen.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>main application screen</phrase></textobject>
+</mediaobject>
+</informalfigure>
+<itemizedlist>
+<listitem>
+<simpara>This screen has the following links:</simpara>
+<itemizedlist>
+<listitem>
+<simpara><emphasis role="strong">Dashboard</emphasis>: The overall view of all Incidents, Responders and Missions</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Mission</emphasis>: The view for an individual responder which shows their current mission, including the router to the Incident and onward route to the shelter</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Incidents</emphasis>: A list of all incidents</simpara>
+</listitem>
+<listitem>
+<simpara><emphasis role="strong">Github</emphasis>: Link to the Github repo</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</itemizedlist>
+<section xml:id="_dashboard">
+<title>Dashboard</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Select the link for <emphasis role="strong">Dashboard</emphasis></simpara>
+<itemizedlist>
+<listitem>
+<simpara>This screen shows an overall view of all Incidents, Responders and Missions. At the moment the screen is empty, but in the following sections we will add data to the application.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/dashboard-empty.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>dashboard empty</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+<section xml:id="_incident_status">
+<title>Incident Status</title>
+<simpara>The Incident Status section tracks the data for number of incidents requested, assigned, picked up and rescued. These values update in real-time based on application events.</simpara>
+</section>
+<section xml:id="_responder_utilization">
+<title>Responder Utilization</title>
+<simpara>The Responder Utilization section monitors the total number of responders, active and idle responders. This section is also updated in real-time based on application events.</simpara>
+</section>
+<section xml:id="_map">
+<title>Map</title>
+<simpara>The map shows the location of the incidents, responders and their associated routes.</simpara>
+</section>
+</section>
+<section xml:id="_mission">
+<title>Mission</title>
+<simpara>When a Responder is assigned an Incident, a Mission is created. The Mission defines where the Responder needs to go to collect the victims of the Incident (the Way Point) and what shelter the victims should be dropped off at (the Target Location). The mission also has details of the responders location history.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Select the link for <emphasis role="strong">Dashboard</emphasis></simpara>
+<itemizedlist>
+<listitem>
+<simpara>This screen shows the view for an individual responder which shows their current mission, including the router to the Incident and onward route to the shelter.</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Add yourself to the map as a responder</simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>Click any location on the map.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/add-as-responder-to-the-map.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>add as responder to the map</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+<listitem>
+<simpara>Click your boat icon. It will show the details of your boat profile.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/responder-boat-details.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>responder boat details</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+<listitem>
+<simpara>Click the <emphasis role="strong">Available</emphasis> button.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>You are now registered as an <emphasis role="strong">Available</emphasis> responder.</simpara>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<simpara>Click the <emphasis role="strong">Dashboard</emphasis> link</simpara>
+<itemizedlist>
+<listitem>
+<simpara>In the <emphasis role="strong">Responder Utilization</emphasis> section, verify that there are 1 total responders. This is based on your recent action.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/1-total-responders.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>1 total responders</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_incidents">
+<title>Incidents</title>
+<simpara>An incident is a request for help from an individual (or group of individuals) that are in need of rescue. Details of an Incident include the location (Lat, Long), the number of people stranded and whether medical assistance is required.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Click the <emphasis role="strong">Incidents</emphasis> link</simpara>
+<itemizedlist>
+<listitem>
+<simpara>This screen shows a list of incidents. At the moment, this screen is empty, but we will create incidents in the next section.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/incidents-empty.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>incidents empty</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</section>
+</section>
+<section xml:id="_disaster_simulator_2">
+<title>Disaster Simulator</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Move back to the <emphasis role="strong">OpenShift Web Console</emphasis> window</simpara>
+</listitem>
+<listitem>
+<simpara>In the list of applications, click the link for <emphasis role="strong">disaster-simulator</emphasis></simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/launch-disaster-simulator.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>launch disaster simulator</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+<listitem>
+<simpara>This takes you to the Disaster Simulator web console.</simpara>
+</listitem>
+</orderedlist>
+<section xml:id="_create_incidents">
+<title>Create Incidents</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>In the section for <emphasis role="strong">Create Incidents</emphasis>, move to the field for <emphasis role="strong">Number of Incidents</emphasis> and enter <literal>50</literal>.</simpara>
+</listitem>
+<listitem>
+<simpara>Click <emphasis role="strong">Submit</emphasis></simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/create-incidents.png" contentwidth="60%"/>
+</imageobject>
+<textobject><phrase>create incidents</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_create_responders">
+<title>Create Responders</title>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>In the section for <emphasis role="strong">Create Responders</emphasis>, move to the field for <emphasis role="strong">Number of Responders</emphasis> and enter <literal>3</literal>.</simpara>
+</listitem>
+<listitem>
+<simpara>Click <emphasis role="strong">Submit</emphasis></simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/create-responders.png" contentwidth="60%"/>
+</imageobject>
+<textobject><phrase>create responders</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+<listitem>
+<simpara>Move back to the <emphasis role="strong">Emergency Response Demo Web Console</emphasis> window</simpara>
+</listitem>
+<listitem>
+<simpara>Click the <emphasis role="strong">Dashboard</emphasis> link.</simpara>
+</listitem>
+<listitem>
+<simpara>Confirm that you have incidents and responders.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>You will see activity as the responders are assigned to missions. The responders will start moving to rescue the stranded victims.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/er-main-dashboard.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>er main dashboard</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</section>
+</section>
+<section xml:id="_view_your_mission">
+<title>View Your Mission</title>
+<simpara>By this time, your boat should have been assigned to a mission.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Click the <emphasis role="strong">Mission</emphasis> link.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>You will see your boat moving towards an incident.</simpara>
+</listitem>
+<listitem>
+<simpara>Once your boat makes it to the incident location, click the <emphasis role="strong">Picked Up</emphasis> button.</simpara>
+</listitem>
+<listitem>
+<simpara>This confirms that you have picked up the passengers and your boat will proceed to the shelter.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/mission-picked-up.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>mission picked up</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</itemizedlist>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_view_incidents">
+<title>View Incidents</title>
+<simpara>You can view a list of all incidents and check their status.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Click the <emphasis role="strong">Incidents</emphasis> link.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/view-all-incidents.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>view all incidents</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_process_automation">
+<title>Process Automation</title>
+<simpara>The Process Service is responsible for managing the overall process flow of the system. The Process Service operates purely on Kafka messages and does not expose any HTTP API - although it does invoke HTTP APIs in the Responder and Incident Priority Services.</simpara>
+<simpara>When a new Incident is reported on the topic-incident-event Topic, the process Service kicks off a new BPM process to manage the new Incident. When a Responder is shown as available (via the topic-responder-event Topic), the BPM process is updated to reflect this. As the Mission progresses and additional messages are received on the topic-mission-event Topic, the BPM process is updated to reflect the latest state.</simpara>
+<simpara>The Process Service sends out multiple types of messages on various Topics in response to the Incident progressing through the Business Process.</simpara>
+<simpara>Let&#8217;s view the process diagram for an incident.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Click the <emphasis role="strong">Dashboard</emphasis> link.</simpara>
+</listitem>
+<listitem>
+<simpara>Click an Incident on the map.</simpara>
+<itemizedlist>
+<listitem>
+<simpara>This will show a pop-up for the incident.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/incident-popup.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>incident popup</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Click the link for <emphasis role="strong">Process Diagram</emphasis></simpara>
+<itemizedlist>
+<listitem>
+<simpara>This will open new tab to view the Process Diagram for this incident.</simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/view-process-diagram.png" contentwidth="80%"/>
+</imageobject>
+<textobject><phrase>view process diagram</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</itemizedlist>
+</listitem>
+<listitem>
+<simpara>Review the process diagram for this incident.</simpara>
+</listitem>
+</orderedlist>
+</section>
+<section xml:id="_clean_up">
+<title>Clean Up</title>
+<simpara>Let&#8217;s clean up our application by clearing the incidents, responders and missions.</simpara>
+<orderedlist numeration="arabic">
+<listitem>
+<simpara>Move back to the <emphasis role="strong">Disaster Simulator</emphasis> web console.</simpara>
+</listitem>
+<listitem>
+<simpara>Click the buttons to clear application data</simpara>
+<orderedlist numeration="loweralpha">
+<listitem>
+<simpara>Click <emphasis role="strong">Clear incidents</emphasis></simpara>
+</listitem>
+<listitem>
+<simpara>Click <emphasis role="strong">Clear responders</emphasis></simpara>
+</listitem>
+<listitem>
+<simpara>Click <emphasis role="strong">Clear missions</emphasis></simpara>
+<informalfigure>
+<mediaobject>
+<imageobject>
+<imagedata fileref="images/clear-incidents-responders-missions.png" contentwidth="60%"/>
+</imageobject>
+<textobject><phrase>clear incidents responders missions</phrase></textobject>
+</mediaobject>
+</informalfigure>
+</listitem>
+</orderedlist>
+</listitem>
+<listitem>
+<simpara>Move back to the <emphasis role="strong">Emergency Response Demo Web Console</emphasis> window</simpara>
+</listitem>
+<listitem>
+<simpara>Click the <emphasis role="strong">Dashboard</emphasis> link.</simpara>
+</listitem>
+<listitem>
+<simpara>Confirm that all of application data is cleared.</simpara>
+</listitem>
+</orderedlist>
+<simpara>Congratulations! You have completed this lab. Please move on to the next lab.</simpara>
+</section>
+</article>

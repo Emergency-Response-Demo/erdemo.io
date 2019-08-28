@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+
+  <title>Install</title>
+
+  <meta name="author" content="Emergency Response Demo team" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Cajun Navy - Emergency Response Demo - Bringing the power of communities togehter, a cajun navy demo scenario" href="http://localhost:4000/feed.xml" />
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Install" />
+  
+
+   
+  <meta property="og:description" content="By this time you are excited and want to try out this demo. There are a few ways you can get hands on with this demo. Following is the logical breakdown for an installation. In many cases you might just need to install the demo only. However assuming you might...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/install/" />
+  <link rel="canonical" href="http://localhost:4000/install/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/avatar-icon.png" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Install" />
+  
+
+  
+  <meta name="twitter:description" content="By this time you are excited and want to try out this demo. There are a few ways you can get hands on with this demo. Following is the logical breakdown for an installation. In many cases you might just need to install the demo only. However assuming you might...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/avatar-icon.png" />
+  
+
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button><a class="navbar-brand" href="http://localhost:4000/">Cajun Navy - Emergency Response Demo</a></div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/about">About</a></li>
+          <li><a href="/install">Install</a></li>
+          <li><a href="/gettingstarted">Getting Started</a></li>
+          <li><a href="/architecture">Architecture</a></li></ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000/">
+	      <img class="avatar-img" src="/img/avatar-icon.png" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Install</h1>
+		  
+		  
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <p>By this time you are excited and want to try out this demo. There are a few ways you can get hands on with this demo. 
+Following is the logical breakdown for an installation. In many cases you might just need to install the demo only. However assuming you might just have an Openshift (OCP) Cluster or a Red Hat Managed Integration. We have put the instructions for the following scenario.
+The installation can be broken into three steps:</p>
+<ul>
+  <li>Openshift Installation (Assumption: Installed)</li>
+  <li>Installing Integreatly (If you dont have RHMI)</li>
+  <li>Installing the Demo (Ansible playbooks)</li>
+</ul>
+
+<p>The last secton on this page is for the partner demo system, which Red Hat Consultants, Solution Architect and Partners use. This might not apply to everyone.</p>
+
+<h2 id="i-have-my-own-openshift-cluster">I have my own Openshift Cluster</h2>
+<p>The demo is currently baselined to Red Hat Openshift 3.11, work is underway to port it to 4.2. 
+The following instructions assume you have a running Openshift cluster i.e. a 3.11 cluster.
+If you have a Red Hat Managed Integration(RHMI) or Integreatly cluster move to the next section.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The demo uses features like:
+ Security e.g. SSO (Single Sign On), 
+ Observability (Prometheus, Grafana), 
+ logging and more from the Integreatly services. 
+Its an important component and supporting infra-services for the demo. 
+</code></pre></div></div>
+<p>To install Integreatly, follow the installation instructions. [here]: https://github.com/integr8ly/installation</p>
+
+<h2 id="i-have-a-red-hat-managed-integrationrhmi-or-integreatly-cluster">I have a Red Hat Managed Integration(RHMI) or Integreatly cluster</h2>
+<p>If you do not have a running RHMI or Integreatly cluster please check the previous section on how you can install it.</p>
+
+<p>Assuming that you have a running Integreatly cluster. 
+Login to the Openshift console as a cluster admin via command line</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc login master.example.openshiftworkshop.com -u &lt;user&gt; -p &lt;password&gt;
+</code></pre></div></div>
+
+<p>Make sure you can clone the following repo e.g.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/Emergency-Response-Demo/install.git
+
+</code></pre></div></div>
+
+<p>This installer also uses Ansible. theres a comprehensive list or roles and playbooks that install the demo. 
+Ensure that you are logged in as a Cluster admin.</p>
+
+<p>Assuming you have cloned the git repo, from the command line change dir (cd) to install/ansible</p>
+
+<p>The README file should list the following prerequisites:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">oc</code> client on the PATH</li>
+  <li>logged in into the cluster with a user with cluster admin rights</li>
+  <li>A Registry Credentials Secret with access to <code class="highlighter-rouge">registry.redhat.io</code> named <code class="highlighter-rouge">imagestreamsecret</code> should exist in the <code class="highlighter-rouge">openshift</code> Namespace. See https://access.redhat.com/RegistryAuthentication for more details.</li>
+  <li>A MapBox access token. See https://docs.mapbox.com/help/how-mapbox-works/access-tokens/ for more details.</li>
+</ul>
+
+<h3 id="installing">Installing</h3>
+
+<p>Create a copy of the inventory template file:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cp inventories/inventory.template inventories/inventory
+</code></pre></div></div>
+
+<p>Replace the sample MapBox access token in the inventory file (<code class="highlighter-rouge">map_token</code>) with a real MapBox token. Assuming you have a token for mapbox. If you do not have a token,</p>
+
+<p>To provision all the components:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible-playbook -i inventories/inventory playbooks/install.yml
+</code></pre></div></div>
+
+<p>This could take upto 30 minutes to complete.</p>
+
+<p>By default, the <code class="highlighter-rouge">developer</code> user will be given project admin permissions for
+the Emergency Response projects. To give these permissions to another user,
+override the <code class="highlighter-rouge">cluster_provisioner</code> variable during provisioning.</p>
+
+<p>Individual components can be installed by the executing the corresponding playbook. For example, to install only the Kafka cluster:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible-playbook playbooks/strimzi_operator.yml
+$ ansible-playbook playbooks/kafka_cluster.yml
+$ ansible-playbook playbooks/kafka_topics.yml
+</code></pre></div></div>
+
+<p>Apart from the <code class="highlighter-rouge">strimzi_operator</code> playbook, none of the playbooks require cluster admin rights.</p>
+
+<p>Headover to the getting started section to understand more about the demo components</p>
+
+<h3 id="uninstalling">Uninstalling</h3>
+
+<p>To uninstall:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible-playbook playbooks/install.yml -e ACTION=uninstall
+</code></pre></div></div>
+
+<h2 id="i-am-a-red-hat-partner-and-would-like-to-access-this-demo-via-the-partner-demo-system">I am a Red Hat partner and would like to access this demo via the partner demo system.</h2>
+<ol>
+  <li>
+    <p>The <code class="highlighter-rouge">ssh</code> utility installed on your laptop.</p>
+
+    <blockquote>
+      <p><strong>Note</strong></p>
+
+      <p>If your network connection is intermittent, consider installing
+the <a href="https://mosh.org/">mosh</a> utility (<code class="highlighter-rouge">yum install mosh</code>) as an
+alternative to the <code class="highlighter-rouge">ssh</code> utility.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Web browser installed on your laptop.</p>
+  </li>
+  <li>
+    <p>Broadband internet connectivity.</p>
+  </li>
+  <li>
+    <p><a href="https://account.opentlc.com/account/">Red Hat GPTE <em>Opentlc</em>
+userId</a></p>
+  </li>
+</ol>
+
+<h3 id="overview">Overview</h3>
+
+<p>The target audience for this guide are those Red Hat Solution
+Architects, Consultants and Red Hat Partners that are interested in
+using the <em>Emergency Response</em> application to:</p>
+
+<ol>
+  <li>
+    <p>Demonstrate the Red Hat middleware product suite running on
+OpenShift.</p>
+  </li>
+  <li>
+    <p>Provide training on the Red Hat middleware product suite running on
+OpenShift.</p>
+  </li>
+</ol>
+
+<p>If you are interested in building this demo from its source code, please
+refer to the <a href="">TODO</a> document.</p>
+
+<h4 id="lab-virtual-machine">Lab Virtual Machine</h4>
+
+<p>Your lab environment is remote and consists of the following:</p>
+
+<ol>
+  <li>
+    <p><strong>OpenShift Container Platform</strong> (OCP)</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/Emergency-Response-Demo/">Emergency Response
+Demo</a></p>
+  </li>
+</ol>
+
+<p>This lab environment can be accessed via ssh as well as through your
+local browser.</p>
+
+<h4 id="order-virtual-machine">Order Virtual Machine</h4>
+
+<p>This section guides you through the procedure to order a virtual machine
+(VM) for this course.</p>
+
+<ol>
+  <li>
+    <p>In a web browser, navigate to the <em>Red Hat Partner Demo System</em> at:
+<a href="https://rhpds.redhat.com/catalog/explorer">https://rhpds.redhat.com/catalog/explorer</a>.</p>
+  </li>
+  <li>
+    <p>Authenticate using your <em>OPENTLC</em> credentials, for example:
+<code class="highlighter-rouge">johndoe-redhat.com</code>.</p>
+  </li>
+  <li>
+    <p>Navigate to the following catalog: <code class="highlighter-rouge">Services → Catalog → Catalog
+Items → Multi-product Demos</code>.</p>
+  </li>
+  <li>
+    <p>Select the following catalog item: <code class="highlighter-rouge">RHT Emergency Response</code>.</p>
+  </li>
+  <li>
+    <p>Click <code class="highlighter-rouge">Order</code> on the next page.</p>
+  </li>
+  <li>
+    <p>In the subsequent order form, select the check box confirming you
+understand the runtime and expiration dates. :</p>
+  </li>
+  <li>
+    <p>At the bottom of the same page, click <code class="highlighter-rouge">Submit</code>.</p>
+  </li>
+</ol>
+
+<h4 id="confirmation-emails">Confirmation Emails</h4>
+
+<p>Upon ordering the lab environment, you will receive the following two
+emails:</p>
+
+<ol>
+  <li>
+    <p><strong>Your lab environment is building</strong></p>
+
+    <ol>
+      <li>
+        <p>Save this email.</p>
+      </li>
+      <li>
+        <p>This email Includes details of the three VMs that make up your
+lab application similar to the following:</p>
+
+        <p><img src="/images/aio_first_email.png" alt="aio_first_email" /></p>
+      </li>
+      <li>
+        <p>Make note of the 4 digit GUID (aka: REGION CODE)</p>
+
+        <ul>
+          <li>Whenever you see “GUID” or “$GUID” in a command, make sure
+to replace it with your GUID.</li>
+        </ul>
+      </li>
+      <li>
+        <p>Make note of the URL of the <code class="highlighter-rouge">workstation</code> VM.</p>
+
+        <p>You will use this when ssh’ing to your application.</p>
+      </li>
+      <li>
+        <p>Make note of the URL of the <code class="highlighter-rouge">master</code> VM.</p>
+
+        <p>You will use this when accessing the OCP Web Console.</p>
+
+        <ul>
+          <li>
+            <p>The OpenShift master URL varies based on the region where
+you are located, and may vary from the example shown above.</p>
+          </li>
+          <li>
+            <p>For the duration of the course, you navigate to this
+OpenShift Container Platform master node.</p>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li>
+    <p><strong>VM ready for authentication</strong></p>
+
+    <p>Once you receive this second email, wait about another 5 minutes and
+then you can then ssh into the <code class="highlighter-rouge">workstation</code> VM of your Ravello
+application.</p>
+  </li>
+</ol>
+
+<h4 id="ssh-access-and-oc-utility">SSH Access and <code class="highlighter-rouge">oc</code> utility</h4>
+
+<p>SSH access to the remote lab environment provides you with the OpenShift
+<code class="highlighter-rouge">oc</code> utility.</p>
+
+<ol>
+  <li>
+    <p>ssh access to your lab environment by specifying your <em>opentlc
+userId</em> and lab environment $GUID in the following command:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh &lt;opentlc-userId&gt;@workstation-$GUID.rhpds.opentlc.com
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Authenticate into OpenShift as a non cluster admin user (user1)
+using the <code class="highlighter-rouge">oc</code> utility</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ oc login https://master00.example.com -u user1 -p r3dh4t1!
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p><strong>Note</strong></p>
+
+      <p>If you initially receive a HTTP 403 or <em>no such host</em> response,
+give it a minute or so and try again.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>OCP cluster admin access</p>
+
+    <p>OCP cluster admin access is provided by switching to the root
+operating system of your lab environment as follows.</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo -i
+    
+# oc login -u system:admin      # NOTE: This command is typically not needed
+                                #       /root/.kube/config already contains the _system:admin_ user's token
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Provide cluster admin access to OpenShift <em>user1</em>:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># oc adm policy add-cluster-role-to-user cluster-admin user1
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h4 id="refresh-red-hat-sso-state">Refresh Red Hat SSO state</h4>
+
+<p>Your Red Hat SSO needs to be refreshed with valid <em>redirect</em> and
+<em>web_origin</em> URLs to support your Emergency Response demo. For this
+purpose, a script has been provided as follows:</p>
+
+<ol>
+  <li>
+    <p>SSH into the <em>workstation</em> node of your demo environment as disussed
+in the previous section.</p>
+  </li>
+  <li>
+    <p>As the root operating system user, execute the following exactly as
+listed:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo -i
+    
+mkdir -p $HOME/lab &amp;&amp; \
+       wget https://raw.githubusercontent.com/gpte-emergency-response-demo/misc/master/erdemo_state_refresh.sh -O $HOME/lab/erdemo_state_refresh.sh \
+       &amp;&amp; chmod 755 $HOME/lab/erdemo_state_refresh.sh \
+       &amp;&amp; $HOME/lab/erdemo_state_refresh.sh
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>You should see a response similar to the following:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>will update the following stale guid in RHSSO from: 43b5 to 5dff
+    
+UPDATE 3
+UPDATE 2
+    
+...
+    
+deploymentconfig.apps.openshift.io/sso rolled out
+deploymentconfig.apps.openshift.io/emergency-console rolled out
+</code></pre></div>    </div>
+
+    <p>If you are curious as to what exactly is getting modified in the
+RH-SSO, you can review <a href="https://raw.githubusercontent.com/gpte-emergency-response-demo/misc/master/erdemo_state_refresh.sh">the
+script</a>.</p>
+
+    <p>In particular, notice that the <em>redirect_uris</em> and <em>web_origins</em>
+are modified to reflect the actual URL of your Emergency Response
+lab environment.</p>
+  </li>
+  <li>
+    <p>After a couple of minutes, expect your RH-SSO pod to have
+re-started:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ oc get pods -n sso
+    
+keycloak-operator-d894597dc-pkfkc   1/1       Running   1          5h
+sso-3-4rg52                         1/1       Running   0          1m
+sso-postgresql-1-dn4fl              1/1       Running   1          5h
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Exit out of the root operating system user shell:</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># exit
+</code></pre></div>    </div>
+
+    <p>Make sure to exit out of the root shell after every use</p>
+  </li>
+</ol>
+
+<h4 id="openshift-container-platform">OpenShift Container Platform</h4>
+
+<p>Your lab environment is built on Red Hat’s OpenShift Container Platform
+(OCP).</p>
+
+<p>Access to your OCP resources can be gained via both the <code class="highlighter-rouge">oc</code> CLI utility
+and the OCP web console.</p>
+
+<h4 id="ocp-web-console">OCP Web Console</h4>
+
+<ol>
+  <li>
+    <p>Point your browser to the URL created by executing the following :</p>
+
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo -en "\nhttps://master00-$GUID.generic.opentlc.com\n\n"
+</code></pre></div>    </div>
+
+    <blockquote>
+      <p><strong>Note</strong></p>
+
+      <p>Substitute <code class="highlighter-rouge">GUID</code> in the above command with the GUID of your lab
+environment.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Authenticate using the following user credentials provided in the confirmation email.</p>
+  </li>
+</ol>
+
+<h2 id="installation-complete">Installation Complete!</h2>
+<p>Assuming everything has turned up smoothly. If you now login to the Openshift console you should be able to see the project “emergency-response-demo” and all the services running inside it. To understand how to run this demo, please move to the Getting Started page.</p>
+
+
+	    
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="https://github.com/Emergency-Response-Demo" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/Emergency-Response-Demo" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Emergency Response Demo team
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://localhost:4000/">www.erdemo.io</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="https://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+          document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script src="/js/main.js"></script>
+    
+  
+
+
+
+
+
+
+  
+  </body>
+</html>

@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+
+  <title>Architecture</title>
+
+  <meta name="author" content="Emergency Response Demo team" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Cajun Navy - Emergency Response Demo - Bringing the power of communities togehter, a cajun navy demo scenario" href="http://localhost:4000/feed.xml" />
+
+  
+
+  
+
+  
+
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Architecture" />
+  
+
+   
+  <meta property="og:description" content="In this application, you’ll notice multiple runtimes and frameworks in play, starting from Node, Vert.x to Kafka, prometheus and much more.. The idea is to showcase how a polyglot system can be architected. Obviously this is not the only way to create a distributed and hybrid microservices architecture. However it...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/architecture/" />
+  <link rel="canonical" href="http://localhost:4000/architecture/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/avatar-icon.png" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Architecture" />
+  
+
+  
+  <meta name="twitter:description" content="In this application, you’ll notice multiple runtimes and frameworks in play, starting from Node, Vert.x to Kafka, prometheus and much more.. The idea is to showcase how a polyglot system can be architected. Obviously this is not the only way to create a distributed and hybrid microservices architecture. However it...">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/avatar-icon.png" />
+  
+
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button><a class="navbar-brand" href="http://localhost:4000/">Cajun Navy - Emergency Response Demo</a></div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/about">About</a></li>
+          <li><a href="/install">Install</a></li>
+          <li><a href="/gettingstarted">Getting Started</a></li>
+          <li><a href="/architecture">Architecture</a></li></ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000/">
+	      <img class="avatar-img" src="/img/avatar-icon.png" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="page-heading">
+          <h1>Architecture</h1>
+		  
+		  
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <p>In this application, you’ll notice multiple runtimes and frameworks in play, starting from Node, Vert.x to Kafka, prometheus and much more..<br />
+The idea is to showcase how a polyglot system can be architected. Obviously this is not the only way to create a distributed and hybrid microservices architecture. However it should provide a true hybrid cloud solution, with IT infrastructure that provides consistency, safety, repeatability, reusability, and portability while still helping development teams move fast. The application is based on true polyglot development and it is agile, secure and scalable at every level in the stack.</p>
+
+<p>Below is a diagram of the application architecture.</p>
+
+<p><img src="/images/application-architecture.png" alt="application architecture" /></p>
+
+<h1 id="application-components">Application Components</h1>
+
+<p>The following application components work together to provide the core
+implementation for the demo solution.</p>
+
+<h2 id="mission-service">Mission Service</h2>
+
+<ul>
+  <li>
+    <p>Runtime: Vert.x</p>
+  </li>
+  <li>
+    <p>Middleware Products / Components: JDG, AMQ-Streams</p>
+  </li>
+  <li>
+    <p>Other Components: None</p>
+  </li>
+</ul>
+
+<p>The Mission Service exposes an API for managing Missions, including
+getting a list of mission keys, getting a specific mission by key,
+clearing all missions and getting missions assigned to a specific
+responder.</p>
+
+<p>The Mission Service listens on Kafka to the topic-mission-command topic
+for details of new or updated missions being created. New Mission
+messages trigger a call to MapBox to generate the routes for a mission,
+using the responders location as a starting point, the victims location
+as a way point and the shelter location as the final destination. The
+mission details are then stored in JDG, to service API requests for
+Mission details.</p>
+
+<p>The Mission Service sends updates to Kafka on the topic-mission-event
+topic in response to mission state change events such as when a mission
+is created, when an API request is received (e.g. to complete all
+missions). The Mission service also sends updates to Kafka on the
+topic-responder-command when missions are completed to indicate that the
+Responder is available for a new mission.</p>
+
+<ul>
+  <li>
+    <p>Send: topic-mission-event, topic-responder-command</p>
+  </li>
+  <li>
+    <p>Receive: topic-mission-command, topic-responder-location-update</p>
+  </li>
+</ul>
+
+<h2 id="process-service">Process Service</h2>
+
+<ul>
+  <li>
+    <p>Runtime: Spring Boot</p>
+  </li>
+  <li>
+    <p>Middleware Components:</p>
+
+    <ul>
+      <li>
+        <p>Process Automation Manager (PAM)</p>
+      </li>
+      <li>
+        <p>Decision Manager (DM)</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Other Components: Postgres DB</p>
+  </li>
+</ul>
+
+<p>The Process Service is responsible for managing the overall process flow
+of the system. The Process Service operates purely on Kafka messages and
+does not expose any HTTP API - although it does invoke HTTP APIs in the
+Responder and Incident Priority Services.</p>
+
+<p>When a new Incident is reported on the topic-incident-event Topic, the
+process Service kicks off a new BPM process to manage the new Incident.
+When a Responder is shown as available (via the topic-responder-event
+Topic), the BPM process is updated to reflect this. As the Mission
+progresses and additional messages are received on the
+topic-mission-event Topic, the BPM process is updated to reflect the
+latest state.</p>
+
+<p>The Process Service sends out multiple types of messages on various
+Topics in response to the Incident progressing through the Business
+Process.</p>
+
+<ul>
+  <li>
+    <p>Send: topic-mission-command, topic-responder-command,
+topic-incident-command, topic-incident-event</p>
+  </li>
+  <li>
+    <p>Receive: topic-incident-event, topic-responder-event,
+topic-mission-event</p>
+  </li>
+</ul>
+
+<h2 id="incident-service">Incident Service</h2>
+
+<ul>
+  <li>
+    <p>Runtime: Spring Boot</p>
+  </li>
+  <li>
+    <p>Middleware Products / Components: AMQ-Streams</p>
+  </li>
+  <li>
+    <p>Other Components: Postgres DB</p>
+  </li>
+</ul>
+
+<p>The Incident Service exposes an API for registering new Incidents and
+retrieving information about existing Incidents. An endpoint is also
+exposed for resetting Incident state (this is typically used by
+simulator services for managing and resetting the demo).</p>
+
+<p>When a new Incident is received, the Incident details are stored in the
+database and a new message is sent out on the topic-incident-event Kafka
+Topic.</p>
+
+<p>The Service also listens on Kafka to the topic topic-incident-command
+for updates to Incidents and stores the latest Incident state in the
+Database.</p>
+
+<ul>
+  <li>
+    <p>Send: topic-incident-event</p>
+  </li>
+  <li>
+    <p>Listen: topic-incident-command</p>
+  </li>
+</ul>
+
+<h2 id="responder-service">Responder Service</h2>
+
+<ul>
+  <li>
+    <p>Runtime: Spring Boot</p>
+  </li>
+  <li>
+    <p>Middleware Products / Components: AMQ-Streams</p>
+  </li>
+  <li>
+    <p>Other Components: Postgres DB</p>
+  </li>
+</ul>
+
+<p>The Responder Service exposes an API for managing Responders, including
+registering new Responders, retrieving information about all available
+responders and retrieving information about specific responders.
+Endpoints are also exposed for removing responders and resetting
+responder state (these are typically used by simulator services for
+managing and resetting the demo).</p>
+
+<p>When a new Responder is registered, the Responder details are stored in
+the database.</p>
+
+<p>The Service also listens on Kafka to the topic test-topic for updates to
+Responders and stores the latest Responder state in the Database. If the
+update to the responder includes an Incident Id (i.e. if the responder
+has been assigned to work on an Incident) the services also sends a new
+Kafka message to the topic test-topic.</p>
+
+<ul>
+  <li>
+    <p>Send: test-topic</p>
+  </li>
+  <li>
+    <p>Listen: test-topic</p>
+  </li>
+</ul>
+
+<h2 id="emergency-web-console">Emergency Web Console</h2>
+
+<ul>
+  <li>
+    <p>Runtime: Node.js, Angular</p>
+  </li>
+  <li>
+    <p>Middleware Products / Components: None</p>
+  </li>
+</ul>
+
+<p>The emergency console is the front end UI for the Demo Solution. It
+provides the following main views:</p>
+
+<ul>
+  <li>
+    <p>Incident Commander Dashboard: The overall view of all Incidents,
+Responders and Missions</p>
+  </li>
+  <li>
+    <p>Responder Interface: The view for an individual responder which
+shows their current mission, including the router to the Incident
+and onward route to the shelter</p>
+  </li>
+  <li>
+    <p>Incidents: A tabular list of all incidents</p>
+  </li>
+</ul>
+
+<p>The console communicates with several of the back end services
+(Incident, Mission &amp; Responder) to display real time data via
+WebSockets.</p>
+
+<h1 id="demo-simulators">Demo Simulators</h1>
+
+<p>The following components are used to control the demo and simulate
+events which are needed for the demo, but which can not be sourced from
+/ represented in the real world (i.e. Incidents, Responder Bots,
+Responder movement around the map).</p>
+
+<h2 id="responder-simulator">Responder Simulator</h2>
+
+<ul>
+  <li>
+    <p>Runtime: Vert.x</p>
+  </li>
+  <li>
+    <p>Middleware Components: None</p>
+  </li>
+  <li>
+    <p>Other Components: None</p>
+  </li>
+</ul>
+
+<p>The Responder Simulator is responsible for moving responders (both bots
+and humans) around the map during missions. As the demo requires the
+movement of personnel to function and since we can not have real people
+actually moving many miles for each Mission, this simulator is required
+to allow the demo to function.</p>
+
+<p>The Responder simulator listens on the topic-mission-event for details
+of active responders that need to be moved on the map. The simulator
+them periodically updates (default every 10 seconds) the responders
+location (based on the mission route received) to show the responder at
+the next location. As the simulator moves responders, it emits messages
+on the topic-responder-location-update Topic.</p>
+
+<ul>
+  <li>
+    <p>Send: topic-mission-event</p>
+  </li>
+  <li>
+    <p>Receive: topic-responder-location-update</p>
+  </li>
+</ul>
+
+<h2 id="disaster-simulator">Disaster Simulator</h2>
+
+<ul>
+  <li>
+    <p>Runtime: Vert.x</p>
+  </li>
+  <li>
+    <p>Middleware Components: None</p>
+  </li>
+  <li>
+    <p>Other Components: None</p>
+  </li>
+</ul>
+
+<p>The Disaster Simulator is used for managing / coordinating the demo. It
+exposes a basic UI which allows a user to add and remove Incidents and
+Responders in order to drive the demo forward.</p>
+
+<p><img src="/images/create-incidents.png" alt="create incidents" /></p>
+
+<p>The Disaster Simulator uses HTTP API requests to the Incident Service,
+the Responder Service the Mission Service and the Incident Priority
+Service in order to manage data creation / deletion.</p>
+
+	    
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="https://github.com/Emergency-Response-Demo" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/Emergency-Response-Demo" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Emergency Response Demo team
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://localhost:4000/">www.erdemo.io</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="https://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+          document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script src="/js/main.js"></script>
+    
+  
+
+
+
+
+
+
+  
+  </body>
+</html>
