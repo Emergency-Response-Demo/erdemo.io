@@ -1,8 +1,4 @@
----
-layout: page
-title: Install
-permalink: /install/
----
+
 
 - [1. Installation Overview](#1-installation-overview)
 - [2. Pre-requisites](#2-pre-requisites)
