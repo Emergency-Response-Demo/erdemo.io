@@ -152,8 +152,35 @@ Upon ordering the lab environment, you will receive the following various confir
    ip-10-0-145-167.ap-southeast-1.compute.internal   598m         17%    2847Mi          18%       
    ip-10-0-150-7.ap-southeast-1.compute.internal     341m         2%     3445Mi          5%        
    ip-10-0-167-23.ap-southeast-1.compute.internal    173m         1%     2699Mi          4%        
-   ip-10-0-173-229.ap-southeast-1.compute.internal   567m         16%    3588Mi          23%  
+   ip-10-0-173-229.ap-southeast-1.compute.internal   567m         16%    3588Mi          23%
    ```
+
+3. Verify login access using non cluster-admin user(s):
+   
+   1. Your OpenShift environment from RHPDS is pre-configured with 200 non cluster-admin users.  Details of these users is as follows:
+
+       * **userId**:  user[1-200] ;   (ie:   user1, user2, user3, etc)
+       * **passwd**:  see [this doc](https://docs.google.com/document/d/1s4FKXzXHLJ8Z7-ClUSGSvUbQ1Xc7AOWAwIiLb8Uffvc/edit) for details.
+
+   2. Using the credentials of one of these users, verify you can authenticate into OpenShift:
+       ```
+       oc login -u user1 -p <password>
+
+       ...
+
+       Login successful.
+       You don't have any projects. You can try to create a new project, by running
+       oc new-project <projectname>
+
+       ```
+   3. Re-authenticate back as cluster-admin:
+      ```
+      oc login -u <cluster admin user> -p <cluster admin passwd>
+      ```
+   4. View the various users that have authenticated into OpenShift:
+      ```
+      oc get identity
+      ```
 
 
 # 3. Installation Procedure
@@ -214,19 +241,42 @@ This approach is best suited for code contributors to the Emergency Response app
 1. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
    ```
    ansible-playbook -i inventories/inventory playbooks/install.yml \
-                    -e deploy_from=source
+                    -e deploy_from=source \
+                    -e project_admin=$OCP_USERNAME
    ```
    
-2. After about an hour, you should see ansible log messages similar to the following:
-   ```
-   ```
+2. After about an hour, the provisioning should be complete.
+
+3. You can review any of the CI/CD pipelines that ran as part of this provisioning process:
+   1. List all build pipelines:
+       ```
+       oc get build -n $OCP_USERNAME-tools-erd | grep pipeline
+
+       ...
+
+       user2-incident-service-pipeline-1         JenkinsPipeline            Complete   2 hours ago         
+       user2-mission-service-pipeline-1          JenkinsPipeline            Complete   2 hours ago         
+       user2-responder-service-pipeline-1        JenkinsPipeline            Complete   2 hours ago         
+       user2-assignment-rules-model-pipeline-1   JenkinsPipeline            Complete   2 hours ago  
+       ```
+   2. From that list, pick any of the builds to get the URL to the corresponding Jenkins pipeline:
+      ```
+      oc logs user2-incident-service-pipeline-1 -n $OCP_USERNAME-tools-erd
+
+      info: logs available at https://jenkins-user2-tools-erd.apps.cluster-denver-8ab6.denver-8ab6.example.opentlc.com/blue/organizations/jenkins/user2-tools-erd%2Fuser2-tools-erd-user2-mission-service-pipeline/detail/user2-tools-erd-user2-mission-service-pipeline/1/
+      ```
+   3. Open a browser tab and navigate to the provided URL:
+      ![](/images/pipeline_example.png)
+
 
 
 ## 3.3. Uninstalling
 
 To uninstall:
 ```
-$ ansible-playbook playbooks/install.yml -e ACTION=uninstall
+$ ansible-playbook playbooks/install.yml \
+                   -e ACTION=uninstall \
+                   -e project_admin=$OCP_USERNAME
 ```
 
 # 4. Installation Complete!
