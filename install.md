@@ -77,6 +77,10 @@ To install the Emergency Response application, you will need an OpenShift Contai
    Preferably, all public routes of your Emergency Response application utilize a SSL certificate signed by a legitimate certificate authority.  ie:  [LetsEncrypt](https://letsencrypt.org/)
 7. **Non cluster-admin users**:
    The Emergency Response application will be owned by a non cluster-admin _project administrator_.  In your OpenShift environment, you will need one or more non cluster-admin users to serve this purpose.  In _Code Ready Containers_, the default non cluster-admin user is:  _developer_ .  In other OpenShift clusters, the convention tends to be:  user[1-200].
+8. **Pull Secret**:
+   Some Linux container images used in the Emergency Response application reside in the following secured image registry:  _registry.redhat.io_.
+   Those images will need to be pulled to your OpenShift 4 environment.
+   As part of the installation of OCP4, you should have already been prompted to provide your [pull secret](https://cloud.redhat.com/openshift/install/pull-secret) that enables access to various secured registries to include regisry.redhat.io.
 
 
 
