@@ -6,15 +6,16 @@
   - [2.2. MapBox Access Token](#22-mapbox-access-token)
   - [2.3. OpenShift](#23-openshift)
     - [2.3.1. Minimum Requirements](#231-minimum-requirements)
-    - [2.3.2. OCP4 from RHPDS](#232-ocp4-from-rhpds)
-      - [2.3.2.1. Order OCP4](#2321-order-ocp4)
-      - [2.3.2.2. Confirmation Emails](#2322-confirmation-emails)
-      - [2.3.2.3. Access](#2323-access)
 - [3. Installation Procedure](#3-installation-procedure)
   - [3.1. Pre-built Images](#31-pre-built-images)
   - [3.2. CI/CD](#32-cicd)
   - [3.3. Uninstalling](#33-uninstalling)
 - [4. Installation Complete!](#4-installation-complete)
+- [5. Appendix](#5-appendix)
+  - [5.1. OCP4 from RHPDS](#51-ocp4-from-rhpds)
+    - [5.1.1. Order OCP4](#511-order-ocp4)
+    - [5.1.2. Confirmation Emails](#512-confirmation-emails)
+    - [5.1.3. Access](#513-access)
 
 
 # 1. Installation Overview
@@ -56,10 +57,10 @@ MapBox APIs provide the Emergency Response application with an optimized route f
 
 ## 2.3. OpenShift
 
-You can utilize your own vanilla OpenShift 4 environment so long as it meets the minimum requirements described below in this document.
+You can utilize your own vanilla OpenShift 4 environment so long as it meets the minimum requirements described below in this section.
 The benefit of utilizing your own OpenShift environment is that you decide if/when to shut it down and the duration of its lifetime.  In addition, if there are any errors in the provisioning process of OpenShift, you will have some ability to troubleshoot the problem.
 
-Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat's _Partner Demo System_ (RHPDS).  With this approach, your OpenShift environment will shut down at known periods and will be deleted after a certain duration.  Also, **the failure rates of provisioning a base OpenShift from RHPDS are known to be high**.  (Each provisioning attempt consists of hundreds of steps, many of which rely on third-party services). You may need to attempt numerous times over the course of days.
+Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat's _Partner Demo System_ (RHPDS).  Using RHPDS the minimum requirements described below are met however, your OpenShift environment will shut down at known periods and will be deleted after a certain duration.  Also, **the failure rates of provisioning a base OpenShift from RHPDS are known to be high**.  (Each provisioning attempt consists of hundreds of steps, many of which rely on third-party services). You may need to attempt numerous times over the course of days.  Details pertaining to accessing an OpenShift 4 environment from RHPDS are found in the Appendix of this document.
 
 ### 2.3.1. Minimum Requirements
 To install the Emergency Response application, you will need an OpenShift Container Platform environment with the following minimum specs:
@@ -85,106 +86,7 @@ To install the Emergency Response application, you will need an OpenShift Contai
 
 
 
-### 2.3.2. OCP4 from RHPDS
 
-The _Red Hat Partner Demo System_ (RHPDS) provides a wide variety of cloud-based labs and demos showcasing Red Hat software.
-One of the offerings from RHPDS is a cloud-based OCP 4 environment that meets all of the minimum requirements to support an installation of the Emergency Response application.  The default shutdown and lifetime durations of this environment are as follows:
-
-* **Runtime:**  10 hours;
-  You have the ability to extend the runtime (one time only) and re-start if it was shutdown.
-
-* **Lifetime:** 2 days;
-  You have the ability 
-
-To utilize RHPDS, you will need the following:
-
-1. [OPENTLC credentials](https://account.opentlc.com/account/).  OPENTLC credentials are available only to Red Hat associates and Red Hat partners.
-2. SFDC Opportunity, Campaign ID or Partner Registration
-
-
-#### 2.3.2.1. Order OCP4
-
-
-1.  In a web browser, navigate to the *Red Hat Partner Demo System* at:
-    [Red Hat Partner Demo System](https://rhpds.redhat.com/catalog/explorer).
-
-2.  Authenticate using your *OPENTLC* credentials, for example:
-    `johndoe-redhat.com`.
-
-3.  Navigate to the following catalog: `Services → Service Catalogs → Workshops.
-
-4.  Select the following catalog item: `OpenShift 4.2 Workshop`.
-
-5.  Click `Order` on the next page.
-
-6.  In the subsequent order form, add in details similar to the following:
-    ![Order form](/images/rhpds_order_form.png)   
-
-7.  At the bottom of the same page, click `Submit`.
-
-#### 2.3.2.2. Confirmation Emails
-
-The provisioning of your OpenShift environment from RHPDS typically takes about 1 hour.
-
-Upon ordering the lab environment, you will receive the following various confirmation emails:
-
-1.  **Your RHPDS service provision request has started:**  This email should arrive within minutes of having ordered the environment.
-2.  **Your RHPDS service provision request has updated:**  You will receive one or more of these emails indicating that the OCP 4 provisioning process continues to proceed.
-3.  **Your RHPDS service provision request has completed:**
-    
-    1.  Read through this email in its entirety and save !
-    2.  This email includes details regarding its deletion date.
-    3.  This email also includes URLs to the OpenShift Web Console as well as the OpenShift Master API.
-    4.  Also included is the userId and password of the OpenShift cluster-admin user.
-        
-        ![rhpds_completed_email](/images/rhpds_completed_email.png)
-    
-
-
-#### 2.3.2.3. Access
-1. Upon reading through the completion email, you should authenticate into the OpenShift environment as a cluster admin.  You will execute a command similar to the following:
-   ```
-   oc login https://api.cluster-242b.242b.example.opentlc.com:6443 -u <cluster-admin user> -p '<cluster-admin passwd>'
-   ```
-2. Validate the existance of all _master_ and _worker_ nodes:
-   ```
-   oc adm top nodes
-
-   NAME                                              CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
-   ip-10-0-138-177.ap-southeast-1.compute.internal   456m         13%    2632Mi          17%       
-   ip-10-0-141-34.ap-southeast-1.compute.internal    332m         2%     3784Mi          5%        
-   ip-10-0-145-167.ap-southeast-1.compute.internal   598m         17%    2847Mi          18%       
-   ip-10-0-150-7.ap-southeast-1.compute.internal     341m         2%     3445Mi          5%        
-   ip-10-0-167-23.ap-southeast-1.compute.internal    173m         1%     2699Mi          4%        
-   ip-10-0-173-229.ap-southeast-1.compute.internal   567m         16%    3588Mi          23%
-   ```
-
-3. Verify login access using non cluster-admin user(s):
-   
-   1. Your OpenShift environment from RHPDS is pre-configured with 200 non cluster-admin users.  Details of these users is as follows:
-
-       * **userId**:  user[1-200] ;   (ie:   user1, user2, user3, etc)
-       * **passwd**:  see [this doc](https://docs.google.com/document/d/1s4FKXzXHLJ8Z7-ClUSGSvUbQ1Xc7AOWAwIiLb8Uffvc/edit) for details.
-
-   2. Using the credentials of one of these users, verify you can authenticate into OpenShift:
-       ```
-       oc login -u user1 -p <password>
-
-       ...
-
-       Login successful.
-       You don't have any projects. You can try to create a new project, by running
-       oc new-project <projectname>
-
-       ```
-   3. Re-authenticate back as cluster-admin:
-      ```
-      oc login -u <cluster admin user> -p <cluster admin passwd>
-      ```
-   4. View the various users that have authenticated into OpenShift:
-      ```
-      oc get identity
-      ```
 
 
 # 3. Installation Procedure
@@ -301,3 +203,108 @@ Now that installation of the Emergency Response app is complete, you should be a
 
 
 Further details regarding how to run this demo can be found in the _Getting Started_ page.
+
+
+# 5. Appendix
+
+## 5.1. OCP4 from RHPDS
+
+The _Red Hat Partner Demo System_ (RHPDS) provides a wide variety of cloud-based labs and demos showcasing Red Hat software.
+One of the offerings from RHPDS is a cloud-based OCP 4 environment that meets all of the minimum requirements to support an installation of the Emergency Response application.  The default shutdown and lifetime durations of this environment are as follows:
+
+* **Runtime:**  10 hours;
+  You have the ability to extend the runtime (one time only) and re-start if it was shutdown.
+
+* **Lifetime:** 2 days;
+  You have the ability 
+
+To utilize RHPDS, you will need the following:
+
+1. [OPENTLC credentials](https://account.opentlc.com/account/).  OPENTLC credentials are available only to Red Hat associates and Red Hat partners.
+2. SFDC Opportunity, Campaign ID or Partner Registration
+
+
+### 5.1.1. Order OCP4
+
+
+1.  In a web browser, navigate to the *Red Hat Partner Demo System* at:
+    [Red Hat Partner Demo System](https://rhpds.redhat.com/catalog/explorer).
+
+2.  Authenticate using your *OPENTLC* credentials, for example:
+    `johndoe-redhat.com`.
+
+3.  Navigate to the following catalog: `Services → Service Catalogs → Workshops.
+
+4.  Select the following catalog item: `OpenShift 4.2 Workshop`.
+
+5.  Click `Order` on the next page.
+
+6.  In the subsequent order form, add in details similar to the following:
+    ![Order form](/images/rhpds_order_form.png)   
+
+7.  At the bottom of the same page, click `Submit`.
+
+### 5.1.2. Confirmation Emails
+
+The provisioning of your OpenShift environment from RHPDS typically takes about 1 hour.
+
+Upon ordering the lab environment, you will receive the following various confirmation emails:
+
+1.  **Your RHPDS service provision request has started:**  This email should arrive within minutes of having ordered the environment.
+2.  **Your RHPDS service provision request has updated:**  You will receive one or more of these emails indicating that the OCP 4 provisioning process continues to proceed.
+3.  **Your RHPDS service provision request has completed:**
+    
+    1.  Read through this email in its entirety and save !
+    2.  This email includes details regarding its deletion date.
+    3.  This email also includes URLs to the OpenShift Web Console as well as the OpenShift Master API.
+    4.  Also included is the userId and password of the OpenShift cluster-admin user.
+        
+        ![rhpds_completed_email](/images/rhpds_completed_email.png)
+    
+
+
+### 5.1.3. Access
+1. Upon reading through the completion email, you should authenticate into the OpenShift environment as a cluster admin.  You will execute a command similar to the following:
+   ```
+   oc login https://api.cluster-242b.242b.example.opentlc.com:6443 -u <cluster-admin user> -p '<cluster-admin passwd>'
+   ```
+2. Validate the existance of all _master_ and _worker_ nodes:
+   ```
+   oc adm top nodes
+
+   NAME                                              CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+   ip-10-0-138-177.ap-southeast-1.compute.internal   456m         13%    2632Mi          17%       
+   ip-10-0-141-34.ap-southeast-1.compute.internal    332m         2%     3784Mi          5%        
+   ip-10-0-145-167.ap-southeast-1.compute.internal   598m         17%    2847Mi          18%       
+   ip-10-0-150-7.ap-southeast-1.compute.internal     341m         2%     3445Mi          5%        
+   ip-10-0-167-23.ap-southeast-1.compute.internal    173m         1%     2699Mi          4%        
+   ip-10-0-173-229.ap-southeast-1.compute.internal   567m         16%    3588Mi          23%
+   ```
+
+3. Verify login access using non cluster-admin user(s):
+   
+   1. Your OpenShift environment from RHPDS is pre-configured with 200 non cluster-admin users.  Details of these users is as follows:
+
+       * **userId**:  user[1-200] ;   (ie:   user1, user2, user3, etc)
+       * **passwd**:  see [this doc](https://docs.google.com/document/d/1s4FKXzXHLJ8Z7-ClUSGSvUbQ1Xc7AOWAwIiLb8Uffvc/edit) for details.
+
+   2. Using the credentials of one of these users, verify you can authenticate into OpenShift:
+       ```
+       oc login -u user1 -p <password>
+
+       ...
+
+       Login successful.
+       You don't have any projects. You can try to create a new project, by running
+       oc new-project <projectname>
+
+       ```
+   3. Re-authenticate back as cluster-admin:
+      ```
+      oc login -u <cluster admin user> -p <cluster admin passwd>
+      ```
+   4. View the various users that have authenticated into OpenShift:
+      ```
+      oc get identity
+      ```
+Now that your OpenShift 4 environment has been provisioned from RHPDS, please return to the section above entitled: _Installation Procedure_.
