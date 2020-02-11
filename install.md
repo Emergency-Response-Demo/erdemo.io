@@ -60,7 +60,7 @@ MapBox APIs provide the Emergency Response application with an optimized route f
 You can utilize your own vanilla OpenShift 4 environment so long as it meets the minimum requirements described below in this section.
 The benefit of utilizing your own OpenShift environment is that you decide if/when to shut it down and the duration of its lifetime.  In addition, if there are any errors in the provisioning process of OpenShift, you will have some ability to troubleshoot the problem.
 
-Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat's _Partner Demo System_ (RHPDS).  Using RHPDS the minimum requirements described below are met however, your OpenShift environment will shut down at known periods and will be deleted after a certain duration.  Also, **the failure rates of provisioning a base OpenShift from RHPDS are known to be high**.  (Each provisioning attempt consists of hundreds of steps, many of which rely on third-party services). You may need to attempt numerous times over the course of days.  Details pertaining to accessing an OpenShift 4 environment from RHPDS are found in the Appendix of this document.
+Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat's _Partner Demo System_ (RHPDS).  Using RHPDS, the minimum requirements described below are met.  However, your OpenShift environment will shut down at known periods (typically 10 hours) and will be deleted after a certain duration (typically 2 days).  Also, **the failure rates of provisioning a base OpenShift from RHPDS are known to be high**.  (Each provisioning attempt consists of hundreds of steps, many of which rely on third-party services). You may need to attempt numerous times over the course of days.  Details pertaining to accessing an OpenShift 4 environment from RHPDS are found in [the Appendix](##5.1.-OCP4-from-RHPDS) of this document.
 
 ### 2.3.1. Minimum Requirements
 To install the Emergency Response application, you will need an OpenShift Container Platform environment with the following minimum specs:
@@ -307,4 +307,4 @@ Upon ordering the lab environment, you will receive the following various confir
       ```
       oc get identity
       ```
-Now that your OpenShift 4 environment has been provisioned from RHPDS, please return to the section above entitled: _Installation Procedure_.
+Now that your OpenShift 4 environment has been provisioned from RHPDS, please return to the section above entitled: [Installation Procedure](#3.-Installation-Procedure).
