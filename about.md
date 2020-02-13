@@ -47,7 +47,6 @@ the integrated Red Hat Middleware Portfolio, running on OpenShift. If you are lo
   - [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid)
   - [Red Hat Decision Manager](https://www.redhat.com/en/technologies/jboss-middleware/decision-manager)
   - [Red Hat Process Automation Manager](https://www.redhat.com/en/technologies/jboss-middleware/process-automation-manager)
-  - [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse)
   - [Red Hat AMQ Streams](https://www.redhat.com/en/technologies/jboss-middleware/amq)
   - [Red Hat 3scale API Management](https://www.redhat.com/en/technologies/jboss-middleware/3scale)
   - [Red Hat Single Sign-On](https://access.redhat.com/products/red-hat-single-sign-on)
