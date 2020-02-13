@@ -209,7 +209,7 @@ Further details regarding how to run this demo can be found in the _Getting Star
 
 ## 5.1. OCP4 from RHPDS
 
-The _Red Hat Partner Demo System_ (RHPDS) provides a wide variety of cloud-based labs and demos showcasing Red Hat software.
+The _Red Hat Product Demo System_ (RHPDS) provides a wide variety of cloud-based labs and demos showcasing Red Hat software.
 One of the offerings from RHPDS is a cloud-based OCP 4 environment that meets all of the minimum requirements to support an installation of the Emergency Response application.  The default shutdown and lifetime durations of this environment are as follows:
 
 * **Runtime:**  10 hours;
@@ -227,8 +227,8 @@ To utilize RHPDS, you will need the following:
 ### 5.1.1. Order OCP4
 
 
-1.  In a web browser, navigate to the *Red Hat Partner Demo System* at:
-    [Red Hat Partner Demo System](https://rhpds.redhat.com/catalog/explorer).
+1.  In a web browser, navigate to the *Red Hat Product Demo System* at:
+    [Red Hat Product Demo System](https://rhpds.redhat.com/catalog/explorer).
 
 2.  Authenticate using your *OPENTLC* credentials, for example:
     `johndoe-redhat.com`.
