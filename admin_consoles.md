@@ -38,10 +38,9 @@ This guide details the privileged functions available to the Emergency Response 
 
 As part of the Emergency Response Demo installation process, a privileged user is created using the following credentials:
 
-```
-username: incident_commander
-password: [Defined Here](https://github.com/Emergency-Response-Demo/install/blob/master/ansible/playbooks/group_vars/sso_theme_realm.yml#L7)
-```
+**username:** incident_commander <br/>
+**password:** [Defined Here](https://github.com/Emergency-Response-Demo/install/blob/master/ansible/playbooks/group_vars/sso_theme_realm.yml#L7)
+
 
 This user has the ability to manage priority zones as well as the location of the disaster. Further details about these functions can be found below.
 
