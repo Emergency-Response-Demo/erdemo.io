@@ -1,3 +1,9 @@
+---
+layout: page
+title: Admin Consoles
+permalink: /admin-consoles/
+---
+
 - [1. Admin Consoles Overview](#1-admin-consoles-overview)
 - [2. SSO Admin Console](#2-sso-admin-console)
 - [3. Emergency Response Admin Console](#3-emergency-response-admin-console)
