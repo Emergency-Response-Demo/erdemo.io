@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 
-  <title>Tag Index</title>
+  <title>Admin Consoles</title>
 
   <meta name="author" content="Emergency Response Demo team" />
 
@@ -58,19 +58,19 @@
   
 
   
-  <meta property="og:title" content="Tag Index" />
+  <meta property="og:title" content="Admin Consoles" />
   
 
    
-  <meta property="og:description" content="{%- capture site_tags -%} {%- for tag in site.tags -%} {{- tag | first -}}{%- unless forloop.last -%},{%- endunless -%} {%- endfor -%} {%- endcapture -%} {%- assign tags_list = site_tags | split:',' | sort -%} {%- for tag in tags_list -%} &amp;nbsp;{{- tag -}}&amp;nbsp;({{site.tags[tag].size}}) {%- endfor -%} {%- for...">
+  <meta property="og:description" content="# 1. Admin Consoles Overview This guide details the privileged functions available to the Emergency Response Demo administrator or presenter. # 2. SSO Admin Console 1. Point a browser tab to the output of the following command: ``` echo -en &quot;\n\nhttps://$(oc get route sso --template='{{ .spec.host }}' -n user-sso)/auth/admin/master/console/#/realms/master\n\n&quot; ```...">
   
 
 
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://0.0.0.0:4000/tags/" />
-  <link rel="canonical" href="http://0.0.0.0:4000/tags/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/admin_consoles/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/admin_consoles/" />
   
 
   
@@ -84,11 +84,11 @@
   <meta name="twitter:creator" content="@" />
 
   
-  <meta name="twitter:title" content="Tag Index" />
+  <meta name="twitter:title" content="Admin Consoles" />
   
 
   
-  <meta name="twitter:description" content="{%- capture site_tags -%} {%- for tag in site.tags -%} {{- tag | first -}}{%- unless forloop.last -%},{%- endunless -%} {%- endfor -%} {%- endcapture -%} {%- assign tags_list = site_tags | split:',' | sort -%} {%- for tag in tags_list -%} &amp;nbsp;{{- tag -}}&amp;nbsp;({{site.tags[tag].size}}) {%- endfor -%} {%- for...">
+  <meta name="twitter:description" content="# 1. Admin Consoles Overview This guide details the privileged functions available to the Emergency Response Demo administrator or presenter. # 2. SSO Admin Console 1. Point a browser tab to the output of the following command: ``` echo -en &quot;\n\nhttps://$(oc get route sso --template='{{ .spec.host }}' -n user-sso)/auth/admin/master/console/#/realms/master\n\n&quot; ```...">
   
 
   
@@ -153,7 +153,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-heading">
-          <h1>Tag Index</h1>
+          <h1>Admin Consoles</h1>
 		  
 		  
 		  
@@ -171,7 +171,75 @@
 <div class="container" role="main">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <div id="full-tags-list"></div>
+      <h1 id="1-admin-consoles-overview">1. Admin Consoles Overview</h1>
+
+<p>This guide details the privileged functions available to the Emergency Response Demo administrator or presenter.</p>
+
+<h1 id="2-sso-admin-console">2. SSO Admin Console</h1>
+
+<ol>
+  <li>Point a browser tab to the output of the following command:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -en "\n\nhttps://$(oc get route sso --template='' -n user-sso)/auth/admin/master/console/#/realms/master\n\n"
+</code></pre></div>    </div>
+    <p><img src="/images/sso_admin_login.png" alt="SSO Admin Login" /></p>
+  </li>
+  <li>Authenticate in the <em>master</em> realm of SSO using a userId of <em>admin</em> and a password determined via the following:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc project user-sso
+
+pod_id=$(oc get pod -o json | jq '.items[]|select(.metadata.labels.deploymentConfig=="sso").metadata.name' | sed 's/"//g')
+
+oc rsh $pod_id env | grep SSO_ADMIN_PASSWORD
+
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Switch to your desired SSO realm by hovering over the realm drop-down in the top-left of the page:</p>
+
+    <p><img src="/images/sso_select_realm.png" alt="Realm selection" /></p>
+  </li>
+</ol>
+
+<h1 id="3-emergency-response-admin-console">3. Emergency Response Admin Console</h1>
+
+<p>As part of the Emergency Response Demo installation process, a privileged user is created using the following credentials:</p>
+
+<p><strong>username:</strong> incident_commander <br />
+<strong>password:</strong> <a href="https://github.com/Emergency-Response-Demo/install/blob/master/ansible/playbooks/group_vars/sso_theme_realm.yml#L7">Defined Here</a></p>
+
+<p>This user has the ability to manage priority zones as well as the location of the disaster. Further details about these functions can be found below.</p>
+
+<h2 id="31-priority-zone">3.1. Priority Zone</h2>
+
+<p>The incident commander has the ability to create priority zones in the disaster area to simulate critical conditions (power lines in the water, gas leaks, etc.). Once placed, priority zones give affected incidents elevated priority so they get matched with available responders more quickly.</p>
+
+<h3 id="311-procedure">3.1.1. Procedure</h3>
+
+<ol>
+  <li>
+    <p>From the Dashboard, click the <strong>Create Priority Zone</strong> button in the bottom left corner of the map. <em>If you don’t see the button, you’re probably not logged in as the correct user (incident_commander).</em></p>
+  </li>
+  <li>
+    <p>Drag to create a circle on the map, then adjust the position and size as you see fit. Once you’re done, click <strong>Done Drawing</strong>. You may optionally create additional priority zones by repeating this step.</p>
+  </li>
+</ol>
+
+<p><em><strong>Note</strong> The most effective way to demonstrate this feature is to first generate a bunch of incidents, then draw a priority zone around a collection of them, <strong>then</strong> generate responders. If there is a pool of responders waiting for incidents to be generated, incidents will be assigned in the order they are created, and it will appear as though the priority zones are not being taken into account.</em></p>
+
+<p><img src="/images/create_priority_zone.png" alt="Create Priority Zone" /></p>
+
+<h2 id="32-disaster-location">3.2. Disaster Location</h2>
+
+<p>The incident commander has the ability to change the location at which the disaster simluation is set. If your audience is unfamiliar with Wilmington, North Carolina, this is a great opportunity to use a location that is more well-known or colloquial.</p>
+
+<h2 id="321-procedure">3.2.1. Procedure</h2>
+
+<ol>
+  <li>From the Disaster Location page, refer to the instructions on the wizard. <em>If you don’t see a link for Disaster Location, you’re probably not logged in as the correct user (incident_commander).</em></li>
+</ol>
+
+<p><em><strong>Note</strong> Be sure to perform this step <strong>before</strong> generating incidents and responders. Generated markers use disaster location data when they are <strong>created</strong>, so updating the location will not affect existing incidents and responders.</em></p>
+
+<p><img src="/images/change_disaster_location.png" alt="Change Disaster Location" /></p>
 
 	    
     </div>

@@ -6,13 +6,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 
-  <title>Install</title>
+  <title>Emergency Response Demo</title>
 
   <meta name="author" content="Emergency Response Demo team" />
 
   
 
-  <link rel="alternate" type="application/rss+xml" title="Cajun Navy - Emergency Response Demo - Bringing the power of communities togehter, a cajun navy demo scenario" href="http://localhost:4000/feed.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Emergency Response Demo - Bringing the power of communities togehter, a cajun navy demo scenario" href="http://0.0.0.0:4000/feed.xml" />
 
   
 
@@ -58,23 +58,23 @@
   
 
   
-  <meta property="og:title" content="Install" />
+  <meta property="og:title" content="Emergency Response Demo" />
   
 
    
-  <meta property="og:description" content="By this time you are excited and want to try out this demo. There are a few ways you can get hands on with this demo. Following is the logical breakdown for an installation. In many cases you might just need to install the demo only. However assuming you might...">
+  <meta property="og:description" content="- [1. Installation Overview](#1-installation-overview) - [2. Pre-requisites](#2-pre-requisites) - [2.1. Local Tooling](#21-local-tooling) - [2.2. MapBox Access Token](#22-mapbox-access-token) - [2.3. OpenShift](#23-openshift) - [2.3.1. Minimum Requirements](#231-minimum-requirements) - [3. Installation Procedure](#3-installation-procedure) - [3.1. Pre-built Images](#31-pre-built-images) - [3.2. CI/CD](#32-cicd) - [3.3. Uninstalling](#33-uninstalling) - [4. Installation Complete!](#4-installation-complete) - [5. Appendix](#5-appendix) - [5.1. OCP4 from RHPDS](#51-ocp4-from-rhpds) -...">
   
 
 
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://localhost:4000/install/" />
-  <link rel="canonical" href="http://localhost:4000/install/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/install/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/install/" />
   
 
   
-  <meta property="og:image" content="http://localhost:4000/img/avatar-icon.png" />
+  <meta property="og:image" content="http://0.0.0.0:4000/img/avatar-icon.png" />
   
 
 
@@ -84,15 +84,15 @@
   <meta name="twitter:creator" content="@" />
 
   
-  <meta name="twitter:title" content="Install" />
+  <meta name="twitter:title" content="Emergency Response Demo" />
   
 
   
-  <meta name="twitter:description" content="By this time you are excited and want to try out this demo. There are a few ways you can get hands on with this demo. Following is the logical breakdown for an installation. In many cases you might just need to install the demo only. However assuming you might...">
+  <meta name="twitter:description" content="- [1. Installation Overview](#1-installation-overview) - [2. Pre-requisites](#2-pre-requisites) - [2.1. Local Tooling](#21-local-tooling) - [2.2. MapBox Access Token](#22-mapbox-access-token) - [2.3. OpenShift](#23-openshift) - [2.3.1. Minimum Requirements](#231-minimum-requirements) - [3. Installation Procedure](#3-installation-procedure) - [3.1. Pre-built Images](#31-pre-built-images) - [3.2. CI/CD](#32-cicd) - [3.3. Uninstalling](#33-uninstalling) - [4. Installation Complete!](#4-installation-complete) - [5. Appendix](#5-appendix) - [5.1. OCP4 from RHPDS](#51-ocp4-from-rhpds) -...">
   
 
   
-  <meta name="twitter:image" content="http://localhost:4000/img/avatar-icon.png" />
+  <meta name="twitter:image" content="http://0.0.0.0:4000/img/avatar-icon.png" />
   
 
   
@@ -115,20 +115,21 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </button><a class="navbar-brand" href="http://localhost:4000/">Cajun Navy - Emergency Response Demo</a></div>
+      </button><a class="navbar-brand" href="http://0.0.0.0:4000/">Emergency Response Demo</a></div>
 
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav navbar-right">
           <li><a href="/about">About</a></li>
           <li><a href="/install">Install</a></li>
           <li><a href="/gettingstarted">Getting Started</a></li>
-          <li><a href="/architecture">Architecture</a></li></ul>
+          <li><a href="/architecture">Architecture</a></li>
+          <li><a href="/admin_consoles">Admin Console</a></li></ul>
     </div>
 
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://localhost:4000/">
+	    <a href="http://0.0.0.0:4000/">
 	      <img class="avatar-img" src="/img/avatar-icon.png" />
 		</a>
 	  </div>
@@ -142,419 +143,372 @@
     <!-- TODO this file has become a mess, refactor it -->
 
 
-
-
-
-<header class="header-section ">
-
-<div class="intro-header no-img">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="page-heading">
-          <h1>Install</h1>
-		  
-		  
-		  
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</header>
-
-
+<div class="intro-header"></div>
 
 
 
 <div class="container" role="main">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <p>By this time you are excited and want to try out this demo. There are a few ways you can get hands on with this demo. 
-Following is the logical breakdown for an installation. In many cases you might just need to install the demo only. However assuming you might just have an Openshift (OCP) Cluster or a Red Hat Managed Integration. We have put the instructions for the following scenario.
-The installation can be broken into three steps:</p>
+      
 <ul>
-  <li>Openshift Installation (Assumption: Installed)</li>
-  <li>Installing Integreatly (If you dont have RHMI)</li>
-  <li>Installing the Demo (Ansible playbooks)</li>
+  <li><a href="#1-installation-overview">1. Installation Overview</a></li>
+  <li><a href="#2-pre-requisites">2. Pre-requisites</a>
+    <ul>
+      <li><a href="#21-local-tooling">2.1. Local Tooling</a></li>
+      <li><a href="#22-mapbox-access-token">2.2. MapBox Access Token</a></li>
+      <li><a href="#23-openshift">2.3. OpenShift</a>
+        <ul>
+          <li><a href="#231-minimum-requirements">2.3.1. Minimum Requirements</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#3-installation-procedure">3. Installation Procedure</a>
+    <ul>
+      <li><a href="#31-pre-built-images">3.1. Pre-built Images</a></li>
+      <li><a href="#32-cicd">3.2. CI/CD</a></li>
+      <li><a href="#33-uninstalling">3.3. Uninstalling</a></li>
+    </ul>
+  </li>
+  <li><a href="#4-installation-complete">4. Installation Complete!</a></li>
+  <li><a href="#5-appendix">5. Appendix</a>
+    <ul>
+      <li><a href="#51-ocp4-from-rhpds">5.1. OCP4 from RHPDS</a>
+        <ul>
+          <li><a href="#511-order-ocp4">5.1.1. Order OCP4</a></li>
+          <li><a href="#512-confirmation-emails">5.1.2. Confirmation Emails</a></li>
+          <li><a href="#513-access">5.1.3. Access</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>
 
-<p>The last secton on this page is for the partner demo system, which Red Hat Consultants, Solution Architect and Partners use. This might not apply to everyone.</p>
+<h1 id="1-installation-overview">1. Installation Overview</h1>
+<p>By this time you are excited and want to try out this application.  To do so, you will need to install the application on an OpenShift Container Platform (OCP) 4.* environment.  The installation of the application on OpenShift is done using Ansible.</p>
 
-<h2 id="i-have-my-own-openshift-cluster">I have my own Openshift Cluster</h2>
-<p>The demo is currently baselined to Red Hat Openshift 3.11, work is underway to port it to 4.2. 
-The following instructions assume you have a running Openshift cluster i.e. a 3.11 cluster.
-If you have a Red Hat Managed Integration(RHMI) or Integreatly cluster move to the next section.</p>
+<p>Using Ansible, there are two options for the installation of the Emergency Response app on an OCP 4 environment:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The demo uses features like:
- Security e.g. SSO (Single Sign On), 
- Observability (Prometheus, Grafana), 
- logging and more from the Integreatly services. 
-Its an important component and supporting infra-services for the demo. 
-</code></pre></div></div>
-<p>To install Integreatly, follow the installation instructions. [here]: https://github.com/integr8ly/installation</p>
+<ol>
+  <li>
+    <p><strong>Pre-built Linux container images</strong></p>
 
-<h2 id="i-have-a-red-hat-managed-integrationrhmi-or-integreatly-cluster">I have a Red Hat Managed Integration(RHMI) or Integreatly cluster</h2>
-<p>If you do not have a running RHMI or Integreatly cluster please check the previous section on how you can install it.</p>
+    <p>This approach is best suited for those that want to utilize (ie: for a customer demo) the Emergency Response app.  This installation approach does not use Jenkins pipelines.  Instead, the OpenShift <em>deployments</em> for each component of the Emergency Response application are started using pre-built Linux container images pulled from corresponding <a href="https://quay.io/organization/emergencyresponsedemo">public Quay image repositories</a>.  With this approach, the typical duration to build the Emergency Response app is about 20 minutes.  This is the default installation approach.</p>
+  </li>
+  <li>
+    <p><strong>CI/CD</strong></p>
 
-<p>Assuming that you have a running Integreatly cluster. 
-Login to the Openshift console as a cluster admin via command line</p>
+    <p>This approach is best suited for code contributors to the Emergency Response app.  Individual Jenkins pipelines are provided for each component of the app.  Each pipeline builds from source, tests, creates a Linux container image and deploys that image to OpenShift.  The typical duration to build the Emergency Response application from source using these pipelines is about an hour.  This approach is also of value if the focus of a demo to a customer and/or partner is to introduce them to CI/CD best practices of a microservice architected application deployed to OpenShift.</p>
+  </li>
+</ol>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc login master.example.openshiftworkshop.com -u &lt;user&gt; -p &lt;password&gt;
-</code></pre></div></div>
+<h1 id="2-pre-requisites">2. Pre-requisites</h1>
 
-<p>Make sure you can clone the following repo e.g.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/Emergency-Response-Demo/install.git
+<h2 id="21-local-tooling">2.1. Local Tooling</h2>
 
-</code></pre></div></div>
+<p>To install the Emergency Response application, you will need the following tools on your local machine:</p>
 
-<p>This installer also uses Ansible. theres a comprehensive list or roles and playbooks that install the demo. 
-Ensure that you are logged in as a Cluster admin.</p>
+<ol>
+  <li><strong>Unix flavor OS with BASH shell</strong>:  ie; Fedora, RHEL, CentOS, Ubuntu, OSX</li>
+  <li><strong>git</strong></li>
+  <li><strong><a href="https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.2/">oc utility v4.2</a></strong></li>
+  <li>
+    <p><strong><a href="https://www.redhat.com/en/technologies/management/ansible">Ansible</a></strong></p>
 
-<p>Assuming you have cloned the git repo, from the command line change dir (cd) to install/ansible</p>
+    <p>Installation of the Emergency Response application is tested using the <em>ansible-playbook</em> utility from the <em>ansible</em> package of Fedora 31.  Others in the community have also succeeded in installing the app using ansible on OSX.</p>
+  </li>
+</ol>
 
-<p>The README file should list the following prerequisites:</p>
+<h2 id="22-mapbox-access-token">2.2. MapBox Access Token</h2>
 
-<ul>
-  <li><code class="highlighter-rouge">oc</code> client on the PATH</li>
-  <li>logged in into the cluster with a user with cluster admin rights</li>
-  <li>A Registry Credentials Secret with access to <code class="highlighter-rouge">registry.redhat.io</code> named <code class="highlighter-rouge">imagestreamsecret</code> should exist in the <code class="highlighter-rouge">openshift</code> Namespace. See https://access.redhat.com/RegistryAuthentication for more details.</li>
-  <li>A MapBox access token. See https://docs.mapbox.com/help/how-mapbox-works/access-tokens/ for more details.</li>
-</ul>
+<p>The Emergency Response application makes use of a third-party SaaS API called <a href="https://www.mapbox.com/">MapBox</a>.
+MapBox APIs provide the Emergency Response application with an optimized route for a responder to travel given pick-up and drop-off locations.  To invoke its APIs, MapBox requires an <a href="https://docs.mapbox.com/help/how-mapbox-works/access-tokens">access token</a>.  For normal use of the Emergency Response application the <em>free-tier</em> account provides ample rate-limits.</p>
 
-<h3 id="installing">Installing</h3>
+<p><img src="/images/mapbox_token.png" alt="MapBox token" /></p>
 
-<p>Create a copy of the inventory template file:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ cp inventories/inventory.template inventories/inventory
-</code></pre></div></div>
+<h2 id="23-openshift">2.3. OpenShift</h2>
 
-<p>Replace the sample MapBox access token in the inventory file (<code class="highlighter-rouge">map_token</code>) with a real MapBox token. Assuming you have a token for mapbox. If you do not have a token,</p>
+<p>You can utilize your own vanilla OpenShift 4 environment so long as it meets the minimum requirements described below in this section.
+The benefit of utilizing your own OpenShift environment is that you decide if/when to shut it down and the duration of its lifetime.  In addition, if there are any errors in the provisioning process of OpenShift, you will have some ability to troubleshoot the problem.</p>
 
-<p>To provision all the components:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible-playbook -i inventories/inventory playbooks/install.yml
-</code></pre></div></div>
+<p>Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat’s <em>Partner Demo System</em> (RHPDS).  Using RHPDS, the minimum requirements described below are met.  However, your OpenShift environment will shut down at known periods (typically 10 hours) and will be deleted after a certain duration (typically 2 days).  Also, <strong>the failure rates of provisioning a base OpenShift from RHPDS are known to be high</strong>.  (Each provisioning attempt consists of hundreds of steps, many of which rely on third-party services). You may need to attempt numerous times over the course of days.  Details pertaining to accessing an OpenShift 4 environment from RHPDS are found in <a href="##51-ocp4-from-rhpds">the Appendix</a> of this document.</p>
 
-<p>This could take upto 30 minutes to complete.</p>
+<h3 id="231-minimum-requirements">2.3.1. Minimum Requirements</h3>
+<p>To install the Emergency Response application, you will need an OpenShift Container Platform environment with the following minimum specs:</p>
 
-<p>By default, the <code class="highlighter-rouge">developer</code> user will be given project admin permissions for
-the Emergency Response projects. To give these permissions to another user,
-override the <code class="highlighter-rouge">cluster_provisioner</code> variable during provisioning.</p>
+<ol>
+  <li><strong>OCP Version:</strong>  4.2 (although any version of OpenShift in the 4.* family will most likely work)</li>
+  <li><strong>Memory:</strong>    24 GBi allocated to one or more <em>worker</em> node(s)</li>
+  <li><strong>CPU:</strong> 10 cores allocated to one or more <em>worker</em> nodes</li>
+  <li>
+    <p><strong>Disk:</strong> 50 GB of storage that supports <a href="https://docs.openshift.com/container-platform/4.2/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage">Read Write Once (RWO)</a>.</p>
 
-<p>Individual components can be installed by the executing the corresponding playbook. For example, to install only the Kafka cluster:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible-playbook playbooks/strimzi_operator.yml
-$ ansible-playbook playbooks/kafka_cluster.yml
-$ ansible-playbook playbooks/kafka_topics.yml
-</code></pre></div></div>
+    <p>NOTE:  The Emergency Response application currently does not require Read-Write-Many (RWX).</p>
+  </li>
+  <li><strong>Credentials:</strong>  You will need <em>cluster-admin</em> credentials to your OpenShift environment.</li>
+  <li>
+    <p><strong>CA signed certificate:</strong> Optional</p>
 
-<p>Apart from the <code class="highlighter-rouge">strimzi_operator</code> playbook, none of the playbooks require cluster admin rights.</p>
+    <p>Preferably, all public routes of your Emergency Response application utilize a SSL certificate signed by a legitimate certificate authority.  ie:  <a href="https://letsencrypt.org/">LetsEncrypt</a></p>
+  </li>
+  <li><strong>Non cluster-admin users</strong>:
+The Emergency Response application will be owned by a non cluster-admin <em>project administrator</em>.  In your OpenShift environment, you will need one or more non cluster-admin users to serve this purpose.  In <em>Code Ready Containers</em>, the default non cluster-admin user is:  <em>developer</em> .  In other OpenShift clusters, the convention tends to be:  user[1-200].</li>
+  <li><strong>Pull Secret</strong>:
+Some Linux container images used in the Emergency Response application reside in the following secured image registry:  <em>registry.redhat.io</em>.
+Those images will need to be pulled to your OpenShift 4 environment.
+As part of the installation of OCP4, you should have already been prompted to provide your <a href="https://cloud.redhat.com/openshift/install/pull-secret">pull secret</a> that enables access to various secured registries to include regisry.redhat.io.</li>
+</ol>
 
-<p>Headover to the getting started section to understand more about the demo components</p>
+<h1 id="3-installation-procedure">3. Installation Procedure</h1>
+<p>Now that you have an OpenShift environment that meets the minimum requirements, you can now layer the Emergency Response application on that OpenShift.</p>
 
-<h3 id="uninstalling">Uninstalling</h3>
+<ol>
+  <li>Using the oc utility on your local machine, ensure that your are authenticated in your OCP 4 environment as a cluster-admin.</li>
+  <li>Using the git utility on your local machine, clone the <em>install</em> project of the Emergency Response application:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/Emergency-Response-Demo/install.git
+
+</code></pre></div>    </div>
+    <p>This installer uses Ansible. There is a comprehensive list of roles and playbooks that install the application.</p>
+  </li>
+  <li>Change directories into the <em>ansible</em> directory of the cloned project:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd install/ansible
+</code></pre></div>    </div>
+  </li>
+  <li>Copy the <em>inventory.template</em>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp inventories/inventory.template inventories/inventory
+</code></pre></div>    </div>
+  </li>
+  <li>Using your favorite text editor, open the copied file: <em>inventories/inventory</em></li>
+  <li>Replace the sample MapBox access token (<code class="highlighter-rouge">map_token</code>) with a real MapBox token.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># MapBox API token, see https://docs.mapbox.com/help/how-mapbox-works/access-tokens/
+map_token=pk.egfdgewrthfdiamJyaWRERKLJWRIONEWRwerqeGNjamxqYjA2323czdXBrcW5mbmg0amkifQ.iBEb0APX1Vmo-2934rj
+</code></pre></div>    </div>
+  </li>
+  <li>Save the changes.</li>
+  <li>Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OCP_USERNAME=user1
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>You will now execute the ansible to install the Emergency Response application.
+<strong>Select one of the following two approaches:  <em>Pre-built Images</em> or <em>CI/CD</em></strong></p>
+
+<h2 id="31-pre-built-images">3.1. Pre-built Images</h2>
+<p>This approach is best suited for those that want to utilize (ie: for a customer demo) the Emergency Response app.  This installation approach does not use Jenkins pipelines.  Instead, the OpenShift <em>deployments</em> for each component of the Emergency Response application are started using pre-built Linux container images pulled from corresponding <a href="https://quay.io/organization/emergencyresponsedemo">public Quay image repositories</a>.  With this approach, the typical duration to build the Emergency Response app is about 20 minutes.  This is the default installation approach.</p>
+
+<ol>
+  <li>From the <em>install/ansible</em> directory, kick-off the Emergency Response app provisioning:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ansible-playbook -i inventories/inventory playbooks/install.yml \
+                 -e project_admin=$OCP_USERNAME
+</code></pre></div>    </div>
+  </li>
+  <li>After about 20 minutes, you should see ansible log messages similar to the following:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PLAY RECAP ********************************************************************************
+localhost : ok=432  changed=240  unreachable=0    failed=0    skipped=253  rescued=0    ignored=0 
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<h2 id="32-cicd">3.2. CI/CD</h2>
+
+<p>This approach is best suited for code contributors to the Emergency Response app.  Individual Jenkins pipelines are provided for each component of the app.  Each pipeline builds from source, tests, creates a Linux container image and deploys that image to OpenShift.  The typical duration to build the Emergency Response application from source using these pipelines is about an hour.  This approach is also of value if the focus of a demo to a customer and/or partner is to introduce them to CI/CD best practices of a microservice architected application deployed to OpenShift.</p>
+
+<ol>
+  <li>From the <em>install/ansible</em> directory, kick-off the Emergency Response app provisioning:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ansible-playbook -i inventories/inventory playbooks/install.yml \
+                 -e deploy_from=source \
+                 -e project_admin=$OCP_USERNAME
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>After about an hour, the provisioning should be complete.</p>
+  </li>
+  <li>You can review any of the CI/CD pipelines that ran as part of this provisioning process:
+    <ol>
+      <li>List all build pipelines:
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> oc get build -n $OCP_USERNAME-tools-erd | grep pipeline
+
+ ...
+
+ user2-incident-service-pipeline-1         JenkinsPipeline            Complete   2 hours ago         
+ user2-mission-service-pipeline-1          JenkinsPipeline            Complete   2 hours ago         
+ user2-responder-service-pipeline-1        JenkinsPipeline            Complete   2 hours ago         
+ user2-assignment-rules-model-pipeline-1   JenkinsPipeline            Complete   2 hours ago  
+</code></pre></div>        </div>
+      </li>
+      <li>From that list, pick any of the builds to get the URL to the corresponding Jenkins pipeline:
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc logs user2-incident-service-pipeline-1 -n $OCP_USERNAME-tools-erd
+
+info: logs available at https://jenkins-user2-tools-erd.apps.cluster-denver-8ab6.denver-8ab6.example.opentlc.com/blue/organizations/jenkins/user2-tools-erd%2Fuser2-tools-erd-user2-mission-service-pipeline/detail/user2-tools-erd-user2-mission-service-pipeline/1/
+</code></pre></div>        </div>
+      </li>
+      <li>Open a browser tab and navigate to the provided URL:
+<img src="/images/pipeline_example.png" alt="" /></li>
+    </ol>
+  </li>
+</ol>
+
+<h2 id="33-uninstalling">3.3. Uninstalling</h2>
 
 <p>To uninstall:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible-playbook playbooks/install.yml -e ACTION=uninstall
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ansible-playbook playbooks/install.yml \
+                   -e ACTION=uninstall \
+                   -e project_admin=$OCP_USERNAME
 </code></pre></div></div>
 
-<h2 id="i-am-a-red-hat-partner-and-would-like-to-access-this-demo-via-the-partner-demo-system">I am a Red Hat partner and would like to access this demo via the partner demo system.</h2>
+<h1 id="4-installation-complete">4. Installation Complete!</h1>
+
+<p>Now that installation of the Emergency Response app is complete, you should be able to navigate your browser to the following URLs:</p>
+
 <ol>
-  <li>
-    <p>The <code class="highlighter-rouge">ssh</code> utility installed on your laptop.</p>
-
-    <blockquote>
-      <p><strong>Note</strong></p>
-
-      <p>If your network connection is intermittent, consider installing
-the <a href="https://mosh.org/">mosh</a> utility (<code class="highlighter-rouge">yum install mosh</code>) as an
-alternative to the <code class="highlighter-rouge">ssh</code> utility.</p>
-    </blockquote>
+  <li><strong>Emergency Response Console</strong>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -en "\nhttps://$(oc get route $OCP_USERNAME-emergency-console -n $OCP_USERNAME-er-demo --template='')\n\n"
+</code></pre></div>    </div>
+    <p><img src="/images/erdemo_home.png" alt="" /></p>
   </li>
-  <li>
-    <p>Web browser installed on your laptop.</p>
-  </li>
-  <li>
-    <p>Broadband internet connectivity.</p>
-  </li>
-  <li>
-    <p><a href="https://account.opentlc.com/account/">Red Hat GPTE <em>Opentlc</em>
-userId</a></p>
+  <li><strong>Disaster Simulator</strong>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>echo -en "\nhttp://$(oc get route $OCP_USERNAME-disaster-simulator -n $OCP_USERNAME-er-demo --template='')\n\n"
+</code></pre></div>    </div>
+    <p><img src="/images/disaster_simulator.png" alt="" /></p>
   </li>
 </ol>
 
-<h3 id="overview">Overview</h3>
+<p>Further details regarding how to run this demo can be found in the <em>Getting Started</em> page.</p>
 
-<p>The target audience for this guide are those Red Hat Solution
-Architects, Consultants and Red Hat Partners that are interested in
-using the <em>Emergency Response</em> application to:</p>
+<h1 id="5-appendix">5. Appendix</h1>
+
+<h2 id="51-ocp4-from-rhpds">5.1. OCP4 from RHPDS</h2>
+
+<p>The <em>Red Hat Product Demo System</em> (RHPDS) provides a wide variety of cloud-based labs and demos showcasing Red Hat software.
+One of the offerings from RHPDS is a cloud-based OCP 4 environment that meets all of the minimum requirements to support an installation of the Emergency Response application.  The default shutdown and lifetime durations of this environment are as follows:</p>
+
+<ul>
+  <li>
+    <p><strong>Runtime:</strong>  10 hours;
+You have the ability to extend the runtime (one time only) and re-start if it was shutdown.</p>
+  </li>
+  <li>
+    <p><strong>Lifetime:</strong> 2 days;
+You have the ability</p>
+  </li>
+</ul>
+
+<p>To utilize RHPDS, you will need the following:</p>
 
 <ol>
-  <li>
-    <p>Demonstrate the Red Hat middleware product suite running on
-OpenShift.</p>
-  </li>
-  <li>
-    <p>Provide training on the Red Hat middleware product suite running on
-OpenShift.</p>
-  </li>
+  <li><a href="https://account.opentlc.com/account/">OPENTLC credentials</a>.  OPENTLC credentials are available only to Red Hat associates and Red Hat partners.</li>
+  <li>SFDC Opportunity, Campaign ID or Partner Registration</li>
 </ol>
 
-<p>If you are interested in building this demo from its source code, please
-refer to the <a href="">TODO</a> document.</p>
-
-<h4 id="lab-virtual-machine">Lab Virtual Machine</h4>
-
-<p>Your lab environment is remote and consists of the following:</p>
+<h3 id="511-order-ocp4">5.1.1. Order OCP4</h3>
 
 <ol>
   <li>
-    <p><strong>OpenShift Container Platform</strong> (OCP)</p>
-  </li>
-  <li>
-    <p><a href="https://github.com/Emergency-Response-Demo/">Emergency Response
-Demo</a></p>
-  </li>
-</ol>
-
-<p>This lab environment can be accessed via ssh as well as through your
-local browser.</p>
-
-<h4 id="order-virtual-machine">Order Virtual Machine</h4>
-
-<p>This section guides you through the procedure to order a virtual machine
-(VM) for this course.</p>
-
-<ol>
-  <li>
-    <p>In a web browser, navigate to the <em>Red Hat Partner Demo System</em> at:
-<a href="https://rhpds.redhat.com/catalog/explorer">https://rhpds.redhat.com/catalog/explorer</a>.</p>
+    <p>In a web browser, navigate to the <em>Red Hat Product Demo System</em> at:
+<a href="https://rhpds.redhat.com/catalog/explorer">Red Hat Product Demo System</a>.</p>
   </li>
   <li>
     <p>Authenticate using your <em>OPENTLC</em> credentials, for example:
 <code class="highlighter-rouge">johndoe-redhat.com</code>.</p>
   </li>
   <li>
-    <p>Navigate to the following catalog: <code class="highlighter-rouge">Services → Catalog → Catalog
-Items → Multi-product Demos</code>.</p>
+    <p>Navigate to the following catalog: `Services → Service Catalogs → Workshops.</p>
   </li>
   <li>
-    <p>Select the following catalog item: <code class="highlighter-rouge">RHT Emergency Response</code>.</p>
+    <p>Select the following catalog item: <code class="highlighter-rouge">OpenShift 4.2 Workshop</code>.</p>
   </li>
   <li>
     <p>Click <code class="highlighter-rouge">Order</code> on the next page.</p>
   </li>
   <li>
-    <p>In the subsequent order form, select the check box confirming you
-understand the runtime and expiration dates. :</p>
+    <p>In the subsequent order form, add in details similar to the following:
+<img src="/images/rhpds_order_form.png" alt="Order form" /></p>
   </li>
   <li>
     <p>At the bottom of the same page, click <code class="highlighter-rouge">Submit</code>.</p>
   </li>
 </ol>
 
-<h4 id="confirmation-emails">Confirmation Emails</h4>
+<h3 id="512-confirmation-emails">5.1.2. Confirmation Emails</h3>
 
-<p>Upon ordering the lab environment, you will receive the following two
-emails:</p>
+<p>The provisioning of your OpenShift environment from RHPDS typically takes about 1 hour.</p>
+
+<p>Upon ordering the lab environment, you will receive the following various confirmation emails:</p>
 
 <ol>
+  <li><strong>Your RHPDS service provision request has started:</strong>  This email should arrive within minutes of having ordered the environment.</li>
+  <li><strong>Your RHPDS service provision request has updated:</strong>  You will receive one or more of these emails indicating that the OCP 4 provisioning process continues to proceed.</li>
   <li>
-    <p><strong>Your lab environment is building</strong></p>
+    <p><strong>Your RHPDS service provision request has completed:</strong></p>
 
     <ol>
+      <li>Read through this email in its entirety and save !</li>
+      <li>This email includes details regarding its deletion date.</li>
+      <li>This email also includes URLs to the OpenShift Web Console as well as the OpenShift Master API.</li>
       <li>
-        <p>Save this email.</p>
-      </li>
-      <li>
-        <p>This email Includes details of the three VMs that make up your
-lab application similar to the following:</p>
+        <p>Also included is the userId and password of the OpenShift cluster-admin user.</p>
 
-        <p><img src="/images/aio_first_email.png" alt="aio_first_email" /></p>
-      </li>
-      <li>
-        <p>Make note of the 4 digit GUID (aka: REGION CODE)</p>
-
-        <ul>
-          <li>Whenever you see “GUID” or “$GUID” in a command, make sure
-to replace it with your GUID.</li>
-        </ul>
-      </li>
-      <li>
-        <p>Make note of the URL of the <code class="highlighter-rouge">workstation</code> VM.</p>
-
-        <p>You will use this when ssh’ing to your application.</p>
-      </li>
-      <li>
-        <p>Make note of the URL of the <code class="highlighter-rouge">master</code> VM.</p>
-
-        <p>You will use this when accessing the OCP Web Console.</p>
-
-        <ul>
-          <li>
-            <p>The OpenShift master URL varies based on the region where
-you are located, and may vary from the example shown above.</p>
-          </li>
-          <li>
-            <p>For the duration of the course, you navigate to this
-OpenShift Container Platform master node.</p>
-          </li>
-        </ul>
+        <p><img src="/images/rhpds_completed_email.png" alt="rhpds_completed_email" /></p>
       </li>
     </ol>
   </li>
-  <li>
-    <p><strong>VM ready for authentication</strong></p>
-
-    <p>Once you receive this second email, wait about another 5 minutes and
-then you can then ssh into the <code class="highlighter-rouge">workstation</code> VM of your Ravello
-application.</p>
-  </li>
 </ol>
 
-<h4 id="ssh-access-and-oc-utility">SSH Access and <code class="highlighter-rouge">oc</code> utility</h4>
-
-<p>SSH access to the remote lab environment provides you with the OpenShift
-<code class="highlighter-rouge">oc</code> utility.</p>
-
+<h3 id="513-access">5.1.3. Access</h3>
 <ol>
-  <li>
-    <p>ssh access to your lab environment by specifying your <em>opentlc
-userId</em> and lab environment $GUID in the following command:</p>
+  <li>Upon reading through the completion email, you should authenticate into the OpenShift environment as a cluster admin.  You will execute a command similar to the following:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc login https://api.cluster-242b.242b.example.opentlc.com:6443 -u &lt;cluster-admin user&gt; -p '&lt;cluster-admin passwd&gt;'
+</code></pre></div>    </div>
+  </li>
+  <li>Validate the existance of all <em>master</em> and <em>worker</em> nodes:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc adm top nodes
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh &lt;opentlc-userId&gt;@workstation-$GUID.rhpds.opentlc.com
+NAME                                              CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+ip-10-0-138-177.ap-southeast-1.compute.internal   456m         13%    2632Mi          17%       
+ip-10-0-141-34.ap-southeast-1.compute.internal    332m         2%     3784Mi          5%        
+ip-10-0-145-167.ap-southeast-1.compute.internal   598m         17%    2847Mi          18%       
+ip-10-0-150-7.ap-southeast-1.compute.internal     341m         2%     3445Mi          5%        
+ip-10-0-167-23.ap-southeast-1.compute.internal    173m         1%     2699Mi          4%        
+ip-10-0-173-229.ap-southeast-1.compute.internal   567m         16%    3588Mi          23%
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>Authenticate into OpenShift as a non cluster admin user (user1)
-using the <code class="highlighter-rouge">oc</code> utility</p>
+    <p>Verify login access using non cluster-admin user(s):</p>
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ oc login https://master00.example.com -u user1 -p r3dh4t1!
-</code></pre></div>    </div>
+    <ol>
+      <li>
+        <p>Your OpenShift environment from RHPDS is pre-configured with 200 non cluster-admin users.  Details of these users is as follows:</p>
 
-    <blockquote>
-      <p><strong>Note</strong></p>
+        <ul>
+          <li><strong>userId</strong>:  user[1-200] ;   (ie:   user1, user2, user3, etc)</li>
+          <li><strong>passwd</strong>:  see <a href="https://docs.google.com/document/d/1s4FKXzXHLJ8Z7-ClUSGSvUbQ1Xc7AOWAwIiLb8Uffvc/edit">this doc</a> for details.</li>
+        </ul>
+      </li>
+      <li>Using the credentials of one of these users, verify you can authenticate into OpenShift:
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> oc login -u user1 -p &lt;password&gt;
 
-      <p>If you initially receive a HTTP 403 or <em>no such host</em> response,
-give it a minute or so and try again.</p>
-    </blockquote>
-  </li>
-  <li>
-    <p>OCP cluster admin access</p>
+ ...
 
-    <p>OCP cluster admin access is provided by switching to the root
-operating system of your lab environment as follows.</p>
+ Login successful.
+ You don't have any projects. You can try to create a new project, by running
+ oc new-project &lt;projectname&gt;
 
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo -i
-    
-# oc login -u system:admin      # NOTE: This command is typically not needed
-                                #       /root/.kube/config already contains the _system:admin_ user's token
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>Provide cluster admin access to OpenShift <em>user1</em>:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># oc adm policy add-cluster-role-to-user cluster-admin user1
-</code></pre></div>    </div>
+</code></pre></div>        </div>
+      </li>
+      <li>Re-authenticate back as cluster-admin:
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc login -u &lt;cluster admin user&gt; -p &lt;cluster admin passwd&gt;
+</code></pre></div>        </div>
+      </li>
+      <li>View the various users that have authenticated into OpenShift:
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc get identity
+</code></pre></div>        </div>
+        <p>Now that your OpenShift 4 environment has been provisioned from RHPDS, please return to the section above entitled: <a href="#3-installation-procedure">Installation Procedure</a>.</p>
+      </li>
+    </ol>
   </li>
 </ol>
-
-<h4 id="refresh-red-hat-sso-state">Refresh Red Hat SSO state</h4>
-
-<p>Your Red Hat SSO needs to be refreshed with valid <em>redirect</em> and
-<em>web_origin</em> URLs to support your Emergency Response demo. For this
-purpose, a script has been provided as follows:</p>
-
-<ol>
-  <li>
-    <p>SSH into the <em>workstation</em> node of your demo environment as disussed
-in the previous section.</p>
-  </li>
-  <li>
-    <p>As the root operating system user, execute the following exactly as
-listed:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo -i
-    
-mkdir -p $HOME/lab &amp;&amp; \
-       wget https://raw.githubusercontent.com/gpte-emergency-response-demo/misc/master/erdemo_state_refresh.sh -O $HOME/lab/erdemo_state_refresh.sh \
-       &amp;&amp; chmod 755 $HOME/lab/erdemo_state_refresh.sh \
-       &amp;&amp; $HOME/lab/erdemo_state_refresh.sh
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>You should see a response similar to the following:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>will update the following stale guid in RHSSO from: 43b5 to 5dff
-    
-UPDATE 3
-UPDATE 2
-    
-...
-    
-deploymentconfig.apps.openshift.io/sso rolled out
-deploymentconfig.apps.openshift.io/emergency-console rolled out
-</code></pre></div>    </div>
-
-    <p>If you are curious as to what exactly is getting modified in the
-RH-SSO, you can review <a href="https://raw.githubusercontent.com/gpte-emergency-response-demo/misc/master/erdemo_state_refresh.sh">the
-script</a>.</p>
-
-    <p>In particular, notice that the <em>redirect_uris</em> and <em>web_origins</em>
-are modified to reflect the actual URL of your Emergency Response
-lab environment.</p>
-  </li>
-  <li>
-    <p>After a couple of minutes, expect your RH-SSO pod to have
-re-started:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ oc get pods -n sso
-    
-keycloak-operator-d894597dc-pkfkc   1/1       Running   1          5h
-sso-3-4rg52                         1/1       Running   0          1m
-sso-postgresql-1-dn4fl              1/1       Running   1          5h
-</code></pre></div>    </div>
-  </li>
-  <li>
-    <p>Exit out of the root operating system user shell:</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># exit
-</code></pre></div>    </div>
-
-    <p>Make sure to exit out of the root shell after every use</p>
-  </li>
-</ol>
-
-<h4 id="openshift-container-platform">OpenShift Container Platform</h4>
-
-<p>Your lab environment is built on Red Hat’s OpenShift Container Platform
-(OCP).</p>
-
-<p>Access to your OCP resources can be gained via both the <code class="highlighter-rouge">oc</code> CLI utility
-and the OCP web console.</p>
-
-<h4 id="ocp-web-console">OCP Web Console</h4>
-
-<ol>
-  <li>
-    <p>Point your browser to the URL created by executing the following :</p>
-
-    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ echo -en "\nhttps://master00-$GUID.generic.opentlc.com\n\n"
-</code></pre></div>    </div>
-
-    <blockquote>
-      <p><strong>Note</strong></p>
-
-      <p>Substitute <code class="highlighter-rouge">GUID</code> in the above command with the GUID of your lab
-environment.</p>
-    </blockquote>
-  </li>
-  <li>
-    <p>Authenticate using the following user credentials provided in the confirmation email.</p>
-  </li>
-</ol>
-
-<h2 id="installation-complete">Installation Complete!</h2>
-<p>Assuming everything has turned up smoothly. If you now login to the Openshift console you should be able to see the project “emergency-response-demo” and all the services running inside it. To understand how to run this demo, please move to the Getting Started page.</p>
-
 
 	    
     </div>
@@ -588,11 +542,11 @@ environment.</p>
       <p class="copyright text-muted">
       Emergency Response Demo team
       &nbsp;&bull;&nbsp;
-      2019
+      2020
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://localhost:4000/">www.erdemo.io</a>
+      <a href="http://0.0.0.0:4000/">www.erdemo.io</a>
       
 
       
