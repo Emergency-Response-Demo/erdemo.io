@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Admin Consoles
-permalink: /admin-consoles/
+permalink: /admin_consoles/
 ---
 
 - [1. Admin Consoles Overview](#1-admin-consoles-overview)
