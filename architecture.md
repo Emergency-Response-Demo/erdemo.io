@@ -136,6 +136,16 @@ Kafka message to the topic test-topic.
 
   - Listen: test-topic
 
+## Disaster Service
+
+  - Runtime: Vert.x
+  
+  - Middleware Components: JDG
+
+The Disaster Service exposes an API for managing the disaster's metadata, including: the coordinates and magnification for the center of the disaster; the list of inclusion zones (geopolygons in which incidents and responders should spawn); and the list of shelters and their locations.
+
+Tracking this data dynamically allows the incident commander to change the location of the disaster to match the geography in which the demo is being performed.
+
 ## Emergency Web Console
 
   - Runtime: Node.js, Angular
