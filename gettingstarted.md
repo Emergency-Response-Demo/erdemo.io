@@ -17,7 +17,7 @@ Your attendees of this demonstration might have a wide variety of interests :
 
 
 2.  **MicroService Architected Application for Hybrid Cloud**
-    The Emergency Response application is a microservice architect application that show-cases best of breed Red Hat products integrated together for a hybrid-cloud production environment.  Software architects and application developers of Red Hat system integrator partners and customers will likely be intrigued by the architecture of this application and incorporate its best-practices in their business solutions using Red Hat technologies.
+    The Emergency Response application is a microservice architected application that show-cases best of breed Red Hat products integrated together for a hybrid-cloud production environment.  Software architects and application developers of Red Hat system integrator partners and customers will likely be intrigued by the architecture of this application and incorporate its best-practices in their business solutions using Red Hat technologies.
 
 
 ## 1.2. Pre-requisites
