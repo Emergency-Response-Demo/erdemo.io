@@ -14,7 +14,12 @@ As an architect you might wonder how could I put together all the awesomeness fr
 
 Let's not forget, this is only one way of expressing how you can architect an application environment. There are many other ways to solve problems. This one of course has the flavour for an Event driven and reactive architecture. 
   
-Check out the Getting started guide and the install guide to learn more how you can get started. 
-You can also head out to the developers page and read more about [Red Hat Application Environment](https://developers.redhat.com/appenv)
+Check out the [Install guide](/install.md) and the [Getting Started guide](/gettingstarted.md) to dig in.
+
+Additional resources pertaining to the underlining technologies and methodologies used in the Emergency Response application are as follows:
+
+1. [Overview of the Red Hat Application Environment](https://developers.redhat.com/appenv)
+   Used as the cohesive and unified set of capabilities in the Emergency Response application
+2. [How to Architect a Cloud Native and Reactive Application Environment](https://www.redhat.com/en/events/webinar/how-architect-cloud-native-and-reactive-application-environment)
 
 
