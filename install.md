@@ -11,6 +11,9 @@
   - [3.2. CI/CD](#32-cicd)
   - [3.3. Uninstalling](#33-uninstalling)
 - [4. Installation Complete!](#4-installation-complete)
+  - [4.1. **Emergency Response Console**](#41-emergency-response-console)
+  - [4.2. **Disaster Simulator**](#42-disaster-simulator)
+  - [4.3. **Grafana-route**](#43-grafana-route)
 - [5. Appendix](#5-appendix)
   - [5.1. OCP4 from RHPDS](#51-ocp4-from-rhpds)
     - [5.1.1. Order OCP4](#511-order-ocp4)
@@ -189,17 +192,35 @@ $ ansible-playbook playbooks/install.yml \
 
 Now that installation of the Emergency Response app is complete, you should be able to navigate your browser to the following URLs:
 
-1. **Emergency Response Console**
+## 4.1. **Emergency Response Console**
+ - Navigate to the URL from the following command:
+
    ```
    echo -en "\nhttps://$(oc get route $OCP_USERNAME-emergency-console -n $OCP_USERNAME-er-demo --template='{{ .spec.host }}')\n\n"
    ```
    ![](/images/erdemo_home.png)
+- More information about the *Emergency Response Console* found in the *Getting Started Guide*.
 
-2. **Disaster Simulator**
+## 4.2. **Disaster Simulator**
+ - Navigate to the URL from the following command:
+
    ```
    echo -en "\nhttp://$(oc get route $OCP_USERNAME-disaster-simulator -n $OCP_USERNAME-er-demo --template='{{.spec.host}}')\n\n"
    ```
    ![](/images/disaster_simulator.png)
+ - More information about the *Disaster Simulator* found in the *Getting Started Guide*.
+
+## 4.3. **Grafana-route**
+ - Navigate to the URL from the following command:
+
+   ```
+      echo -en "\nhttps://$(oc get route grafana-route -n $OCP_USERNAME-er-metrics --template='{{ .spec.host }}')\n\n"
+   ```
+   ![](/images/grafana_home.png)
+
+ - Once Emergency Response *incidents* are created, you will see corresponding metrics:
+   ![](/images/grafana_kpis.png)
+- More information about the out-of-the-box Dashboards in Grafana for the Emergency Response application found in the *Getting Started Guide*.
 
 
 Further details regarding how to run this demo can be found in the _Getting Started_ page.
