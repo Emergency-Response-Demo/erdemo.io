@@ -4,7 +4,7 @@ title: Architecture
 permalink: /architecture/
 ---
 
-In this application, you’ll notice multiple runtimes and frameworks in play, starting from Node, Vert.x to Kafka, prometheus and much more..  
+In this application, you’ll notice multiple runtimes and frameworks in play, starting from Node, Vert.x to AMQ Streams (Kafka), prometheus and much more..  
 The idea is to showcase how a polyglot system can be architected. Obviously this is not the only way to create a distributed and hybrid microservices architecture. However it should provide a true hybrid cloud solution, with IT infrastructure that provides consistency, safety, repeatability, reusability, and portability while still helping development teams move fast. The application is based on true polyglot development and it is agile, secure and scalable at every level in the stack.
 
 Below is a diagram of the application architecture.
@@ -56,8 +56,6 @@ Responder is available for a new mission.
     
       - Process Automation Manager (PAM)
     
-      - Decision Manager (DM)
-
   - Other Components: Postgres DB
 
 The Process Service is responsible for managing the overall process flow
@@ -107,6 +105,19 @@ Database.
   - Send: topic-incident-event
 
   - Listen: topic-incident-command
+
+## Incident Priority Service
+
+  - Runtime: Vert.x
+
+  - Middleware Products / Components: AMQ-Streams
+
+  - Other Components: Decision Manager
+
+When the process service is unable to assign a responder to an incident, an IncidentAssignmentEvent is sent to an AMQ Streams broker.
+The incident priority service consumes these events and raises the priority for each failed assignment.
+Uses an embedded rules engine to calculate the priority of an incident and the average priority.
+The rules engine uses a stateful rules session.
 
 ## Responder Service
 
