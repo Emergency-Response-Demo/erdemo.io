@@ -306,7 +306,10 @@ missions.
 5.  Confirm that all of application data is cleared.
 
 # 9. Monitoring Dashboards
-The Emergency Response application comes complete with various *technical* dashboards.  These technical dashboards can bee seen as follows:
+The Emergency Response application comes complete with various dashboards.  
+Some of these dashboards are technical.  Some of these dashboards have more of a business slant to them.
+
+These dashboards can bee seen as follows:
 
 1. Navigate to your Grafana route from the *userX-er-metrics* namespace as seen from the following:
    ```
@@ -318,13 +321,23 @@ The Emergency Response application comes complete with various *technical* dashb
    ![](/images/grafana_kpis.png)
 4. The technologies used to render the dashboards are as follows:
     - **Prometheus**
-      Various Emergency Response services (ie:  the [process-service](https://github.com/Emergency-Response-Demo/process-service)) are enabled to publish events to a Prometheus time-series server.  Prometheus includes a local on-disk time series database backed by a PVC in OpenShift.
+      Various Emergency Response services (ie:  the [process-service](https://github.com/Emergency-Response-Demo/process-service)) are enabled to publish events to a Prometheus time-series server.  
+      Prometheus includes a local on-disk time series database backed by a PVC in OpenShift.
     - **AlertManager**
       Handles alerts sent by client applications such as the Prometheus server. It takes care of deduplicating, grouping, and routing them to the correct receiver integration such as email, PagerDuty, or OpsGenie. It also takes care of silencing and inhibition of alerts.
     - **Grafana**
       Grafana integrates with the Prometheus time-series database to provide dashboards.
 
-5. In the future, the Emergency Response demo will provide *business* dashboards via Grafana, as well.  Examples of future business dashboards might be:
-      1. *Top Responders by number of evacuees*
-      2. *Average pick-up and drop-off speeds by Responder*
-      3. *Total evacuees per day*
+5. From the *Home* drop-down, click the *Mission Commander KPIs
+   ![](/images/mission_commander_kpis.png)
+
+    Currently, this dashboard includes the following KPIs:
+      1. **Total Rescued**
+         Displays the total number of rescued since the system went live.
+
+      2. **Top Responders by number of evacuees**
+         Displays the responders that have evacuated via the boats the most number responders.
+
+      3. **Fastest Travel Velocities**
+         Displays the responders missions where the responder travelled the fastest (in Km/hr).
+         - **NOTE:** These velocities are highly unrealistic due to the responder's rate of travel being simulated (for the purpose of facilitating the demo).  Real-world speeds between pick-up and drop-off points would likely be one or two orders of magnitude slower.  In addition, the total times to rescue would likely be greatly affected by circumstances at the pick-up and drop-off points.  ie: assistance in loading evacuees and their minimum belongings into rescuee boats; safety briefs; hazardous debris encountered during the travel that would require the responder to deviate from the optimal route; etc.
