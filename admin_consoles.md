@@ -44,7 +44,7 @@ This user has the ability to manage priority zones as well as the location of th
 
 ## 3.1. Priority Zone
 
-The incident commander has the ability to create priority zones in the disaster area to simulate critical conditions (power lines in the water, gas leaks, etc.). Once placed, priority zones give affected incidents elevated priority so they get matched with available responders more quickly.
+The incident commander has the ability to create _priority zones_ in the _inclusion zone_ of the _disaster area_.  A priority zone could simulate critical conditions (power lines in the water, gas leaks, etc.).  It's recommended that priority zone's be placed within the _inclusion zone_.   Once placed, priority zones give affected incidents elevated priority so they get matched with available responders more quickly.
 
 ### 3.1.1. Procedure
 
