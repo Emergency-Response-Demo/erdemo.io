@@ -202,7 +202,9 @@ The next task is to instruct your responders to set a simulated location (with t
    
         ![responder clicks available](/images/responder_available.png)
 
-        Doing so triggers a series of events in the Emergency Response application to assign a Responder to an evacuee's *incident*.  When a Responder is assigned an *Incident*, a *Mission* is created. The Mission defines where the Responder needs to go to pick-up the victims of the Incident (the Way Point) and what shelter the victims should be dropped off. The mission also has details of the responders location history.
+      - Doing so triggers a series of events in the backend services of the Emergency Response application to assign a Responder to an evacuee's *incident*.  When a Responder is assigned an *Incident*, a *Mission* is created.
+        ![](/images/waiting_responses.png)
+      - The Mission defines where the Responder needs to go to pick-up the victims of the Incident (the Way Point) and what shelter the victims should be dropped off. The mission also has details of the responders location history.
 
         Soon enough, your responder's boat should have been assigned to a mission.
 
