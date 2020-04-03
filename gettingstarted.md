@@ -88,7 +88,7 @@ By default, the Emergency Response application does not define any *priority zon
 For the purpose of your demo, you can optionally change the *disaster location* and introduce Priority Zones by referring to the [Admin Console guide](/admin_consoles.md).
 
 
-# 3. Disaster Simulator
+# 3. Disaster Simulator: Incidents
 
 You (as the demo instructor) should create simulated *incidents*.
 
@@ -215,9 +215,9 @@ When a Responder is assigned an *Incident* (discussed in more detail in the next
 
 
 
-## 4.4. Create Additional Responders
+# 5. Disaster Simulator: Additional Responders
 
-Via the Disaster Simulator, you (as the demo administrator) can also optionally simulate additional *responders* (above and beyond the responders that have already volunteered from your audience).
+Via the Disaster Simulator, you (as the demo administrator) can also optionally simulate additional *responders* (above and beyond the responders that have already volunteered from your audience and registered via the *Emergency Console* web app).
 
 1.  In the section for **Create Responders**, move to the field for **Number of Responders** and enter `3`.
 
@@ -236,7 +236,7 @@ Via the Disaster Simulator, you (as the demo administrator) can also optionally 
         ![er main dashboard](/images/er-main-dashboard.png)
       - The responders will start moving to rescue the stranded victims.
 
-# 5. Responders View Their Mission
+# 6. Responders View Their Mission
 
 Soon enough, your responder's boat should have been assigned to a mission.
 
@@ -258,7 +258,7 @@ Soon enough, your responder's boat should have been assigned to a mission.
 
 
 
-# 6. Process Automation
+# 7. Process Automation
 
 The Process Service is responsible for managing the overall process flow of the system. The Process Service operates purely on Kafka messages and does not expose any HTTP API - although it does invoke HTTP APIs in the Responder and Incident Priority Services.
 
@@ -285,7 +285,7 @@ Responders can view the process diagram for an incident.
 
 3.  Responders should review the process diagram for this incident.
 
-# 7. View Incidents
+# 8. View Incidents
 
 Responders can view a list of all incidents and check their status.
 
@@ -293,7 +293,7 @@ Click the **Incidents** link from the left panel.
     
 ![view all incidents](/images/view-all-incidents.png)
 
-# 8. Clean Up
+# 9. Clean Up
 
 You, as the demo administrator, can clean up your application by clearing incidents, responders and
 missions.
@@ -317,7 +317,7 @@ missions.
 
 5.  Confirm that all of application data is cleared.
 
-# 9. Monitoring Dashboards
+# 10. Monitoring Dashboards
 The Emergency Response application comes complete with various dashboards.  
 Some of these dashboards are technical.  Some of these dashboards have more of a business slant to them.
 
@@ -355,7 +355,7 @@ These dashboards can bee seen as follows:
          - **NOTE:** These velocities are highly unrealistic due to the responder's rate of travel being simulated (for the purpose of facilitating the demo).  Real-world speeds between pick-up and drop-off points would likely be one or two orders of magnitude slower.  In addition, the total times to rescue would likely be greatly affected by circumstances at the pick-up and drop-off points.  ie: assistance in loading evacuees and their minimum belongings into rescuee boats; safety briefs; hazardous debris encountered during the travel that would require the responder to deviate from the optimal route; etc.
 
 
-# 10. Troubleshooting Demo Problems
+# 11. Troubleshooting Demo Problems
 
 1. **Responders Do Not Seem to Move**
    - Symptom:
