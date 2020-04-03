@@ -353,3 +353,13 @@ These dashboards can bee seen as follows:
       3. **Fastest Travel Velocities**
          Displays the responders missions where the responder travelled the fastest (in Km/hr).
          - **NOTE:** These velocities are highly unrealistic due to the responder's rate of travel being simulated (for the purpose of facilitating the demo).  Real-world speeds between pick-up and drop-off points would likely be one or two orders of magnitude slower.  In addition, the total times to rescue would likely be greatly affected by circumstances at the pick-up and drop-off points.  ie: assistance in loading evacuees and their minimum belongings into rescuee boats; safety briefs; hazardous debris encountered during the travel that would require the responder to deviate from the optimal route; etc.
+
+
+# 10. Troubleshooting Demo Problems
+
+1. **Responders Do Not Seem to Move**
+   - Symptom:
+     The Responder has been assigned a mission and even the process diagram appears when clicking the pickup point.
+     The Responder however does not seem to move to the pickup point.
+   - Problem Triage:
+     Check the logs of the userX-responder-simulator pod.  Do you see any exceptions ?  If so, restart the userX-responder-simulator deployment config.
