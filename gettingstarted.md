@@ -159,7 +159,7 @@ Instruct the responders to click the **Dashboard** link from the left panel.
     
 This screen shows an overall view of all Incidents, Responders and Missions.
 
-![dashboard empty](/images/dashboard-empty.png)
+![](/images/dashboard_with_incidents.png)
 
 
 ### 4.2.1. Incident Status
@@ -173,7 +173,7 @@ The Responder Utilization section monitors the total number of responders, activ
 
 ### 4.2.3. Map
 
-At this time, the map only depicts several *evacuation centers* (aka: *drop-off points*) as well as the location of current evacuees who are requesting assistance.  These locations are the *pick-up* point.
+At this time, the map only depicts several *evacuation centers* (aka: *drop-off points*) as well as the location of current evacuees who are requesting assistance.  These locations are the *pick-up* point (aka:  the location of the *incidents*.)
 
 Later in the demo,  *responders* will be simulated .  At that time, the map will show the location of the incidents, responders and their associated routes.
 
@@ -202,48 +202,12 @@ The next task is to instruct your responders to set a simulated location (with t
    
         ![responder clicks available](/images/responder_available.png)
 
-3.  Responders should click the **Dashboard** link
-    
-      - In the **Responder Utilization** section, verify that there is 1 total responders.
-      - This is based on thier recent action.
-        
-        ![1 total responders](/images/1-total-responders.png)
+        Doing so triggers a series of events in the Emergency Response application to assign a Responder to an evacuee's *incident*.  When a Responder is assigned an *Incident*, a *Mission* is created. The Mission defines where the Responder needs to go to pick-up the victims of the Incident (the Way Point) and what shelter the victims should be dropped off. The mission also has details of the responders location history.
 
+        Soon enough, your responder's boat should have been assigned to a mission.
 
-When a Responder is assigned an *Incident* (discussed in more detail in the next section), a *Mission* is created. The Mission defines where the Responder needs to go to pick-up the victims of the Incident (the Way Point) and what shelter the victims should be dropped off. The mission also has details of the responders location history.
-
-
-
-
-# 5. Disaster Simulator: Additional Responders
-
-Via the Disaster Simulator, you (as the demo administrator) can also optionally simulate additional *responders* (above and beyond the responders that have already volunteered from your audience and registered via the *Emergency Console* web app).
-
-1.  In the section for **Create Responders**, move to the field for **Number of Responders** and enter `3`.
-
-2.  Click **Submit**
-    
-    ![create responders](/images/create-responders.png)
-
-3.  Move back to the **Emergency Response Demo Web Console** window
-
-4.  Click the **Dashboard** link.
-
-5.  Confirm that you have incidents and responders.
-    
-      - You will see activity as the responders are assigned to missions. 
-        
-        ![er main dashboard](/images/er-main-dashboard.png)
-      - The responders will start moving to rescue the stranded victims.
-
-# 6. Responders View Their Mission
-
-Soon enough, your responder's boat should have been assigned to a mission.
-
-1. Your responders should click the **Mission** link.
-    
-2. Responders will view their boat moving towards an incident.
-3. Have the responder click on the rescuee's pickup-point.
+3. While still in the **Mission** panel, Responders will view their boat moving towards an incident.
+4. Have the responder click on the rescuee's pickup-point.
    
    ![clicked boat](/images/clicked_rescuee.png)
 
@@ -251,14 +215,21 @@ Soon enough, your responder's boat should have been assigned to a mission.
    Also included is a link to a real-time depiction of the mission's process diagram.
    More about this process diagram is dicussed in the next section.
     
-4. Once the responder's boat makes it to the incident location, instruct the responder to click the **Picked Up** button.
+5. Once the responder's boat makes it to the incident location, instruct the responder to click the **Picked Up** button.
     
-5. This confirms that the responder has picked up the passengers and their boat will proceed to the shelter.  
+6. This confirms that the responder has picked up the passengers and their boat will proceed to the shelter.  
   ![mission picked up](/images/mission-picked-up.png)
+  
+        
 
 
+## 4.4. Review Total Incident and Responder Status
+Responder can gain some perspective of the status of all incidents and responder utilization by returning to the **Dashboard** view.
 
-# 7. Process Automation
+![1 total responders](/images/responder_view_global_status.png)
+
+
+# 5. Process Automation
 
 The Process Service is responsible for managing the overall process flow of the system. The Process Service operates purely on Kafka messages and does not expose any HTTP API - although it does invoke HTTP APIs in the Responder and Incident Priority Services.
 
@@ -285,15 +256,31 @@ Responders can view the process diagram for an incident.
 
 3.  Responders should review the process diagram for this incident.
 
-# 8. View Incidents
 
-Responders can view a list of all incidents and check their status.
+# 6. Disaster Simulator: Additional Responders
 
-Click the **Incidents** link from the left panel.
+Via the Disaster Simulator, you (as the demo administrator) can also optionally simulate additional *responders* (above and beyond the responders that have already volunteered from your audience and registered via the *Emergency Console* web app).
+
+1.  In the section for **Create Responders**, move to the field for **Number of Responders** and enter `3`.
+
+2.  Click **Submit**
     
-![view all incidents](/images/view-all-incidents.png)
+    ![create responders](/images/create-responders.png)
 
-# 9. Clean Up
+3.  Move back to the **Emergency Response Demo Web Console** window
+
+4.  Click the **Dashboard** link.
+
+5.  Confirm that you have incidents and responders.
+    
+      - You will see activity as the responders are assigned to missions. 
+        
+        ![er main dashboard](/images/er-main-dashboard.png)
+      - The responders will start moving to rescue the stranded victims.
+
+
+
+# 7. Clean Up
 
 You, as the demo administrator, can clean up your application by clearing incidents, responders and
 missions.
@@ -317,7 +304,7 @@ missions.
 
 5.  Confirm that all of application data is cleared.
 
-# 10. Monitoring Dashboards
+# 8. Monitoring Dashboards
 The Emergency Response application comes complete with various dashboards.  
 Some of these dashboards are technical.  Some of these dashboards have more of a business slant to them.
 
@@ -355,7 +342,7 @@ These dashboards can bee seen as follows:
          - **NOTE:** These velocities are highly unrealistic due to the responder's rate of travel being simulated (for the purpose of facilitating the demo).  Real-world speeds between pick-up and drop-off points would likely be one or two orders of magnitude slower.  In addition, the total times to rescue would likely be greatly affected by circumstances at the pick-up and drop-off points.  ie: assistance in loading evacuees and their minimum belongings into rescuee boats; safety briefs; hazardous debris encountered during the travel that would require the responder to deviate from the optimal route; etc.
 
 
-# 11. Troubleshooting Demo Problems
+# 9. Troubleshooting Demo Problems
 
 1. **Responders Do Not Seem to Move**
    - Symptom:
