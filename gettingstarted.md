@@ -34,9 +34,6 @@ A hurricane has hit Wilmington, North Carolina.  There is a dire need to evacuat
 2. **Responders**
     These are members of the community that have volunteered to assist their neighbors during this dire situation.  They sometimes are also referred to as:  *Rescuers*.  Responders either own or have access to a small boat.
 
-    ![](/images/boats.png)
-
-    
     In a real-world scenario, responders would install the *Emergency Response* application to their mobile phones.  They would then use the mobile app to register details about themselves and their equipment.  For demo purposes, responders are your audience members.  Your audience members use their browser (either from thier laptop or mobile device) to log into the Emergency Response web console to register and fictitiously set thier location on a map.
 
 3. **Pick-up location**
@@ -48,11 +45,11 @@ A hurricane has hit Wilmington, North Carolina.  There is a dire need to evacuat
 5. **Disaster Location**
    The default *disaster location* of the Emergency Response application is the city / beach resort of Wilmington, North Carolina, USA.
 
-6. **Inclusion Zone**
-   Within a *disaster location* is an *inclusion zone*.
+6. **Disaster Area**
+   Sometimes referred to as an *Inclusion Zone*.  Within a *disaster location* is a *Disaster Area*.
    ![](images/inclusion_zone.png)
 
-   The *inclusion zone* for a *disaster location* is the zone where simulated incidents can occur.
+   The *Disaster Area* for a *disaster location* is the zone where simulated incidents will be generated.
    
 Upon the existence of an evacuation *incident* and a suitable volunteer *responder*, the Emergency Response application then simulates the responder navigating to the *pick-up point* and then to the *drop-off point*.
 
@@ -88,25 +85,41 @@ By default, the Emergency Response application does not define any *priority zon
 For the purpose of your demo, you can optionally change the *disaster location* and introduce Priority Zones by referring to the [Admin Console guide](/admin_consoles.md).
 
 
-# 3. Disaster Simulator: Incidents
+# 3. Incidents
 
 You (as the demo instructor) should create simulated *incidents*.
 
 An *incident* is a request for help from an individual (or group of individuals) that are in need of rescue. Details of an Incident include the location (Lat, Long), the number of people stranded and whether medical assistance is required.
 
-You do so via a web interface provided by the Emergency Response application called: *Disaster Simulator*.
+You have two options for generating incidents:
 
-1.  In the **OpenShift Web Console**, switch to the *userX-er-demo* namespace
+1. **Simulation Easy Button**
+   Utilize the *Simulation Easy Button* when your audience would likely prefer to observe the demo instead of participating as responders.  You will want a mechanism to quickly generate both *incidents* and *responders*.
+   1. Log into the Emergency Response web console as the *incident_commander* user.  (More details in the [admin_guide](/admin_consoles.md).)
+   2. Navigate to: *Dashboard -> Incident Status*.  Notice the *Start Simulation* button.
+   ![](images/easy_button.png)
 
-2.  In the list of applications, click the link for **disaster-simulator**:
+   1. Click on the tool-tip of the *Start Simulation* button.
+      Notice that it mentions that if the *Start Simulation* button is clicked, 50 incidents and 25 responders will be created.
+   2. Click on the *Start Simulation* button and notice that within a minute, all 50 incidents and 25 responders will have been created.
+   
+2. **Disaster Simulator**
+   The Disaster Simulator is a separate web interface provided by the Emergency Response application.
+   The Disaster Simulator allows for full control of the creation and deletion of incidents, responders and missions.
+   Utilize the Disaster Simulator if you need to generate incidents and your audience will register as responders.
+  
+
+   1.  In the **OpenShift Web Console**, switch to the *userX-er-demo* namespace
+
+   2.  In the list of applications, click the link for **disaster-simulator**:
     
     ![launch disaster simulator](/images/launch-disaster-simulator.png)
 
-3.  In the section for **Create Incidents**, move to the field for **Number of Incidents** and the desired number of simulated *incidents*.
+   3.  In the section for **Create Incidents**, move to the field for **Number of Incidents** and the desired number of simulated *incidents*.
 
-4.  Click **Submit**
+   4.  Click **Submit**
     
-    ![create incidents](/images/create-incidents.png)
+      ![create incidents](/images/create-incidents.png)
 
 The Emergency Response application will attempt to match rescuees with responders based on a variety of factors.  The Emergency Response application uses a decision management system to calculate that match (between rescuee and responder).  In turn, a mission is created.
 
