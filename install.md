@@ -190,6 +190,10 @@ $ ansible-playbook playbooks/install.yml \
 
 # 4. Installation Complete!
 
+Further details regarding how to run this demo can be found in the [Getting Started Guide](/gettingstarted.md).
+
+A topology of all of the components that have been installed can be found [here](/images/project_topology.png).
+
 Now that installation of the Emergency Response app is complete, you should be able to navigate your browser to the following URLs:
 
 ## 4.1. **Emergency Response Console**
@@ -223,7 +227,7 @@ Now that installation of the Emergency Response app is complete, you should be a
 - More information about the out-of-the-box Dashboards in Grafana for the Emergency Response application found in the *Getting Started Guide*.
 
 
-Further details regarding how to run this demo can be found in the _Getting Started_ page.
+
 
 
 # 5. Appendix
