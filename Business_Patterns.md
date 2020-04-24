@@ -1,4 +1,4 @@
-# Implementing Business Patterns using the Power of Open Source Innovation
+# Implementing Business Solutions using the Power of Enterprise Open Source
 
 ![](_site/images/volunteerboatersstockphoto.png)
 
@@ -6,7 +6,7 @@ Red Hat, as the leading provider of an integrated, hybrid-cloud, enterprise soft
 
 This blog post is part of a larger series of [webinars](https://www.brighttalk.com/webcast/16623/398059) and [articles]() that discuss the Power of Communities and how it can be impactful to your lines of business.
 
-One challenge that you might still have is identifying those business use cases in your own organization that could also benefit from the power of enterprise open-source innovation in a manner similar to what you have observed with Red Hat's Emergency Response demo application.  In this article, I want to continue to explore a sampling of other business use-cases with the hope of highlighting some patterns you can use.
+One challenge that you might still have is identifying those business use cases in your own organization that could also benefit from the power of enterprise open-source innovation in a manner similar to what you have observed with Red Hat's Emergency Response demo application.  In this article, I want to continue to explore the *Solution Spectrum* and a sampling of business use-cases with the hope of highlighting patterns you can use.
 
 # Solution Spectrum
 From a birds-eye perspective, business processes often fall into one or more categories of the following solution spectrum:
