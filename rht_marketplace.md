@@ -59,8 +59,10 @@ Steps and screenshots for acquiring and then using an OpenShift Dedicated accoun
 ### 3.5.3. Zero Cost 30-day trial
 ## 3.6. Procedure
 ### 3.6.1. Subscriptions and Entitlements to Support ER-Demo
-#### 3.6.1.1. Red Hat Runtimes
+#### 3.6.1.1. Red Hat Runtimes Bundle or OCP Portfolio SKU ???
 Needed for supported Quarkus, SpringBoot, JDG, AMQ Streams, Vert.x and RH-SSO
+
+Do these entitlements still provide access to customer portal do download tools for local dev ??
 
 #### 3.6.1.2. Red Hat Process Automation ???
 1. ER-Demo install does not use a Red Hat Process Automation operator
