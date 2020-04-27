@@ -31,6 +31,7 @@ Getting Started with Red Hat Marketplace using ER-Demo
 - [6. Appendix](#6-appendix)
 
 # 1. Overview
+The future is no longer about subscriptions, entitlements and downloading zip files and patches.
 
 # 2. OpenShift Dedicated
 ## 2.1. Value
@@ -59,8 +60,12 @@ Steps and screenshots for acquiring and then using an OpenShift Dedicated accoun
 ## 3.6. Procedure
 ### 3.6.1. Subscriptions and Entitlements to Support ER-Demo
 #### 3.6.1.1. Red Hat Runtimes
+Needed for supported Quarkus, SpringBoot, JDG, AMQ Streams, Vert.x and RH-SSO
+
 #### 3.6.1.2. Red Hat Process Automation ???
 1. ER-Demo install does not use a Red Hat Process Automation operator
+2. Needed for process-service and incident-priority-service
+   
 #### 3.6.1.3. CrunchyData PostgreSQL
 
 # 4. Migration to Different Cloud
@@ -74,7 +79,12 @@ Step through a few scenarios:
 
 1. Dev team lead at customer is getting an error during install of CrunchyData PostgreSQL
 2. Java developer at customer wants to introduce a new WIH to the process-service of ER-Demo but is having a problem
-3. Ops team member at customer received an alert that JDG pods are failing
+3. Java developer at customer received an alert that JDG pods are failing
+   1. Pod / Container resource settings via Operator ?
+   2. Adjustment of readiness and lifecycle probe timeouts via Operator ?
+   3. 
+
+4. Ops team member at customer received an alert that a node.js related CVE 
 
 
 # 6. Appendix
