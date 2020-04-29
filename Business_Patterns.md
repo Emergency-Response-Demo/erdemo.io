@@ -7,11 +7,11 @@ This blog post is part of a larger series of [webinars](https://www.brighttalk.c
 One challenge that you might still have is identifying those business use cases in your own organization that could also benefit from the power of enterprise open-source innovation in a manner similar to what you have observed with Red Hat's Emergency Response demo application.  In this article, I want to continue to explore categories of the *Solution Spectrum* and a sampling of business use-cases with the hope of highlighting patterns you can use.
 
 # Solution Spectrum
-From a birds-eye perspective, business processes often fall into one or more categories of the following solution spectrum:
+From a birds-eye perspective, business processes often fall into one or more of the following categories:
 
 ![](site/images/../../images/solution_spectrum.png)
 
-**Straight Through** business processes can often times be fully automated.  These business processes are well defined and the business owner can graphically model its flow along with any business exception handling.  A single department in your organization might have many business processes and its often the case that these business processes have dependencies and interact with each other.  Using that same graphical model that the business owner created, business process **instances** are spawn.  These business process instances are typically triggered from some other business application in the form of an event.  These 
+**Straight Through** business processes can often times be fully automated.  These business processes are well defined and the business owner can graphically model its flow along with any business exception handling.  A single department in your organization might have many business processes and its often the case that these business processes have dependencies and interact with each other.  Using that same graphical model that the business owner created, business process **instances** are spawn.  These business process instances are typically triggered from some other business application in the form of an event. 
 
 Recall from the Emergency Response demo application that the life-cycle of each *incident* is fully managed by a corresponding business process instance.  These instances execute as per the graphical business process definition which was previously defined in close collaboration with the *incident commander*.  When an Emergency Response incident is created, the corresponding business process orchestrates the interactions between all of the other services of the business solution in an *event-driven* manner.
 
