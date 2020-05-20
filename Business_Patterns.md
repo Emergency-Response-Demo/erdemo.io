@@ -6,7 +6,7 @@ This blog post is part of a larger series of [webinars](https://www.brighttalk.c
 
 One challenge that you might still have is identifying those business use cases in your own organization that could also benefit from the power of enterprise open-source innovation in a manner similar to what you have observed with Red Hat's Emergency Response demo application.  In this article, I want to continue to explore categories of the *Solution Spectrum* and a sampling of business use-cases with the hope of highlighting patterns you can use.
 
-# Solution Spectrum
+# Process Spectrum
 From a birds-eye perspective, business processes often fall into one or more of the following categories:
 
 ![](site/images/../../images/solution_spectrum.png)
