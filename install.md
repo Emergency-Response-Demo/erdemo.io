@@ -46,7 +46,7 @@ To install the Emergency Response application, you will need the following tools
 
 1. **Unix flavor OS with BASH shell**:  ie; Fedora, RHEL, CentOS, Ubuntu, OSX
 2. **git**
-3. **[oc utility v4.2](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.2/)**
+3. **[oc utility v4.4](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.4/)**
 4. **[Ansible](https://www.redhat.com/en/technologies/management/ansible)**
    
    Installation of the Emergency Response application is tested using the _ansible-playbook_ utility from the _ansible_ package of Fedora 31.  Others in the community have also succeeded in installing the app using ansible on OSX.
@@ -68,10 +68,10 @@ Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an O
 ### 2.3.1. Minimum Requirements
 To install the Emergency Response application, you will need an OpenShift Container Platform environment with the following minimum specs:
 
-1. **OCP Version:**  4.2 (although any version of OpenShift in the 4.* family will most likely work)  
+1. **OCP Version:**  4.4 (although any version of OpenShift in the 4.* family should work)  
 2. **Memory:**    24 GBi allocated to one or more _worker_ node(s)
 3. **CPU:** 10 cores allocated to one or more _worker_ nodes
-4. **Disk:** 50 GB of storage that supports [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.2/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
+4. **Disk:** 50 GB of storage that supports [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.4/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
    
    NOTE:  The Emergency Response application currently does not require Read-Write-Many (RWX).
 
@@ -260,7 +260,7 @@ To utilize RHPDS, you will need the following:
 
 3.  Navigate to the following catalog: `Services → Service Catalogs → Workshops.
 
-4.  Select the following catalog item: `OpenShift 4.2 Workshop`.
+4.  Select the following catalog item: `OpenShift 4.4 Workshop`.
 
 5.  Click `Order` on the next page.
 
