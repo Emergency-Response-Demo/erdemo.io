@@ -120,7 +120,17 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
    map_token=pk.egfdgewrthfdiamJyaWRERKLJWRIONEWRwerqeGNjamxqYjA2323czdXBrcW5mbmg0amkifQ.iBEb0APX1Vmo-2934rj
    ```
 7. Save the changes.
-8. Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
+8. Diff your inventory file with the inventory template and ensure only the value of the _map_token_ is different:
+   ```
+   $ diff inventories/inventory inventories/inventory.template 
+     3c3
+     < map_token=pk.eyJ1IjoiamdyaWRlIiwiYSI6ImNqeGNjamxq5jAxeXczdXBrcW5mbml0amkifQ.iBEb0APX1Vmo_VtsDj-Y3g
+     ---
+     > map_token=replaceme
+   ```
+   **NOTE:** If you previously cloned the ER-Demo install ansible and the values in your inventory file are now out of date, be sure to update as per the inventory.template.
+
+9.  Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
    ```
    OCP_USERNAME=user1
    ```
@@ -258,9 +268,9 @@ To utilize RHPDS, you will need the following:
 2.  Authenticate using your *OPENTLC* credentials, for example:
     `johndoe-redhat.com`.
 
-3.  Navigate to the following catalog: `Services → Service Catalogs → Workshops.
+3.  Navigate to the following catalog: `Services → Service Catalogs → Multi-Product Demos.
 
-4.  Select the following catalog item: `OpenShift 4.4 Workshop`.
+4.  Select the following catalog item: `RHT Emergency Response`.
 
 5.  Click `Order` on the next page.
 
