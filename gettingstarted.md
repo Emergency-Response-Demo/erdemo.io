@@ -359,7 +359,25 @@ These dashboards can bee seen as follows:
 
 # 9. Troubleshooting Demo Problems
 
-1. **Responders Do Not Seem to Move**
+1. **Maps Do Not Appear in Emergency Console**
+   - Symptom:
+     After successful login, the maps do not appear in either the *Dashboard* nor the *Mission* panels.
+   - Problem Triage:
+     Map layers such as disaster locations, priority zones and shelters are all cached in the *disaster* cache of JBoss Data Grid.  These mapping layers are exposed by the RESTful API of ER-Demo's *disaster-service*.  The *disaster-service* API is invoked everytime a user navigates to either the *Dashboard* and *Mission* panels of the ER-Demo web console.  Subsequently, check for the following:
+     1) Errors in *emergency-console* pod that indicate problems reaching the *disaster-service*.
+     2) Errors in the *disaster-service* pod that indicate problems accessing the *disaster* cache in JBoss Data Grid.
+     3) Use the cli of JDG to ensure the *disaster* cache exists; ie:
+         `````
+         $ oc rsh datagrid-service-0
+         $ /opt/infinispan/bin/cli.sh --connect=$HOSTNAME:11222       # userId/passwd = demo/demo
+         > cd caches/disaster
+
+         > ls
+         disaster
+
+         `````
+
+2. **Responders Do Not Seem to Move**
    - Symptom:
      The Responder has been assigned a mission and even the process diagram appears when clicking the pickup point.
      The Responder however does not seem to move to the pickup point.

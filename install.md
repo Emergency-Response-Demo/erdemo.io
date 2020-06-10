@@ -213,7 +213,7 @@ Now that installation of the Emergency Response app is complete, you should be a
    echo -en "\nhttps://$(oc get route $OCP_USERNAME-emergency-console -n $OCP_USERNAME-er-demo --template='{{ .spec.host }}')\n\n"
    ```
    ![](/images/erdemo_home.png)
-- More information about the *Emergency Response Console* found in the *Getting Started Guide*.
+- More information about the *Emergency Response Console* is found in the [Getting Started Guide](/gettingstarted.md).
 
 ## 4.2. **Disaster Simulator**
  - Navigate to the URL from the following command:
@@ -222,9 +222,9 @@ Now that installation of the Emergency Response app is complete, you should be a
    echo -en "\nhttp://$(oc get route $OCP_USERNAME-disaster-simulator -n $OCP_USERNAME-er-demo --template='{{.spec.host}}')\n\n"
    ```
    ![](/images/disaster_simulator.png)
- - More information about the *Disaster Simulator* found in the *Getting Started Guide*.
+ - More information about the *Disaster Simulator* is found in the [Getting Started Guide](/gettingstarted.md).
 
-## 4.3. **Grafana-route**
+## 4.3. **Grafana Dashboards**
  - Navigate to the URL from the following command:
 
    ```
@@ -234,7 +234,7 @@ Now that installation of the Emergency Response app is complete, you should be a
 
  - Once Emergency Response *incidents* are created, you will see corresponding metrics:
    ![](/images/grafana_kpis.png)
-- More information about the out-of-the-box Dashboards in Grafana for the Emergency Response application found in the *Getting Started Guide*.
+- More information about the out-of-the-box Dashboards in Grafana for the Emergency Response application found in the [Getting Started Guide](/gettingstarted.md).
 
 
 
