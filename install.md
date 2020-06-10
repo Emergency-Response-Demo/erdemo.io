@@ -1,5 +1,3 @@
-
-
 - [1. Installation Overview](#1-installation-overview)
 - [2. Pre-requisites](#2-pre-requisites)
   - [2.1. Local Tooling](#21-local-tooling)
@@ -13,7 +11,7 @@
 - [4. Installation Complete!](#4-installation-complete)
   - [4.1. **Emergency Response Console**](#41-emergency-response-console)
   - [4.2. **Disaster Simulator**](#42-disaster-simulator)
-  - [4.3. **Grafana-route**](#43-grafana-route)
+  - [4.3. **Grafana Dashboards**](#43-grafana-dashboards)
 - [5. Appendix](#5-appendix)
   - [5.1. OCP4 from RHPDS](#51-ocp4-from-rhpds)
     - [5.1.1. Order OCP4](#511-order-ocp4)

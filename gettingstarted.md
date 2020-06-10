@@ -1,8 +1,24 @@
----
-layout: page
-title: Getting Started
-permalink: /gettingstarted/
----
+- [1. Overview](#1-overview)
+  - [1.1. Purpose](#11-purpose)
+  - [1.2. Pre-requisites](#12-pre-requisites)
+  - [1.3. Scenario](#13-scenario)
+  - [1.4. Consoles](#14-consoles)
+- [2. Optional:  Alternative Disaster Location and Priority Zones](#2-optional-alternative-disaster-location-and-priority-zones)
+- [3. Incidents](#3-incidents)
+- [4. Responder View](#4-responder-view)
+  - [4.1. Incidents](#41-incidents)
+  - [4.2. Dashboard](#42-dashboard)
+    - [4.2.1. Incident Status](#421-incident-status)
+    - [4.2.2. Responder Utilization](#422-responder-utilization)
+    - [4.2.3. Map](#423-map)
+  - [4.3. Mission](#43-mission)
+  - [4.4. Review Total Incident and Responder Status](#44-review-total-incident-and-responder-status)
+- [5. Process Automation](#5-process-automation)
+- [6. Disaster Simulator: Additional Responders](#6-disaster-simulator-additional-responders)
+- [7. Clean Up](#7-clean-up)
+- [8. Monitoring Dashboards](#8-monitoring-dashboards)
+- [9. Troubleshooting Demo Problems](#9-troubleshooting-demo-problems)
+
 
 # 1. Overview
 
