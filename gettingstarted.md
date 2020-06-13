@@ -26,6 +26,8 @@
 This guide provides a *script* of how to deliver a demonstration using the Emergency Response application.
 The target audience of this guide are Emergency Response admins:  those users who have already installed OpenShift and layered the Emergency Response application on to it.
 
+**NOTE**: Check out the [Red Hat Emergency Response Demo YouTube channel](https://www.youtube.com/channel/UCmw0GZbENc0mLy5jXx9bBYw/videos) for an example presentation on the *Power of Communities* that you might deliver to your customers.
+
 Your attendees of this demonstration might have a wide variety of interests :
 
 1.  **Understand Power of Communities**
@@ -35,6 +37,9 @@ Your attendees of this demonstration might have a wide variety of interests :
 2.  **MicroService Architected Application for Hybrid Cloud**
     The Emergency Response application is a microservice architected application that show-cases best of breed Red Hat products integrated together for a hybrid-cloud production environment.  Software architects and application developers of Red Hat system integrator partners and customers will likely be intrigued by the architecture of this application and incorporate its best-practices in their business solutions using Red Hat technologies.
 
+3. **Event-Driven Architected Application for Hybrid Cloud**
+    Red Hat's AMQ Streams (aka: Apache Kafka on OpenShift) is a core technology used by the Emergency Response demo application to facilitate event-driven interaction between all of its other microservices.
+    In addition, Red Hat's Process Automation Manager engine (aka: jBPM on OpenShift) is used to orchestrate that event-driven interaction.
 
 ## 1.2. Pre-requisites
 This document assumes that you already have an Emergency Response Demo environment available to you.  Details of the installation procedure can be found in the ER-Demo [install documentation](install.md).
