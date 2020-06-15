@@ -1,5 +1,3 @@
-
-
 - [1. Installation Overview](#1-installation-overview)
 - [2. Pre-requisites](#2-pre-requisites)
   - [2.1. Local Tooling](#21-local-tooling)
@@ -13,7 +11,7 @@
 - [4. Installation Complete!](#4-installation-complete)
   - [4.1. **Emergency Response Console**](#41-emergency-response-console)
   - [4.2. **Disaster Simulator**](#42-disaster-simulator)
-  - [4.3. **Grafana-route**](#43-grafana-route)
+  - [4.3. **Grafana Dashboards**](#43-grafana-dashboards)
 - [5. Appendix](#5-appendix)
   - [5.1. OCP4 from RHPDS](#51-ocp4-from-rhpds)
     - [5.1.1. Order OCP4](#511-order-ocp4)
@@ -46,7 +44,7 @@ To install the Emergency Response application, you will need the following tools
 
 1. **Unix flavor OS with BASH shell**:  ie; Fedora, RHEL, CentOS, Ubuntu, OSX
 2. **git**
-3. **[oc utility v4.2](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.2/)**
+3. **[oc utility v4.4](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.4/)**
 4. **[Ansible](https://www.redhat.com/en/technologies/management/ansible)**
    
    Installation of the Emergency Response application is tested using the _ansible-playbook_ utility from the _ansible_ package of Fedora 31.  Others in the community have also succeeded in installing the app using ansible on OSX.
@@ -68,10 +66,10 @@ Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an O
 ### 2.3.1. Minimum Requirements
 To install the Emergency Response application, you will need an OpenShift Container Platform environment with the following minimum specs:
 
-1. **OCP Version:**  4.2 (although any version of OpenShift in the 4.* family will most likely work)  
+1. **OCP Version:**  4.4 (although any version of OpenShift in the 4.* family should work)  
 2. **Memory:**    24 GBi allocated to one or more _worker_ node(s)
 3. **CPU:** 10 cores allocated to one or more _worker_ nodes
-4. **Disk:** 50 GB of storage that supports [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.2/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
+4. **Disk:** 50 GB of storage that supports [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.4/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
    
    NOTE:  The Emergency Response application currently does not require Read-Write-Many (RWX).
 
@@ -120,7 +118,17 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
    map_token=pk.egfdgewrthfdiamJyaWRERKLJWRIONEWRwerqeGNjamxqYjA2323czdXBrcW5mbmg0amkifQ.iBEb0APX1Vmo-2934rj
    ```
 7. Save the changes.
-8. Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
+8. Diff your inventory file with the inventory template and ensure only the value of the _map_token_ is different:
+   ```
+   $ diff inventories/inventory inventories/inventory.template 
+     3c3
+     < map_token=pk.eyJ1IjoiamdyaWRlIiwiYSI6ImNqeGNjamxq5jAxeXczdXBrcW5mbml0amkifQ.iBEb0APX1Vmo_VtsDj-Y3g
+     ---
+     > map_token=replaceme
+   ```
+   **NOTE:** If you previously cloned the ER-Demo install ansible and the values in your inventory file are now out of date, be sure to update as per the inventory.template.
+
+9.  Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
    ```
    OCP_USERNAME=user1
    ```
@@ -203,7 +211,7 @@ Now that installation of the Emergency Response app is complete, you should be a
    echo -en "\nhttps://$(oc get route $OCP_USERNAME-emergency-console -n $OCP_USERNAME-er-demo --template='{{ .spec.host }}')\n\n"
    ```
    ![](/images/erdemo_home.png)
-- More information about the *Emergency Response Console* found in the *Getting Started Guide*.
+- More information about the *Emergency Response Console* is found in the [Getting Started Guide](/gettingstarted.md).
 
 ## 4.2. **Disaster Simulator**
  - Navigate to the URL from the following command:
@@ -212,9 +220,9 @@ Now that installation of the Emergency Response app is complete, you should be a
    echo -en "\nhttp://$(oc get route $OCP_USERNAME-disaster-simulator -n $OCP_USERNAME-er-demo --template='{{.spec.host}}')\n\n"
    ```
    ![](/images/disaster_simulator.png)
- - More information about the *Disaster Simulator* found in the *Getting Started Guide*.
+ - More information about the *Disaster Simulator* is found in the [Getting Started Guide](/gettingstarted.md).
 
-## 4.3. **Grafana-route**
+## 4.3. **Grafana Dashboards**
  - Navigate to the URL from the following command:
 
    ```
@@ -224,7 +232,7 @@ Now that installation of the Emergency Response app is complete, you should be a
 
  - Once Emergency Response *incidents* are created, you will see corresponding metrics:
    ![](/images/grafana_kpis.png)
-- More information about the out-of-the-box Dashboards in Grafana for the Emergency Response application found in the *Getting Started Guide*.
+- More information about the out-of-the-box Dashboards in Grafana for the Emergency Response application found in the [Getting Started Guide](/gettingstarted.md).
 
 
 
@@ -258,9 +266,9 @@ To utilize RHPDS, you will need the following:
 2.  Authenticate using your *OPENTLC* credentials, for example:
     `johndoe-redhat.com`.
 
-3.  Navigate to the following catalog: `Services → Service Catalogs → Workshops.
+3.  Navigate to the following catalog: `Services → Service Catalogs → Multi-Product Demos.
 
-4.  Select the following catalog item: `OpenShift 4.2 Workshop`.
+4.  Select the following catalog item: `RHT Emergency Response`.
 
 5.  Click `Order` on the next page.
 

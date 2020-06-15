@@ -1,14 +1,32 @@
----
-layout: page
-title: Getting Started
-permalink: /gettingstarted/
----
+- [1. Overview](#1-overview)
+  - [1.1. Purpose](#11-purpose)
+  - [1.2. Pre-requisites](#12-pre-requisites)
+  - [1.3. Scenario](#13-scenario)
+  - [1.4. Consoles](#14-consoles)
+- [2. Optional:  Alternative Disaster Location and Priority Zones](#2-optional-alternative-disaster-location-and-priority-zones)
+- [3. Incidents](#3-incidents)
+- [4. Responder View](#4-responder-view)
+  - [4.1. Incidents](#41-incidents)
+  - [4.2. Dashboard](#42-dashboard)
+    - [4.2.1. Incident Status](#421-incident-status)
+    - [4.2.2. Responder Utilization](#422-responder-utilization)
+    - [4.2.3. Map](#423-map)
+  - [4.3. Mission](#43-mission)
+  - [4.4. Review Total Incident and Responder Status](#44-review-total-incident-and-responder-status)
+- [5. Process Automation](#5-process-automation)
+- [6. Disaster Simulator: Additional Responders](#6-disaster-simulator-additional-responders)
+- [7. Clean Up](#7-clean-up)
+- [8. Monitoring Dashboards](#8-monitoring-dashboards)
+- [9. Troubleshooting Demo Problems](#9-troubleshooting-demo-problems)
+
 
 # 1. Overview
 
 ## 1.1. Purpose
 This guide provides a *script* of how to deliver a demonstration using the Emergency Response application.
 The target audience of this guide are Emergency Response admins:  those users who have already installed OpenShift and layered the Emergency Response application on to it.
+
+**NOTE**: Check out the [Red Hat Emergency Response Demo YouTube channel](https://www.youtube.com/channel/UCmw0GZbENc0mLy5jXx9bBYw/videos) for an example presentation on the *Power of Communities* that you might deliver to your customers.
 
 Your attendees of this demonstration might have a wide variety of interests :
 
@@ -19,6 +37,9 @@ Your attendees of this demonstration might have a wide variety of interests :
 2.  **MicroService Architected Application for Hybrid Cloud**
     The Emergency Response application is a microservice architected application that show-cases best of breed Red Hat products integrated together for a hybrid-cloud production environment.  Software architects and application developers of Red Hat system integrator partners and customers will likely be intrigued by the architecture of this application and incorporate its best-practices in their business solutions using Red Hat technologies.
 
+3. **Event-Driven Architected Application for Hybrid Cloud**
+    Red Hat's AMQ Streams (aka: Apache Kafka on OpenShift) is a core technology used by the Emergency Response demo application to facilitate event-driven interaction between all of its other microservices.
+    In addition, Red Hat's Process Automation Manager engine (aka: jBPM on OpenShift) is used to orchestrate that event-driven interaction.
 
 ## 1.2. Pre-requisites
 This document assumes that you already have an Emergency Response Demo environment available to you.  Details of the installation procedure can be found in the ER-Demo [install documentation](install.md).
@@ -359,9 +380,27 @@ These dashboards can bee seen as follows:
 
 # 9. Troubleshooting Demo Problems
 
-1. **Responders Do Not Seem to Move**
-   - Symptom:
+1. **Maps Do Not Appear in Emergency Console**
+   - **Symptom:**
+     After successful login, the maps do not appear in either the *Dashboard* nor the *Mission* panels.
+   - **Problem Triage:**
+     Map layers such as disaster locations, priority zones and shelters are all cached in the *disaster* cache of JBoss Data Grid.  These mapping layers are exposed by the RESTful API of ER-Demo's *disaster-service*.  The *disaster-service* API is invoked everytime a user navigates to either the *Dashboard* and *Mission* panels of the ER-Demo web console.  Subsequently, check for the following:
+     1. Errors in *emergency-console* pod that indicate problems reaching the *disaster-service*.
+     2. Errors in the *disaster-service* pod that indicate problems accessing the *disaster* cache in JBoss Data Grid.
+     3. Use the cli of JDG to ensure the *disaster* cache exists; ie:
+         `````
+         $ oc rsh datagrid-service-0
+         $ /opt/infinispan/bin/cli.sh --connect=$HOSTNAME:11222       # userId/passwd = demo/demo
+         > cd caches/disaster
+
+         > ls
+         disaster
+
+         `````
+
+2. **Responders Do Not Seem to Move**
+   - **Symptom:**
      The Responder has been assigned a mission and even the process diagram appears when clicking the pickup point.
      The Responder however does not seem to move to the pickup point.
-   - Problem Triage:
+   - **Problem Triage:**
      Check the logs of the userX-responder-simulator pod.  Do you see any exceptions ?  If so, restart the userX-responder-simulator deployment config.

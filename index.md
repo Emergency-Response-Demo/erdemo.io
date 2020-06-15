@@ -1,7 +1,7 @@
 ---
 layout: page
 ---
-The Emergency Response application is a reference demo that showcases the [Power of Communities](https://www.brighttalk.com/webcast/16623/398059 ).
+The Emergency Response application is a reference demo that showcases the [Power of Communities]( https://youtu.be/rVtsGZIFw4s ).
 In particular, it clarifies how the accelerating pace of open-source innovation can be harnessed today in a supported, enterprise manner for your line of business in a hybrid-cloud environment.  Mission critical applications that your business relies on can be built and run on open-source innovation *TODAY*.
 
 The theme for the Emergency Response demo application is inspired by the [volunteer community collaboration](https://en.wikipedia.org/wiki/Cajun_Navy) that occured in 2017 during the aftermath of Hurricane Harvey.  A simlar community-driven, collaborative approach was used to develop the demo application and maintain it going forward.

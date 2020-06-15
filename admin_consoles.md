@@ -1,8 +1,10 @@
----
-layout: page
-title: Admin Consoles
-permalink: /admin_consoles/
----
+- [1. Admin Consoles Overview](#1-admin-consoles-overview)
+- [2. SSO Admin Console](#2-sso-admin-console)
+- [3. Emergency Response Admin Console](#3-emergency-response-admin-console)
+  - [3.1. Disaster Location](#31-disaster-location)
+  - [3.2. Procedure](#32-procedure)
+  - [3.3. Priority Zone](#33-priority-zone)
+    - [3.3.1. Procedure](#331-procedure)
 
 # 1. Admin Consoles Overview
 
@@ -42,11 +44,23 @@ As part of the Emergency Response Demo installation process, a privileged user i
 
 This user has the ability to manage priority zones as well as the location of the disaster. Further details about these functions can be found below.
 
-## 3.1. Priority Zone
+## 3.1. Disaster Location
+
+The incident commander has the ability to change the location at which the disaster simluation is set. If your audience is unfamiliar with Wilmington, North Carolina, this is a great opportunity to use a location that is more well-known or colloquial.
+
+## 3.2. Procedure
+
+1. From the Disaster Location page, refer to the instructions on the wizard. *If you don't see a link for Disaster Location, you're probably not logged in as the correct user (incident_commander).*
+
+_**Note** Be sure to perform this step **before** generating incidents and responders. Generated markers use disaster location data when they are **created**, so updating the location will not affect existing incidents and responders._
+
+![Change Disaster Location](images/change_disaster_location.png)
+
+## 3.3. Priority Zone
 
 The incident commander has the ability to create _priority zones_ in the _inclusion zone_ of the _disaster area_.  A priority zone could simulate critical conditions (power lines in the water, gas leaks, etc.).  It's recommended that priority zone's be placed within the _inclusion zone_.   Once placed, priority zones give affected incidents elevated priority so they get matched with available responders more quickly.
 
-### 3.1.1. Procedure
+### 3.3.1. Procedure
 
 1. From the Dashboard, click the **Create Priority Zone** button in the bottom left corner of the map. *If you don't see the button, you're probably not logged in as the correct user (incident_commander).*
 
@@ -56,14 +70,4 @@ _**Note** The most effective way to demonstrate this feature is to first generat
 
 ![Create Priority Zone](images/create_priority_zone.png)
 
-## 3.2. Disaster Location
 
-The incident commander has the ability to change the location at which the disaster simluation is set. If your audience is unfamiliar with Wilmington, North Carolina, this is a great opportunity to use a location that is more well-known or colloquial.
-
-## 3.2.1. Procedure
-
-1. From the Disaster Location page, refer to the instructions on the wizard. *If you don't see a link for Disaster Location, you're probably not logged in as the correct user (incident_commander).*
-
-_**Note** Be sure to perform this step **before** generating incidents and responders. Generated markers use disaster location data when they are **created**, so updating the location will not affect existing incidents and responders._
-
-![Change Disaster Location](images/change_disaster_location.png)
