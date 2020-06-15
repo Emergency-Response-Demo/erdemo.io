@@ -2,7 +2,7 @@
 
 Red Hat, as the leading provider of an integrated, hybrid-cloud, enterprise software stack, needed to showcase its unified portfolio to its Public Sector customers.  To do so, it created a demonstration of a business solution that can serve as an enabler of humanity at its best:  voluntary collaboration between neighbors of a community during a disaster.  Specifically, this business solution, called [the Emergency Response demonstration](https://erdemo.io), is themed after the [Cajun Navy response to Hurricane Harvey](https://en.wikipedia.org/wiki/Cajun_Navy) in 2017.  The Cajun Navy first responders of Hurricane Harvey embodied the Power of Communities.
 
-This blog post is part of a larger series of [webinars](https://www.brighttalk.com/webcast/16623/398059) and [articles]() that discuss the Power of Communities and how it can be impactful to your lines of business.
+This blog post is part of a larger series of [webinars](https://youtu.be/rVtsGZIFw4s) and [articles]( https://gcn.com/articles/2020/05/11/open-source-emergency-response-demo.aspx ) that discuss the Power of Communities and how it can be impactful to your lines of business.
 
 One challenge that you might still have is identifying those business use cases in your own organization that could also benefit from the power of enterprise open-source innovation in a manner similar to what you have observed with Red Hat's Emergency Response demo application.  In this article, I want to continue to explore categories of the *Solution Spectrum* and a sampling of business use-cases with the hope of highlighting patterns you can use.
 
