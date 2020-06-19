@@ -20,21 +20,13 @@ in 2005.
 
 ## The Solution
 
-The Emergency Response Demo application is inspired by the Cajun Navy
-response from Hurricane Harvey. It provides an online solution to
-connect stranded residents with volunteer responders. This application
-makes it easy to engage the community to organize volunteer
-responders.
+The Emergency Response Demo application is inspired by the Cajun Navy response from Hurricane Harvey. 
+It provides an online demo that simulates the collaboration between stranded residents and volunteer responders.
+In addition, it allows for your audience to participate in this simulation of rescuing their stranded neighbors.
 
 ![dashboard](/images/dashboard.png)
 
-# Terminology
 
-| Name      | Definition                                                                                                                                                                                                                                                                                                               |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Incident  | A request for help from an individual (or group of individuals) that are in need of rescue. Details of an Incident include the location (Lat, Long), the number of people stranded and whether medical assistance is required.                                                                                           |
-| Responder | A volunteer who has a boat and is willing to rescue people who have reported an Incident. The boat has a capacity and a flag is set if they can/cannot provide first aid. There are two types of responders. People who sign up online via the emergency console and simulated responders via the Responder Simulator.   |
-| Mission   | When a Responder is assigned an Incident, a Mission is created. The Mission defines where the Responder needs to go to collect the victims of the Incident (the Way Point) and what shelter the victims should be dropped off at (the Target Location). The mission also has details of the responders location history. |
 
 # What does the stack include?
 
