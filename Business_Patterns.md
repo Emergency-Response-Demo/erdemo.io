@@ -1,4 +1,8 @@
-# Implementing Business Solutions using the Power of Enterprise Open Source
+---
+layout: page
+title: Red Hat Application Services
+subtitle: 50 Shades of Business Processes
+---
 
 Red Hat, as the leading provider of an integrated, hybrid-cloud, enterprise software stack, needed to showcase its unified portfolio to its Public Sector customers.  To do so, it created a demonstration of a business solution that can serve as an enabler of humanity at its best:  voluntary collaboration between neighbors of a community during a disaster.  Specifically, this business solution, called [the Emergency Response demonstration](https://erdemo.io), is themed after the [Cajun Navy response to Hurricane Harvey](https://en.wikipedia.org/wiki/Cajun_Navy) in 2017.  The Cajun Navy first responders of Hurricane Harvey embodied the Power of Communities.
 
