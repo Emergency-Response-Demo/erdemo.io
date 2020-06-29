@@ -80,6 +80,7 @@ emergency_response_demo=# \d reported_incident
     - process-service:  https://github.com/Emergency-Response-Demo/process-service
     - incident-process-kjar: https://github.com/Emergency-Response-Demo/incident-process-kjar
     - cajun-navy-rules: https://github.com/Emergency-Response-Demo/cajun-navy-rules
+  - Deep-dive video: [The Value of Red Hat PAM to ER-Demo](https://youtu.be/lZr5B-Ms_6A)
 
 ## 2.1. ER-Demo Business Process
 The Process Service manages the overall business process flow of the Emergency Response Demo scenario.  
