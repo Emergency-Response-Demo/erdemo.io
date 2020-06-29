@@ -14,7 +14,7 @@
   - [8.1. Responder Simulator](#81-responder-simulator)
   - [8.2. Disaster Simulator](#82-disaster-simulator)
 
-The Emergency Response Demo application consists of multiple runtimes and frameworks: Quarkus, Node, Vert.x, JBoss Data Grid, AMQ Streams (Kafka on OpenShift), Prometheus and much more.
+The Emergency Response Demo application consists of multiple runtimes and frameworks: Quarkus, Node, Vert.x, JBoss Data Grid, AMQ Streams (Kafka on OpenShift), RH-SSO, Prometheus and much more.
 
 Below is a diagram of its application architecture:
 
@@ -103,6 +103,21 @@ It orchestrates the interactions of the other services of the Emergency Response
 
 * **Management of wait-states**
 The end-to-end lifecycle of the business scenario is *long-running*.  It can take seconds, minutes and even hours for some of the steps of the business scenario to complete.  When each of these business process steps are being executed, the business process instance is temporarily placed in a *wait-state*.  In particular, its state is persisted in the corresponding *process-service* PostgreSQL database.  When the step in the business process completes, a signal is sent to the process service to resume the process instance and continue to the next task in the business process.
+
+  The existing in-flight ER-Demo process instances can be viewed in the *process-service-postgresql* database as follows:
+
+  `````
+  $ ERDEMO_NS=user1-er-demo    # CHANGE ME (if needed)
+
+  $ oc rsh `oc get pod -n $ERDEMO_NS | grep "^process-service-postgresql" | grep "Running" | awk '{print $1}'`
+
+  $ psql rhpam
+
+  rhpam=# \d processinstanceinfo
+
+  rhpam=# select count(instanceid) from processinstanceinfo;
+
+  `````
 
 ## 2.3. Interaction with other components
 The Process Service primarily consumes and produces Red Hat AMQ Streams messages.
@@ -220,10 +235,9 @@ Responder is available for a new mission.
 
   - Runtime: Node.js, Angular
 
-  - Middleware Products / Components: None
+  - Middleware Products / Components: Red Hat SSO
 
-The emergency console is the front end UI for the Demo Solution. It
-provides the following main views:
+The emergency console is the front end UI for the Demo Solution. It provides the following main views:
 
   - Incident Commander Dashboard: The overall view of all Incidents,
     Responders and Missions
@@ -234,9 +248,9 @@ provides the following main views:
 
   - Incidents: A tabular list of all incidents
 
-The console communicates with several of the back end services
-(Incident, Mission & Responder) to display real time data via
-WebSockets.
+The console communicates with several of the back end services (Incident, Mission & Responder) to display real time data via WebSockets.
+
+The Emergency Web Console is secured via a *OpenID Connect clients* configured in a Red Hat SSO *realm*. 
 
 # 8. Demo Simulators
 
