@@ -25,13 +25,13 @@ The following provides details of each of the core application components of the
 
 # 1. Incident Service
 
-  - Runtime: Spring Boot
+  - **Runtime**: Spring Boot
 
-  - Application Services Products / Components: 
+  - **Application Services Products / Components**: 
     - Red Hat AMQ-Streams
 
-  - Other Components: Postgres DB
-  - Source code: https://github.com/Emergency-Response-Demo/incident-service
+  - **Other Components**: Postgres DB
+  - **Source code**: [incident-service](https://github.com/Emergency-Response-Demo/incident-service)
 
 The Incident Service exposes an API for registering new Incidents and
 retrieving information about existing Incidents. An endpoint is also
@@ -65,22 +65,22 @@ emergency_response_demo=# \d reported_incident
 
 # 2. Process Service
 
-  - Runtime: Spring Boot
+  - **Runtime**: Spring Boot
 
-  - Application Services Products:
+  - **Application Services Products**:
     
       - Red Hat Process Automation Manager (PAM)
       - Red Hat AMQ Streams
     
-  - Other Components:
+  - **Other Components**:
     - *process-service-postgresql*
     - *incident-process-kjar*
     - *cajun-navy-rules*
-  - Source code:
-    - process-service:  https://github.com/Emergency-Response-Demo/process-service
-    - incident-process-kjar: https://github.com/Emergency-Response-Demo/incident-process-kjar
-    - cajun-navy-rules: https://github.com/Emergency-Response-Demo/cajun-navy-rules
-  - Deep-dive video: [The Value of Red Hat PAM to ER-Demo](https://youtu.be/lZr5B-Ms_6A)
+  - **Source code**:
+    - [process-service](https://github.com/Emergency-Response-Demo/process-service)
+    - [incident-process-kjar](https://github.com/Emergency-Response-Demo/incident-process-kjar)
+    - [cajun-navy-rules](https://github.com/Emergency-Response-Demo/cajun-navy-rules)
+  - **Deep-dive video**: [The Value of Red Hat PAM to ER-Demo](https://youtu.be/lZr5B-Ms_6A)
 
 ## 2.1. ER-Demo Business Process
 The Process Service manages the overall business process flow of the Emergency Response Demo scenario.  
@@ -149,13 +149,13 @@ Incidentally, this architecture approach most closely resembles the architecture
 
 # 3. Incident Priority Service
 
-  - Runtime: Vert.x
+  - **Runtime**: Vert.x
 
-  - Middleware Products / Components:
+  - **Middleware Products / Components**:
     - Red Hat Decision Manager
     - AMQ Streams
 
-  - Source Code: https://github.com/Emergency-Response-Demo/incident-priority-service
+  - **Source Code**: [incident-priority-service](https://github.com/Emergency-Response-Demo/incident-priority-service)
 
 When the process service is unable to assign a responder to an incident, an IncidentAssignmentEvent is sent to an AMQ Streams broker.
 The incident priority service consumes these events and raises the priority for each failed assignment.
