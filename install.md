@@ -7,8 +7,9 @@
 - [3. Installation Procedure](#3-installation-procedure)
   - [3.1. Pre-built Images](#31-pre-built-images)
   - [3.2. CI/CD](#32-cicd)
-  - [3.3. Uninstalling](#33-uninstalling)
-- [4. Installation Complete!](#4-installation-complete)
+  - [3.3. Installation Complete !](#33-installation-complete-)
+  - [3.4. Uninstalling](#34-uninstalling)
+- [4. ER-Demo Web Consoles](#4-er-demo-web-consoles)
   - [4.1. **Emergency Response Console**](#41-emergency-response-console)
   - [4.2. **Disaster Simulator**](#42-disaster-simulator)
   - [4.3. **Grafana Dashboards**](#43-grafana-dashboards)
@@ -186,8 +187,60 @@ This approach is best suited for code contributors to the Emergency Response app
       ![](/images/pipeline_example.png)
 
 
+## 3.3. Installation Complete !
 
-## 3.3. Uninstalling
+Congratulations on having installed the ER-Demo !
+
+A few sanity-checks that you can execute prior to getting started with the demo are as follows:
+
+1. Ensure that the *statefulsets* that support the ER-Demo are healthy:
+
+   ```
+   $ oc get statefulset -n $OCP_USERNAME-er-demo
+
+   NAME                      READY   AGE
+   datagrid-service          3/3     6d13h
+   kafka-cluster-kafka       3/3     6d14h
+   kafka-cluster-zookeeper   3/3     6d14h
+   ```
+
+2. Ensure that the ER-Demo *deployments* are healthy:
+
+   ```
+   $ oc get dc -n $OCP_USERNAME-er-demo
+
+   NAME                              REVISION   DESIRED   CURRENT   TRIGGERED BY
+   dw-postgresql                     1          1         1         config,image(postgresql:9.6)
+   postgresql                        1          1         1         config,image(postgresql:9.6)
+   process-service-postgresql        1          1         1         config,image(postgresql:9.6)
+   user8-datawarehouse               1          1         1         config,image(user8-datawarehouse:latest)
+   user8-disaster-service            1          1         1         config,image(user8-disaster-service:latest)
+   user8-disaster-simulator          1          1         1         config,image(user8-disaster-simulator:latest)
+   user8-emergency-console           1          1         1         config,image(user8-emergency-console:latest)
+   user8-incident-priority-service   1          1         1         config,image(user8-incident-priority-service:latest)
+   user8-incident-service            1          1         1         config,image(user8-incident-service:latest)
+   user8-mission-service             1          1         1         config,image(user8-mission-service:latest)
+   user8-process-service             4          1         1         config,image(user8-process-service:latest)
+   user8-process-viewer              3          1         1         config,image(user8-process-viewer:latest)
+   user8-responder-client-app        1          1         1         config,image(user8-responder-client-app:latest)
+   user8-responder-service           1          1         1         config,image(user8-responder-service:latest)
+   user8-responder-simulator         1          1         1         config,image(user8-responder-simulator:latest)
+
+   ```
+
+3. Ensure that all of pods are stable and are not being restarted:
+   ```
+   $ oc get pods -w -n $OCP_USERNAME-er-demo
+   ```
+
+
+A complete topology of all of the components that have been installed can be found [here](/images/project_topology.png).
+As you become more familiar with the ER-Demo, consider cross-referencing all the components listed in this diagram with what is actually deployed in your OpenShift cluster.
+
+Also, the ER-Demo [Architecture Guide](/architecture.md) provides details of the various components that make up the ER-Demo.
+
+
+## 3.4. Uninstalling
 
 To uninstall:
 ```
@@ -196,11 +249,7 @@ $ ansible-playbook playbooks/install.yml \
                    -e project_admin=$OCP_USERNAME
 ```
 
-# 4. Installation Complete!
-
-Further details regarding how to run this demo can be found in the [Getting Started Guide](/gettingstarted.md).
-
-A topology of all of the components that have been installed can be found [here](/images/project_topology.png).
+# 4. ER-Demo Web Consoles
 
 Now that installation of the Emergency Response app is complete, you should be able to navigate your browser to the following URLs:
 
@@ -235,6 +284,7 @@ Now that installation of the Emergency Response app is complete, you should be a
 - More information about the out-of-the-box Dashboards in Grafana for the Emergency Response application found in the [Getting Started Guide](/gettingstarted.md).
 
 
+Further details regarding how to run the ER-Demo can be found in the [Getting Started Guide](/gettingstarted.md).
 
 
 

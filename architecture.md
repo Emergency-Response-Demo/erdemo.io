@@ -1,29 +1,43 @@
-- [1. Incident Service](#1-incident-service)
-- [2. Process Service](#2-process-service)
-  - [2.1. ER-Demo Business Process](#21-er-demo-business-process)
-  - [2.2. Responsibilities](#22-responsibilities)
-  - [2.3. Interaction with other components](#23-interaction-with-other-components)
-  - [2.4. Assign Mission rules](#24-assign-mission-rules)
-  - [2.5. Architecture](#25-architecture)
-- [3. Incident Priority Service](#3-incident-priority-service)
-- [4. Responder Service](#4-responder-service)
-- [5. Disaster Service](#5-disaster-service)
-- [6. Mission Service](#6-mission-service)
-- [7. Emergency Web Console](#7-emergency-web-console)
-- [8. Demo Simulators](#8-demo-simulators)
-  - [8.1. Responder Simulator](#81-responder-simulator)
-  - [8.2. Disaster Simulator](#82-disaster-simulator)
+- [1. Overview](#1-overview)
+  - [1.1. Application Architecture](#11-application-architecture)
+  - [1.2. Service Communication](#12-service-communication)
+- [2. Incident Service](#2-incident-service)
+- [3. Process Service](#3-process-service)
+  - [3.1. ER-Demo Business Process](#31-er-demo-business-process)
+  - [3.2. Responsibilities](#32-responsibilities)
+  - [3.3. Interaction with other components](#33-interaction-with-other-components)
+  - [3.4. Assign Mission rules](#34-assign-mission-rules)
+  - [3.5. Architecture](#35-architecture)
+- [4. Incident Priority Service](#4-incident-priority-service)
+- [5. Responder Service](#5-responder-service)
+- [6. Disaster Service](#6-disaster-service)
+- [7. Mission Service](#7-mission-service)
+- [8. Emergency Web Console](#8-emergency-web-console)
+- [9. Demo Simulators](#9-demo-simulators)
+  - [9.1. Responder Simulator](#91-responder-simulator)
+  - [9.2. Disaster Simulator](#92-disaster-simulator)
+  
+
+# 1. Overview
 
 The Emergency Response Demo application consists of multiple runtimes and frameworks: Quarkus, Node, Vert.x, JBoss Data Grid, AMQ Streams (Kafka on OpenShift), RH-SSO, Prometheus and much more.
 
-Below is a diagram of its application architecture:
+
+## 1.1. Application Architecture
+
 
 ![application architecture](/images/application-architecture.png)
 
 
-The following provides details of each of the core application components of the demo application.
+## 1.2. Service Communication
 
-# 1. Incident Service
+
+![service communication](/images/erd-communication.png)
+
+
+Details of each of the core application components of the demo application are provided in the remainder of this document.
+
+# 2. Incident Service
 
   - **Runtime**: Spring Boot
 
@@ -63,7 +77,7 @@ emergency_response_demo=# \d reported_incident
 
 
 
-# 2. Process Service
+# 3. Process Service
 
   - **Runtime**: Spring Boot
 
@@ -82,7 +96,7 @@ emergency_response_demo=# \d reported_incident
     - [cajun-navy-rules](https://github.com/Emergency-Response-Demo/cajun-navy-rules)
   - **Deep-dive video**: [The Value of Red Hat PAM to ER-Demo](https://youtu.be/lZr5B-Ms_6A)
 
-## 2.1. ER-Demo Business Process
+## 3.1. ER-Demo Business Process
 The Process Service manages the overall business process flow of the Emergency Response Demo scenario.  
 
 ![application architecture](/images/incident-process.png)
@@ -96,7 +110,7 @@ This process diagram is version controlled in a project called: *incident-proces
 It can be viewed in any number of BPMN2 editors such as: *Business Central* (from Red Hat Process Automation Manager), *[bpmn.new](https://bpmn.new/)*, or using the *[BPMN Editor](https://github.com/kiegroup/kogito-tooling/releases)* plugin for Microsoft vscode.
 The *incident-process-kjar* project is compiled and loaded as a dependency into the *process-service* project.
 
-## 2.2. Responsibilities 
+## 3.2. Responsibilities 
 The process-service is responsible for the following:
 
 * **Microservice Orchestration**
@@ -120,7 +134,7 @@ The end-to-end lifecycle of the business scenario is *long-running*.  It can tak
 
   `````
 
-## 2.3. Interaction with other components
+## 3.3. Interaction with other components
 The Process Service primarily consumes and produces Red Hat AMQ Streams messages.
 When a new Incident is reported on the *topic-incident-event* topic, the process Service kicks off a new BPM process to manage the new Incident.  When a Responder is shown as available (via the *topic-responder-event* topic), the BPM process is updated to reflect this. As the Mission progresses and additional messages are received on the *topic-mission-event* topic, the BPM process is updated to reflect the latest state.
 
@@ -131,14 +145,14 @@ The Process Service sends out multiple types of messages on various Topics in re
   - **Receive**: topic-incident-event, topic-responder-event, topic-mission-event
 
 
-## 2.4. Assign Mission rules
+## 3.4. Assign Mission rules
 One of the *service tasks* in the *incident-process* BPMN2 process definition is called:  *Assign Mission*.  This service task is of type: *BusinessRuleTask*
 
 ![Assign Mission](_site/images/../../images/assign_mission_task.png).
 
 When the process instance reaches this service task, it invokes the *technical rules* that are version controlled in the *cajun-navy-rules* project.  These *technical rules* are authored in the *Drools Rule Language* and loaded into the process-service.
 
-## 2.5. Architecture
+## 3.5. Architecture
 The *process engine* of Red Hat Process Automation Manager can be deployed and invoked in a variety of manners.
 For the purpose of the Emergency Response Demo application, the *process engine* is embedded directly in a SpringBoot microservice application.  The *process-engine* is invoked asynchronously by sending it messages on various AMQ Streams topics.
 
@@ -147,7 +161,7 @@ A *workItem* extends the capabilities of the process engine.
 
 Incidentally, this architecture approach most closely resembles the architecture approach implemented in Red Hat's upcoming *cloud-native business automation* project:  [kogito](https://kogito.kie.org/).  With Kogito, the process engine will likely run in Quarkus (instead of SpringBoot) and many of the work-item-handlers needed to inter-operate with AMQ Streams will be auto-generated.
 
-# 3. Incident Priority Service
+# 4. Incident Priority Service
 
   - **Runtime**: Vert.x
 
@@ -162,7 +176,7 @@ The incident priority service consumes these events and raises the priority for 
 Uses an embedded rules engine to calculate the priority of an incident and the average priority.
 The rules engine uses a stateful rules session.
 
-# 4. Responder Service
+# 5. Responder Service
 
   - Runtime: Spring Boot
 
@@ -190,7 +204,7 @@ Kafka message to the topic test-topic.
 
   - Listen: test-topic
 
-# 5. Disaster Service
+# 6. Disaster Service
 
   - Runtime: Vert.x
   
@@ -200,7 +214,7 @@ The Disaster Service exposes an API for managing the disaster's metadata, includ
 
 Tracking this data dynamically allows the incident commander to change the location of the disaster to match the geography in which the demo is being performed.
 
-# 6. Mission Service
+# 7. Mission Service
 
   - Runtime: Vert.x
 
@@ -232,7 +246,7 @@ Responder is available for a new mission.
 
   - Receive: topic-mission-command, topic-responder-location-update
 
-# 7. Emergency Web Console
+# 8. Emergency Web Console
 
   - Runtime: Node.js, Angular
 
@@ -253,14 +267,14 @@ The console communicates with several of the back end services (Incident, Missio
 
 The Emergency Web Console is secured via a *OpenID Connect clients* configured in a Red Hat SSO *realm*. 
 
-# 8. Demo Simulators
+# 9. Demo Simulators
 
 The following components are used to control the demo and simulate
 events which are needed for the demo, but which can not be sourced from
 / represented in the real world (i.e. Incidents, Responder Bots,
 Responder movement around the map).
 
-## 8.1. Responder Simulator
+## 9.1. Responder Simulator
 
   - Runtime: Vert.x
 
@@ -285,7 +299,7 @@ on the topic-responder-location-update Topic.
 
   - Receive: topic-responder-location-update
 
-## 8.2. Disaster Simulator
+## 9.2. Disaster Simulator
 
   - Runtime: Vert.x
 
