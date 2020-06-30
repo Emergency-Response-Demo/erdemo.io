@@ -209,22 +209,22 @@ A few sanity-checks that you can execute prior to getting started with the demo 
    ```
    $ oc get dc -n $OCP_USERNAME-er-demo
 
-   NAME                              REVISION   DESIRED   CURRENT   TRIGGERED BY
-   dw-postgresql                     1          1         1         config,image(postgresql:9.6)
-   postgresql                        1          1         1         config,image(postgresql:9.6)
-   process-service-postgresql        1          1         1         config,image(postgresql:9.6)
-   user8-datawarehouse               1          1         1         config,image(user8-datawarehouse:latest)
-   user8-disaster-service            1          1         1         config,image(user8-disaster-service:latest)
-   user8-disaster-simulator          1          1         1         config,image(user8-disaster-simulator:latest)
-   user8-emergency-console           1          1         1         config,image(user8-emergency-console:latest)
-   user8-incident-priority-service   1          1         1         config,image(user8-incident-priority-service:latest)
-   user8-incident-service            1          1         1         config,image(user8-incident-service:latest)
-   user8-mission-service             1          1         1         config,image(user8-mission-service:latest)
-   user8-process-service             4          1         1         config,image(user8-process-service:latest)
-   user8-process-viewer              3          1         1         config,image(user8-process-viewer:latest)
-   user8-responder-client-app        1          1         1         config,image(user8-responder-client-app:latest)
-   user8-responder-service           1          1         1         config,image(user8-responder-service:latest)
-   user8-responder-simulator         1          1         1         config,image(user8-responder-simulator:latest)
+   NAME                              DESIRED   CURRENT
+   dw-postgresql                     1         1      
+   postgresql                        1         1      
+   process-service-postgresql        1         1      
+   user8-datawarehouse               1         1      
+   user8-disaster-service            1         1      
+   user8-disaster-simulator          1         1      
+   user8-emergency-console           1         1      
+   user8-incident-priority-service   1         1      
+   user8-incident-service            1         1      
+   user8-mission-service             1         1      
+   user8-process-service             1         1      
+   user8-process-viewer              1         1      
+   user8-responder-client-app        1         1      
+   user8-responder-service           1         1      
+   user8-responder-simulator         1         1      
 
    ```
 
