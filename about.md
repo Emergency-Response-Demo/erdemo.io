@@ -32,14 +32,15 @@ In addition, it allows for your audience to participate in this simulation of re
 The following is a list of *discussion vectors* that the Emergency Response demo application can help facilitate with your customers:
 
 1. **Power of Communities**
-2. **Hybrid / Multi Cloud Applications**
-3. **OpenShift Service Mesh Routing / Security**
-4. **OpenShift Service Mesh Observability**
-5. **DevSecOps**
-6. **Event-Driven, Cloud-Native Architected Applications**
-7. **Red Hat Application Environment**
-8. **Microservice Orchestration**
-9. **Cloud-Native Security Protocols**
+2. **Event-Driven, Cloud-Native Architected Applications**
+3. **Red Hat Unified Application Environment**
+4. **Microservice Orchestration**
+5. **Change Data Capture** and **Outbox Pattern**
+6. **Cloud-Native Security Protocols**
+7. **OpenShift Service Mesh Routing / Security**
+8. **OpenShift Service Mesh Observability**
+9. **DevSecOps**
+10. **Hybrid / Multi Cloud Applications**
 
 # What technologies does the stack showcase?
 

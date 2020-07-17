@@ -16,6 +16,7 @@
 - [9. Demo Simulators](#9-demo-simulators)
   - [9.1. Responder Simulator](#91-responder-simulator)
   - [9.2. Disaster Simulator](#92-disaster-simulator)
+- [10. Datawarehouse Service](#10-datawarehouse-service)
   
 
 # 1. Overview
@@ -178,11 +179,11 @@ The rules engine uses a stateful rules session.
 
 # 5. Responder Service
 
-  - Runtime: Spring Boot
+  - **Runtime**: Spring Boot
 
-  - Middleware Products / Components: AMQ-Streams
+  - **Middleware Products / Components**: AMQ-Streams
 
-  - Other Components: Postgres DB
+  - **Other Components:** Postgres DB
 
 The Responder Service exposes an API for managing Responders, including
 registering new Responders, retrieving information about all available
@@ -206,9 +207,9 @@ Kafka message to the topic test-topic.
 
 # 6. Disaster Service
 
-  - Runtime: Vert.x
+  - **Runtime**: Vert.x
   
-  - Middleware Components: JDG
+  - **Middleware Components:** JDG
 
 The Disaster Service exposes an API for managing the disaster's metadata, including: the coordinates and magnification for the center of the disaster; the list of inclusion zones (geopolygons in which incidents and responders should spawn); and the list of shelters and their locations.
 
@@ -216,11 +217,11 @@ Tracking this data dynamically allows the incident commander to change the locat
 
 # 7. Mission Service
 
-  - Runtime: Vert.x
+  - **Runtime**: Vert.x
 
-  - Middleware Products / Components: JDG, AMQ-Streams
+  - **Middleware Products / Components:** JDG, AMQ Streams
 
-  - Other Components: None
+  - **Other Components:** None
 
 The Mission Service exposes an API for managing Missions, including
 getting a list of mission keys, getting a specific mission by key,
@@ -248,9 +249,9 @@ Responder is available for a new mission.
 
 # 8. Emergency Web Console
 
-  - Runtime: Node.js, Angular
+  - **Runtime**: Node.js, Angular
 
-  - Middleware Products / Components: Red Hat SSO
+  - **Middleware Products / Components:** Red Hat SSO
 
 The emergency console is the front end UI for the Demo Solution. It provides the following main views:
 
@@ -276,11 +277,11 @@ Responder movement around the map).
 
 ## 9.1. Responder Simulator
 
-  - Runtime: Vert.x
+  - **Runtime**: Vert.x
 
-  - Middleware Components: None
+  - **Middleware Components:** None
 
-  - Other Components: None
+  - **Other Components:** None
 
 The Responder Simulator is responsible for moving responders (both bots
 and humans) around the map during missions. As the demo requires the
@@ -301,11 +302,11 @@ on the topic-responder-location-update Topic.
 
 ## 9.2. Disaster Simulator
 
-  - Runtime: Vert.x
+  - **Runtime**: Vert.x
 
-  - Middleware Components: None
+  - **Middleware Components:** None
 
-  - Other Components: None
+  - **Other Components:** None
 
 The Disaster Simulator is used for managing / coordinating the demo. It
 exposes a basic UI which allows a user to add and remove Incidents and
@@ -316,3 +317,32 @@ Responders in order to drive the demo forward.
 The Disaster Simulator uses HTTP API requests to the Incident Service,
 the Responder Service the Mission Service and the Incident Priority
 Service in order to manage data creation / deletion.
+
+# 10. Datawarehouse Service
+
+  - **Runtime**: Quarkus
+  
+  - **Middleware Components**: AMQ Streams
+  
+  - **Other Components**: PostgreSQL, Grafana
+  
+The *Datawarehouse Service* is a Quarkus based service that listens in on all AMQ Streams based message traffic in the ER-Demo.  Using the data in these messages, it populates a de-normalized relational database (implemented using PostgreSQL) whose schema supports dashboard related queries.
+
+
+![](/images/mission_commander_kpis.png)
+
+Grafana provides [an SQL plugin for PostgreSQL](https://grafana.com/docs/grafana/latest/features/datasources/postgres/).  This plugin is leveraged to render various *Mission Commander Dashboards*.  More detail about each of these dashboards can be found in the [getting started](/gettingstarted.md) guide.
+
+There are many ways in which this same *Business Activity Monitoring* (BAM) capability could have been achieved.  A few alternative approaches might be as follows:
+
+1. **Traditional ETL**
+   
+   Process data in batches from source databases (ie: *incident* and *reporting* databases) to a data warehouse.  An ETL *pipeline* is typically implemented that validates, transforms and stages the data prior to pushing it to the production datawarehouse.  There are many mature proprietary products that serve this purpose.  [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) could also be utilized to implement this pipeline.
+
+2. **Data Virtualization**
+
+    [Red Hat Managed Integration](https://access.redhat.com/documentation/en-us/red_hat_managed_integration/1/html/getting_started/concept-explanation-getting-started) (RHMI) includes a *data virtualization* technology based on the open-source [teiid](https://teiid.io/) project.  Using RHMI, a unified view of all of your backend datasources can be presented to a Business Activity Monitoring dashboards.  Specific to the ER-Demo, the *responder*, *incident* and *process engine* databases could be virtualized such that a single unified view could be presented to a BAM dashboard.
+
+3.  **AMQ Kafka Streams**
+
+    Via the upstream community *Apache Kafka* and *Strimzi* communities, sophisticated dashboards could be created directly by querying [Kafka Streams](https://kafka.apache.org/documentation/streams/).
