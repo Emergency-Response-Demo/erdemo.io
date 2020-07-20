@@ -49,8 +49,8 @@ Using the *outbox pattern*, the problem of dual-writes is resolved in the ER-Dem
 
 
 
-1. Process execution hits the signal node, process states **and** an *outbox event* are persisted to the database as part of a transaction commit.  Unlike the previous architecture, there is only this single write in this transaction. The *outbox event* contains the message payload to be sent to the `topic-responder-command`. This *outbox event* is persisted in an *outbox table* (which is co-located in the same database as the RH-PAM process engine tables). 
-2. Debezium scans the transaction log of the database and picks up the insert in the outbox table.  The record to the outbox table is deleted immediately after creation and debezium ignores the delete logs from Postgres.
+1. Process execution hits the signal node: process instance state **and** an *outbox event* are persisted to the same database as part of a transaction commit.  Unlike the original architecture, there is now only this single write in this transaction. The *outbox event* contains the message payload to be sent to the `topic-responder-command`. This *outbox event* is persisted in an *outbox table* (which is co-located in the same database as the RH-PAM process engine tables). 
+2. Debezium scans the transaction log of the database and picks up the insert in the outbox table.  The record to the outbox table is deleted immediately after creation and Debezium ignores the delete logs from Postgres.
 This immediate deletion of the record is to ensure that the outbox table does not grow endlessly.
 
 3. Debezium sends the outbox event to the `topic-responder-command`
@@ -67,7 +67,7 @@ With the outbox pattern, the message to the `topic-responder-command` is only se
 
 Details about the implementation of the *outbox pattern* in the ER-Demo application are as follows:
 
-1. Debezium requires use of a PostgreSQL 10 database that [includes a *decoding output plugin*](https://debezium.io/documentation/reference/1.2/connectors/postgresql.html) that allows the extraction of changes which were committed to the PostgreSQL transaction log and the processing of these changes in a user-friendly manner.  In the ER-Demo application, the RH-PAM process engine embedded in the *process-service* leverages a PostgreSQL 10 database that includes this *decoding output plugins*:
+1. Debezium requires use of a PostgreSQL 10 database that [includes a *decoding output plugin*](https://debezium.io/documentation/reference/1.2/connectors/postgresql.html).  This *decoding output pluting* extracts changes committed to the PostgreSQL transaction log.  In the ER-Demo application, the RH-PAM process engine embedded in the *process-service* leverages a PostgreSQL 10 database that includes this *decoding output plugins*:
    ```
    $ ERDEMO_NS=user1-er-demo    # CHANGE ME (if needed)
 
@@ -155,9 +155,9 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
     
 
     rhpam=# \d process_service_outbox
-                      Table "public.process_service_outbox"
-        Column     |          Type          | Collation | Nullable | Default 
-    ---------------+------------------------+-----------+----------+---------
+
+    Column         |          Type          | Collation | Nullable | 
+    ---------------+------------------------+-----------+----------+
      id            | uuid                   |           | not null | 
      aggregatetype | character varying(255) |           | not null | 
      aggregateid   | character varying(255) |           | not null | 
@@ -173,10 +173,10 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
     
     ```
 
-    Notice that (as expected) there are zero records in the table due to the immediate deletion of the record.
+    Notice that (as expected) there are zero records in the table due to the immediate deletion of records to this table.
 
 
-6. The code that writes to the *process_service_outbox* table when sending a message to the ER-Demo *responder service* is implemented in a [custom jbpm workItemHandler](https://github.com/btison/emergency-response-demo-process-service/blob/process-service-outbox/src/main/java/com/redhat/cajun/navy/process/wih/KafkaMessageSenderWorkItemHandler.java#L78-L85) :
+6. The code that writes to the *process_service_outbox* table when sending a message to the ER-Demo *responder service* is implemented in a [custom RH-PAM workItemHandler](https://github.com/btison/emergency-response-demo-process-service/blob/process-service-outbox/src/main/java/com/redhat/cajun/navy/process/wih/KafkaMessageSenderWorkItemHandler.java#L78-L85) :
    
    ```
    if (updateResponderCommandDestination.equals(destination)) {
@@ -210,10 +210,12 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
     
 # 5. Conclusion
 
-The Red Hat sponsored Debezium community project provides powerful capabilities to be employed in modern *cloud-native* architected business application.
+The Red Hat sponsored Debezium community project provides powerful capabilities to be employed in modern *cloud-native* architected business applications.
 
-By leveraging Debezium to implement the *outbox pattern*, the ER-Demo greatly benefits by executing a single write in each of its synchronous transactions.  It now completely avoids all unintended consequences of *dual writes* in those transactions.
+By leveraging Debezium to implement the *outbox pattern*, the ER-Demo greatly benefits by executing a single write in *Update Responder Availability* transaction.  
+It now completely avoids all unintended consequences of *dual writes* in that synchronous transaction.
 
-The *outbox pattern* is just one of many use-cases to employ Debezium.  We encourage you to familiarize yourself with its [capabilities and usecases](https://speakerdeck.com/gunnarmorling/practical-change-data-streaming-use-cases-with-apache-kafka-and-debezium-qcon-san-francisco-2019) to employ in your *cloud-native* architecture business applications.
+The *outbox pattern* is just one of many use-cases to employ Debezium.  
+We encourage you to familiarize yourself with its [capabilities and usecases](https://speakerdeck.com/gunnarmorling/practical-change-data-streaming-use-cases-with-apache-kafka-and-debezium-qcon-san-francisco-2019) to employ it in your *cloud-native* architectured business applications.
     
     
