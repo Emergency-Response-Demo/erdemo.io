@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About this demo
-subtitle: Emergency response demo
+subtitle: Emergency Response Demo
 ---
 
 In August 2017, Hurricane Harvey caused massive flooding in Southeast Texas, USA. 
@@ -34,8 +34,8 @@ The following is a list of *discussion vectors* that the Emergency Response demo
 1. **Power of Communities**
 2. **Event-Driven, Cloud-Native Architected Applications**
 3. **Red Hat Unified Application Environment**
-4. **Microservice Orchestration**
-5. **Change Data Capture** and **Outbox Pattern**
+4. **[50 Shades of Business Processes](/Business_Patterns.md)**
+5. **[Change Data Capture** and **Outbox Pattern](/process_service_outbox.md)**
 6. **Cloud-Native Security Protocols**
 7. **OpenShift Service Mesh Routing / Security**
 8. **OpenShift Service Mesh Observability**
@@ -49,10 +49,11 @@ the integrated Red Hat Application Services Portfolio, running on OpenShift. If 
 
   - [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
   - [Red Hat Runtimes](https://www.redhat.com/en/technologies/cloud-computing/openshift/application-runtimes)
-    - Vert.x, Spring Boot and Node.js
+    - Quarkus, Vert.x, Spring Boot and Node.js
   - [Red Hat Data Grid](https://www.redhat.com/en/technologies/jboss-middleware/data-grid)
   - [Red Hat Decision Manager](https://www.redhat.com/en/technologies/jboss-middleware/decision-manager)
   - [Red Hat Process Automation Manager](https://www.redhat.com/en/technologies/jboss-middleware/process-automation-manager)
   - [Red Hat AMQ Streams](https://www.redhat.com/en/technologies/jboss-middleware/amq)
-  - [Red Hat 3scale API Management](https://www.redhat.com/en/technologies/jboss-middleware/3scale)
+  - KafkaConnect component of Red Hat AMQ Streams
+  - Red Hat sponsored Debezium open-source project 
   - [Red Hat Single Sign-On](https://access.redhat.com/products/red-hat-single-sign-on)

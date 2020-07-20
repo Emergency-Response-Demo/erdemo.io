@@ -339,10 +339,16 @@ There are many ways in which this same *Business Activity Monitoring* (BAM) capa
    
    Process data in batches from source databases (ie: *incident* and *reporting* databases) to a data warehouse.  An ETL *pipeline* is typically implemented that validates, transforms and stages the data prior to pushing it to the production datawarehouse.  There are many mature proprietary products that serve this purpose.  [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) could also be utilized to implement this pipeline.
 
-2. **Data Virtualization**
+2. **Change Data Capture**
+   
+    Change Data Capture, or CDC, is an older term for a system that monitors and captures the changes in data so that other software can respond to those changes. Proprietary data warehouses often have built-in CDC support, since data warehouses need to stay up-to-date as the data changed in the upstream OLTP databases.
+    The [Red Hat sponsored Debezium project](https://debezium.io/) is a modern, distributed open source change data capture platform that integrates with the major open-source and proprietary databases in use today.
+   
+
+3. **Data Virtualization**
 
     [Red Hat Managed Integration](https://access.redhat.com/documentation/en-us/red_hat_managed_integration/1/html/getting_started/concept-explanation-getting-started) (RHMI) includes a *data virtualization* technology based on the open-source [teiid](https://teiid.io/) project.  Using RHMI, a unified view of all of your backend datasources can be presented to a Business Activity Monitoring dashboards.  Specific to the ER-Demo, the *responder*, *incident* and *process engine* databases could be virtualized such that a single unified view could be presented to a BAM dashboard.
 
-3.  **AMQ Kafka Streams**
+4.  **AMQ Kafka Streams**
 
     Via the upstream community *Apache Kafka* and *Strimzi* communities, sophisticated dashboards could be created directly by querying [Kafka Streams](https://kafka.apache.org/documentation/streams/).

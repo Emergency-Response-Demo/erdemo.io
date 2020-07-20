@@ -17,8 +17,8 @@ However, between these wait-states, the business process executes *synchronously
 ![](images/process-service-no-outbox.png)
 
 
-1. A transaction is started, the process service retrieves the state of a process instance from the database and executes a series of tasks up until the next defined *wait-state*.  As part of this execution, a task in the business process sends a Kafka message to the `topic-responder-command` topic of AMQ Streams. (Semi-related: the ER-Demo *responder-service* consumes and processes this message from that topic).
-2. Within this same transaction, the process instance reaches a signal node (which is a *wait-state*) and this transaction is committed (along with the state of the process instance at that time) to the database.  So within this single syncronous transaction there are two writes:  a write to a Kafka topic and a write to a database.
+1. A transaction is started, the process service retrieves the state of a process instance from the database and executes a series of tasks.  In the ER-Demo *incident-process*, one of these tasks is a *workitem* that sends a Kafka message to the `topic-responder-command` topic of AMQ Streams. (related: the ER-Demo *responder-service* consumes and processes this message from that topic).
+2. Within this same transaction, the process instance reaches a signal node (which is a *wait-state*) and this transaction is committed (along with the state of the process instance at that time) to the RH-PAM database: PostgreSQL.  So within this single syncronous transaction there are two writes:  a write to a Kafka topic and a write to the RH-PAM PostgreSQL database.
 3. The ER-Demo *responder-service* responds back to the process service via the `topic-responder-event` topic.
 4. The process service consumes the message on the `topic-responder-event` topic and in a new transaction pulls the process instance state from the database and executes downstream work until the next *wait-state* in the business process is reached.
 
@@ -42,18 +42,20 @@ To some degree, this problem could be resolved if [AMQ Streams / Apache Kafka su
 
 To resolve the problem of *dual-writes in a single transaction* experienced in the ER-Demo application, the *outbox pattern* has been implemented using technology from the Red Hat sponsored [Debezium open-source project](https://debezium.io/) .  The approach taken is best discussed in [this blog post](https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/).
 
-Using the *outbox pattern*, the problem of dual-writes is resolved in the ER-Demo application via the following series of steps in each transaction:
+Using the *outbox pattern*, the problem of dual-writes is resolved in the ER-Demo application via the following series of steps:
 
 
 ![](images/process-service-outbox.png)
 
 
 
-1. Process execution hits the signal node, process state is persisted in the database, together with an outbox event containing the message payload to be sent to the `topic-responder-command`. The outbox event is persisted an *outbox table*.
-2. Debezium scans the transaction log of the database and picks up the insert in the outbox table.
-3. Debezium sends outbox event to the `topic-responder-command`
-4. The process service consumes the reply message, and is able to signal the process instance
-5. The process engine signals the process instance in a new transaction.
+1. Process execution hits the signal node, process states **and** an *outbox event* are persisted to the database as part of a transaction commit.  Unlike the previous architecture, there is only this single write in this transaction. The *outbox event* contains the message payload to be sent to the `topic-responder-command`. This *outbox event* is persisted in an *outbox table* (which is co-located in the same database as the RH-PAM process engine tables). 
+2. Debezium scans the transaction log of the database and picks up the insert in the outbox table.  The record to the outbox table is deleted immediately after creation and debezium ignores the delete logs from Postgres.
+This immediate deletion of the record is to ensure that the outbox table does not grow endlessly.
+
+3. Debezium sends the outbox event to the `topic-responder-command`
+4. The process service consumes the reply message originating from the *responder-service* and signals the embedded process engine.
+5. The process engine loads the process instance from the database in a new transaction.
 
 
 With the outbox pattern, the message to the `topic-responder-command` is only sent after the transaction is committed to the database. It is no longer the process service that sends the message. Rather the message payload is persisted together with the process state, and Debezium picks up the change event in the database and sends the message to the `topic-responder-command` topic.
@@ -63,62 +65,155 @@ With the outbox pattern, the message to the `topic-responder-command` is only se
 
 # 4. GIVE ME THE DETAILS !!!!
 
+Details about the implementation of the *outbox pattern* in the ER-Demo application are as follows:
 
-- kafkaconnector
+1. Debezium requires use of a PostgreSQL 10 database that [includes a *decoding output plugin*](https://debezium.io/documentation/reference/1.2/connectors/postgresql.html) that allows the extraction of changes which were committed to the PostgreSQL transaction log and the processing of these changes in a user-friendly manner.  In the ER-Demo application, the RH-PAM process engine embedded in the *process-service* leverages a PostgreSQL 10 database that includes this *decoding output plugins*:
+   ```
+   $ ERDEMO_NS=user1-er-demo    # CHANGE ME (if needed)
+
+   $ oc get dc process-service-postgresql \
+       -n $ERDEMO_NS \
+       -o=jsonpath='{.spec.template.spec.containers[].image}'
+
+   quay.io/btison/postgres-10-decoderbufs-fedora
+
+   ```
+
+2.  Debezium builds upon the [Kafka Connect](https://kafka.apache.org/documentation/#connect) project.  As such, implementation of the outbox pattern in the ER-Demo, requires a *Kafka Connect* deployment (provided by Red Hat AMQ Streams).  This deployment can be viewed as follows:
+
+    ```
+    $ oc get kafkaconnect.kafka.strimzi.io -n $ERDEMO_NS
+    NAME            DESIRED REPLICAS
+    kafka-connect   1
+
+
+    $ oc get deployment kafka-connect-connect -n ERDEMO_NS
+    NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+    kafka-connect-connect   1/1     1            1           2d2h
+
+
+    $ oc get deployment kafka-connect-connect -n $ERDEMO_NS \
+         -o=jsonpath='{.spec.template.spec.containers[].image}'
+
+    quay.io/btison/strimzi-debezium-postgresql:1.4.0-1.1.2.Final
+
+    ```
+
+    The image used in the Kafka Connect contains the Java code which reads the changes produced by the PostgreSQL *decoding output plug-in*.
+
+
+3. Debezium pulls configuration information about the database it is to scan from a *kafkaconnector* (provided by Red Hat AMQ Streams) (NOTE: the following command makes use of the [jq](https://stedolan.github.io/jq/) library):
   
-```
-$ ERDEMO_NS=user1-er-demo    # CHANGE ME (if needed)
+    ```
+    $ oc get kafkaconnector.kafka.strimzi.io \
+        debezium-postgres-process-service \
+        -o json -n $ERDEMO_NS | jq .spec
 
-$ oc get kafkaconnector debezium-postgres-process-service -o json -n $ERDEMO_NS | jq .spec
-{
-  "class": "io.debezium.connector.postgresql.PostgresConnector",
-  "config": {
-    "database.dbname": "rhpam",
-    "database.hostname": "process-service-postgresql.user10-er-demo.svc",
-    "database.password": "PiqOKMyDWWYv",
-    "database.port": "5432",
-    "database.server.name": "rhpam1",
-    "database.user": "postgres",
-    "schema.whitelist": "public",
-    "table.whitelist": "public.process_service_outbox",
-    "tombstones.on.delete": "false",
-    "transforms": "router",
-    "transforms.router.route.topic.replacement": "topic-${routedByValue}",
-    "transforms.router.table.fields.additional.placement": "type:header:eventType",
-    "transforms.router.type": "io.debezium.transforms.outbox.EventRouter"
-  },
-  "tasksMax": 1
-}
-```
-- Verification
-  ```
-  $ oc rsh `oc get pod -n $ERDEMO_NS | grep "^process-service-postgresql" | grep "Running" | awk '{print $1}'`
+    {
+      "class": "io.debezium.connector.postgresql.PostgresConnector",
+      "config": {
+        "database.dbname": "rhpam",
+        "database.hostname": "process-service-postgresql.user10-er-demo.svc",
+        "database.password": "PiqOKMyDWWYv",
+        "database.port": "5432",
+        "database.server.name": "rhpam1",
+        "database.user": "postgres",
+        "schema.whitelist": "public",
+        "table.whitelist": "public.process_service_outbox",
+        "tombstones.on.delete": "false",
+        "transforms": "router",
+        "transforms.router.route.topic.replacement": "topic-${routedByValue}",
+        "transforms.router.table.fields.additional.placement": "type:header:eventType",
+        "transforms.router.type": "io.debezium.transforms.outbox.EventRouter"
+      },
+      "tasksMax": 1
+    }
+    ```
+
+4. The same Debezium configuration information can be pulled directly from Debezium's RESTful API:
+
+      ```
+      $ oc rsh `oc get pod -n $ERDEMO_NS \ 
+           | grep "^process-service-postgresql" \ 
+           | grep "Running" | awk '{print $1}'`
+
   
-  $ curl kafka-connect-connect-api:8083/connectors/debezium-postgres-process-service
-  ```
+      $ curl kafka-connect-connect-api:8083/connectors/debezium-postgres-process-service
 
-- The database table
-```
-$ oc rsh `oc get pod -n $ERDEMO_NS | grep "^process-service-postgresql" | grep "Running" | awk '{print $1}'`
-
-$ psql rhpam
-
-rhpam=# \d process_service_outbox
-                  Table "public.process_service_outbox"
-    Column     |          Type          | Collation | Nullable | Default 
----------------+------------------------+-----------+----------+---------
- id            | uuid                   |           | not null | 
- aggregatetype | character varying(255) |           | not null | 
- aggregateid   | character varying(255) |           | not null | 
- type          | character varying(255) |           | not null | 
- payload       | text                   |           |          | 
-Indexes:
-    "process_service_outbox_pkey" PRIMARY KEY, btree (id)
+      ```
 
 
-```
+5. The *outbox* table that stores the json message to be delivered by Debezium to the *topic-responder-command* topic resides in the *rhpam* database and can be viewed as follows:
 
+    ```
+    $ oc rsh `oc get pod -n $ERDEMO_NS \ 
+        | grep "^process-service-postgresql" \ 
+        | grep "Running" | awk '{print $1}'`
+    
+
+    $ psql rhpam
+    
+
+    rhpam=# \d process_service_outbox
+                      Table "public.process_service_outbox"
+        Column     |          Type          | Collation | Nullable | Default 
+    ---------------+------------------------+-----------+----------+---------
+     id            | uuid                   |           | not null | 
+     aggregatetype | character varying(255) |           | not null | 
+     aggregateid   | character varying(255) |           | not null | 
+     type          | character varying(255) |           | not null | 
+     payload       | text                   |           |          | 
+    Indexes:
+        "process_service_outbox_pkey" PRIMARY KEY, btree (id)
+    
+
+    rhpam=# select * from process_service_outbox;
+
+    0
+    
+    ```
+
+    Notice that (as expected) there are zero records in the table due to the immediate deletion of the record.
+
+
+6. The code that writes to the *process_service_outbox* table when sending a message to the ER-Demo *responder service* is implemented in a [custom jbpm workItemHandler](https://github.com/btison/emergency-response-demo-process-service/blob/process-service-outbox/src/main/java/com/redhat/cajun/navy/process/wih/KafkaMessageSenderWorkItemHandler.java#L78-L85) :
+   
+   ```
+   if (updateResponderCommandDestination.equals(destination)) {
+            OutboxEvent outboxEvent = null;
+            try {
+                outboxEvent = new OutboxEvent("responder-command", key, msg.getMessageType(), new ObjectMapper().writeValueAsString(msg));
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+            outboxEventEmmitter.emitEvent(outboxEvent);
+   }
+
+   ```
+
+7. The code that inserts and then immediately deletes the record in the *process_service_outbox* table is [here](https://github.com/btison/emergency-response-demo-process-service/blob/process-service-outbox/src/main/java/com/redhat/cajun/navy/process/entity/OutboxEventEmitter.java#L16) :
+   
+   ```
+   @Component
+   public class OutboxEventEmitter {
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public void emitEvent(OutboxEvent event) {
+        entityManager.persist(event);
+        entityManager.remove(event);  // Remove immediately upon creation
+    }
+
+   }
+   ```
+    
 # 5. Conclusion
 
+The Red Hat sponsored Debezium community project provides powerful capabilities to be employed in modern *cloud-native* architected business application.
 
+By leveraging Debezium to implement the *outbox pattern*, the ER-Demo greatly benefits by executing a single write in each of its synchronous transactions.  It now completely avoids all unintended consequences of *dual writes* in those transactions.
 
+The *outbox pattern* is just one of many use-cases to employ Debezium.  We encourage you to familiarize yourself with its [capabilities and usecases](https://speakerdeck.com/gunnarmorling/practical-change-data-streaming-use-cases-with-apache-kafka-and-debezium-qcon-san-francisco-2019) to employ in your *cloud-native* architecture business applications.
+    
+    
