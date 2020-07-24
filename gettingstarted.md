@@ -417,7 +417,7 @@ These dashboards can bee seen as follows:
 
      If the process diagram appears as above, then wait another twenty seconds or so.  The process instance will re-awaken at the expiration of the timer node and re-attempt assignment of a eligible responder to an evacuee.
 
-     It could also be the case that none of your existing responders meet the requirements of the incidents. ie; none of the responders have sufficient boat capacity or do not offer the medical attention needed.  This problem can typically be resolved by simply generating additional new responders (as per the *disaster-simulator* console discussed in [](/admin_consoles.md) ).
+     It could also be the case that none of your existing responders meet the requirements of the incidents. ie; none of the responders have sufficient boat capacity or do not offer the medical attention needed.  This problem can typically be resolved by simply generating additional new responders (as per the [*disaster-simulator* web console](/admin_consoles.md) ).
 3. **Responders Do Not Seem to Move**
    - **Symptom:**
      The Responder has been assigned a mission and even the process diagram appears when clicking the pickup point.
