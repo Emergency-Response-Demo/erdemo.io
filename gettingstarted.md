@@ -407,7 +407,18 @@ These dashboards can bee seen as follows:
 
          `````
 
-2. **Responders Do Not Seem to Move**
+2. **Incidents Do Not Seem to Get Assigned**
+   - **Symptom:**
+     On occasion is can appear that *incidents* have gone stale and they are not being assigned to available responders.
+   - **Problem Triage**
+     Check the process diagram of a few *stale* incidents.
+
+     ![](images/process_noresponder_loop.png)
+
+     If the process diagram appears as above, then wait another twenty seconds or so.  The process instance will re-awaken at the expiration of the timer node and re-attempt assignment of a eligible responder to an evacuee.
+
+     It could also be the case that none of your existing responders meet the requirements of the incidents. ie; none of the responders have sufficient boat capacity or do not offer the medical attention needed.  This problem can typically be resolved by simply generating additional new responders (as per the *disaster-simulator* console discussed in [](/admin_consoles.md) ).
+3. **Responders Do Not Seem to Move**
    - **Symptom:**
      The Responder has been assigned a mission and even the process diagram appears when clicking the pickup point.
      The Responder however does not seem to move to the pickup point.
