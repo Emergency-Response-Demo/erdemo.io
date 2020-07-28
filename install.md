@@ -21,7 +21,11 @@
 
 
 # 1. Installation Overview
-By this time you are excited and want to try out this application.  To do so, you will need to install the application on an OpenShift Container Platform (OCP) 4.* environment.  The installation of the application on OpenShift is done using Ansible.
+By this time you are excited and want to try out this application.  To do so, you will need to install the application on an OpenShift Container Platform (OCP) 4.* environment.
+
+The approach currently taken is:  **Bring Your Own OpenShift 4 Cluster** .
+
+Once you've acquired your own OpenShift 4, the installation of the ER-Demo application on your OpenShift cluster is done using Ansible.
 
 Using Ansible, there are two options for the installation of the Emergency Response app on an OCP 4 environment:
 
@@ -318,7 +322,8 @@ To utilize RHPDS, you will need the following:
 
 3.  Navigate to the following catalog: `Services → Service Catalogs → Multi-Product Demos.
 
-4.  Select the following catalog item: `RHT Emergency Response`.
+4.  Select the following catalog item: `OCP Cluster for ER-Demo (self-install)`.
+    ![](/images/rhpds_catalog_item.png)
 
 5.  Click `Order` on the next page.
 
