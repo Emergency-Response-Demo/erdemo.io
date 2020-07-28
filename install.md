@@ -49,7 +49,7 @@ To install the Emergency Response application, you will need the following tools
 
 1. **Unix flavor OS with BASH shell**:  ie; Fedora, RHEL, CentOS, Ubuntu, OSX
 2. **git**
-3. **[oc utility v4.4](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.4/)**
+3. **[oc utility v4.4](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.4/)** or 4.5
 4. **[Ansible](https://www.redhat.com/en/technologies/management/ansible)**
    
    Installation of the Emergency Response application is tested using the _ansible-playbook_ utility from the _ansible_ package of Fedora 31.  Others in the community have also succeeded in installing the app using ansible on OSX.
@@ -71,7 +71,7 @@ Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an O
 ### 2.3.1. Minimum Requirements
 To install the Emergency Response application, you will need an OpenShift Container Platform environment with the following minimum specs:
 
-1. **OCP Version:**  4.4 (although any version of OpenShift in the 4.* family should work)  
+1. **OCP Version:**  4.4 or 4.5  
 2. **Memory:**    24 GBi allocated to one or more _worker_ node(s)
 3. **CPU:** 10 cores allocated to one or more _worker_ nodes
 4. **Disk:** 50 GB of storage that supports [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.4/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
@@ -111,19 +111,24 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
    cd install/ansible
    ```
 
-4. Copy the _inventory.template_
+4. Checkout the latest tag:
+   ```
+   git checkout 2.4
+   ```
+
+5. Copy the _inventory.template_
    ```
    cp inventories/inventory.template inventories/inventory
    ```
 
-5. Using your favorite text editor, open the copied file: _inventories/inventory_
-6. Replace the sample MapBox access token (`map_token`) with a real MapBox token.
+6. Using your favorite text editor, open the copied file: _inventories/inventory_
+7. Replace the sample MapBox access token (`map_token`) with a real MapBox token.
    ```
    # MapBox API token, see https://docs.mapbox.com/help/how-mapbox-works/access-tokens/
    map_token=pk.egfdgewrthfdiamJyaWRERKLJWRIONEWRwerqeGNjamxqYjA2323czdXBrcW5mbmg0amkifQ.iBEb0APX1Vmo-2934rj
    ```
-7. Save the changes.
-8. Diff your inventory file with the inventory template and ensure only the value of the _map_token_ is different:
+8. Save the changes.
+9.  Diff your inventory file with the inventory template and ensure only the value of the _map_token_ is different:
    ```
    $ diff inventories/inventory inventories/inventory.template 
      3c3
@@ -133,7 +138,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
    ```
    **NOTE:** If you previously cloned the ER-Demo install ansible and the values in your inventory file are now out of date, be sure to update as per the inventory.template.
 
-9.  Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
+11. Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
    ```
    OCP_USERNAME=user1
    ```
@@ -323,7 +328,8 @@ To utilize RHPDS, you will need the following:
 3.  Navigate to the following catalog: `Services → Service Catalogs → Multi-Product Demos.
 
 4.  Select the following catalog item: `OCP Cluster for ER-Demo (self-install)`.
-    ![Catalog Item](/images/rhpds_catalog_item.png)
+   
+    ![Catalog_Item](/images/rhpds_catalog_item.png)
 
 5.  Click `Order` on the next page.
 
