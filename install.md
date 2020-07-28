@@ -323,7 +323,7 @@ To utilize RHPDS, you will need the following:
 3.  Navigate to the following catalog: `Services → Service Catalogs → Multi-Product Demos.
 
 4.  Select the following catalog item: `OCP Cluster for ER-Demo (self-install)`.
-    ![](/images/rhpds_catalog_item.png)
+    ![Catalog Item](/images/rhpds_catalog_item.png)
 
 5.  Click `Order` on the next page.
 
