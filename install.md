@@ -113,7 +113,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
 
 4. Checkout the latest tag:
    ```
-   git checkout 2.4
+   git checkout 2.5
    ```
 
 5. Copy the _inventory.template_
