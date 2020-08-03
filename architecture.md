@@ -102,7 +102,7 @@ The Process Service manages the overall business process flow of the Emergency R
 
 ![application architecture](/images/incident-process.png)
 
-The business process is implemented using the *Business Process Management Notation* [(BPMN2) standard](https://www.omg.org/bpmn/).  BPMN2 is similar to other business process modelling technologies such as Visio.  However, unlike Visio, BPMN2 is a standard that is implemented as XML that can subsequently be parsed, validated, compiled and executed at runtime.
+The business process is implemented using the *Business Process Management Notation* [(BPMN2) standard](https://www.omg.org/bpmn/).  BPMN2 is similar to other business process modelling technologies such as Visio.  However, unlike Visio, BPMN2 is a standard that is implemented as XML that can subsequently be parsed, validated, compiled and executed at runtime.  In the Emergency Response application, Red Hat's Process Automation Manager product is used to parse, validate, compile and execute BPMN2.
 
 The business process of the Emergency Response demo is best characterized as *Straight-Through*.
 It meets the criteria of a *straight-through* business process in that its flow is known upfront at design-time and at runtime its lifecycle starts and completes in an automated manner.  More elaboration of the different types of business processes can be found [here](/Business_Patterns.md). 
@@ -135,9 +135,9 @@ The end-to-end lifecycle of the business scenario is *long-running*.  It can tak
 
   `````
 
-## 3.3. Interaction with other components
-The Process Service primarily consumes and produces Red Hat AMQ Streams messages.
-When a new Incident is reported on the *topic-incident-event* topic, the process Service kicks off a new BPM process to manage the new Incident.  When a Responder is shown as available (via the *topic-responder-event* topic), the BPM process is updated to reflect this. As the Mission progresses and additional messages are received on the *topic-mission-event* topic, the BPM process is updated to reflect the latest state.
+## 3.3. Interaction with other ER-Demo services
+The Process Service interacts with other ER-Demo services primarily by consuming and producing Red Hat AMQ Streams messages.
+For example:  When a new Incident is reported on the *topic-incident-event* topic, the process Service kicks off a new BPM process to manage the new Incident.  When a Responder is shown as available (via the *topic-responder-event* topic), the BPM process is updated to reflect this. As the Mission progresses and additional messages are received on the *topic-mission-event* topic, the BPM process is updated to reflect the latest state.  Another example occurs when the _Create Mission Command_ node is reached:  the RH-PAM based process service emits a _CreateMissionCommand_ message containing the details of the mission to create (IDs of responder and incident as well as coordinates of the incident, responder and shelter locations).  This _CreateMissionCommand_ message is consumed by the _MissionService_.
 
 The Process Service sends out multiple types of messages on various Topics in response to the incident progressing through its lifecycle:
 
@@ -221,20 +221,14 @@ Tracking this data dynamically allows the incident commander to change the locat
 
   - **Middleware Products / Components:** JDG, AMQ Streams
 
-  - **Other Components:** None
+  - **Other Components:** (MapBox API)[https://www.mapbox.com]
 
 The Mission Service exposes an API for managing Missions, including
 getting a list of mission keys, getting a specific mission by key,
 clearing all missions and getting missions assigned to a specific
 responder.
 
-The Mission Service listens on Kafka to the topic-mission-command topic
-for details of new or updated missions being created. New Mission
-messages trigger a call to MapBox to generate the routes for a mission,
-using the responders location as a starting point, the victims location
-as a way point and the shelter location as the final destination. The
-mission details are then stored in JDG, to service API requests for
-Mission details.
+The Mission Service listens on Kafka to the topic-mission-command topic for details of new or updated missions being created (as per the: _CreateMissionCommand_ message). The mission service calls the route planner service to obtain the route using the responders location as a starting point, the victims location as a way point and the shelter location as the final destination. The Emergency Response application uses the MapBox API for this (https://www.mapbox.com). The route consists of a list of _MissionStep_ instances. The mission object (with MissionStep details) are then stored in JDG.
 
 The Mission Service sends updates to Kafka on the topic-mission-event
 topic in response to mission state change events such as when a mission

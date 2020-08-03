@@ -1,14 +1,15 @@
-- [1. Installation Overview](#1-installation-overview)
+- [1. Overview](#1-overview)
 - [2. Pre-requisites](#2-pre-requisites)
   - [2.1. Local Tooling](#21-local-tooling)
   - [2.2. MapBox Access Token](#22-mapbox-access-token)
   - [2.3. OpenShift](#23-openshift)
     - [2.3.1. Minimum Requirements](#231-minimum-requirements)
-- [3. Installation Procedure](#3-installation-procedure)
-  - [3.1. Pre-built Images](#31-pre-built-images)
-  - [3.2. CI/CD](#32-cicd)
-  - [3.3. Installation Complete !](#33-installation-complete-)
-  - [3.4. Uninstalling](#34-uninstalling)
+- [3. Installation](#3-installation)
+  - [3.1. Setup](#31-setup)
+  - [3.2. Pre-built Images](#32-pre-built-images)
+  - [3.3. CI/CD](#33-cicd)
+  - [3.4. Installation Complete !](#34-installation-complete-)
+  - [3.5. Uninstalling](#35-uninstalling)
 - [4. ER-Demo Web Consoles](#4-er-demo-web-consoles)
   - [4.1. **Emergency Response Console**](#41-emergency-response-console)
   - [4.2. **Disaster Simulator**](#42-disaster-simulator)
@@ -20,7 +21,7 @@
     - [5.1.3. Access](#513-access)
 
 
-# 1. Installation Overview
+# 1. Overview
 By this time you are excited and want to try out this application.  To do so, you will need to install the application on an OpenShift Container Platform (OCP) 4.* environment.
 
 The approach currently taken is:  **Bring Your Own OpenShift 4 Cluster** .
@@ -95,8 +96,10 @@ To install the Emergency Response application, you will need an OpenShift Contai
 
 
 
-# 3. Installation Procedure
+# 3. Installation 
 Now that you have an OpenShift environment that meets the minimum requirements, you can now layer the Emergency Response application on that OpenShift.
+
+## 3.1. Setup
 
 1. Using the oc utility on your local machine, ensure that your are authenticated in your OCP 4 environment as a cluster-admin.
 2. Using the git utility on your local machine, clone the _install_ project of the Emergency Response application:
@@ -146,7 +149,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
 You will now execute the ansible to install the Emergency Response application.
 **Select one of the following two approaches:  _Pre-built Images_ or _CI/CD_**
 
-## 3.1. Pre-built Images
+## 3.2. Pre-built Images
 This approach is best suited for those that want to utilize (ie: for a customer demo) the Emergency Response app.  This installation approach does not use Jenkins pipelines.  Instead, the OpenShift _deployments_ for each component of the Emergency Response application are started using pre-built Linux container images pulled from corresponding [public Quay image repositories](https://quay.io/organization/emergencyresponsedemo).  With this approach, the typical duration to build the Emergency Response app is about 20 minutes.  This is the default installation approach.
 
 1. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
@@ -161,7 +164,7 @@ This approach is best suited for those that want to utilize (ie: for a customer 
    ```
 
 
-## 3.2. CI/CD
+## 3.3. CI/CD
 
 This approach is best suited for code contributors to the Emergency Response app.  Individual Jenkins pipelines are provided for each component of the app.  Each pipeline builds from source, tests, creates a Linux container image and deploys that image to OpenShift.  The typical duration to build the Emergency Response application from source using these pipelines is about an hour.  This approach is also of value if the focus of a demo to a customer and/or partner is to introduce them to CI/CD best practices of a microservice architected application deployed to OpenShift.
 
@@ -196,7 +199,7 @@ This approach is best suited for code contributors to the Emergency Response app
       ![](/images/pipeline_example.png)
 
 
-## 3.3. Installation Complete !
+## 3.4. Installation Complete !
 
 Congratulations on having installed the ER-Demo !
 
@@ -249,7 +252,7 @@ As you become more familiar with the ER-Demo, consider cross-referencing all the
 Also, the ER-Demo [Architecture Guide](/architecture.md) provides details of the various components that make up the ER-Demo.
 
 
-## 3.4. Uninstalling
+## 3.5. Uninstalling
 
 To uninstall:
 ```
