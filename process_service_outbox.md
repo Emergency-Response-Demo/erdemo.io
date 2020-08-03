@@ -75,7 +75,7 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
        -n $ERDEMO_NS \
        -o=jsonpath='{.spec.template.spec.containers[].image}'
 
-   quay.io/btison/postgres-10-decoderbufs-fedora
+   quay.io/emergencyresponsedemo/postgres-10-decoderbufs-fedora
 
    ```
 
@@ -95,7 +95,7 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
     $ oc get deployment kafka-connect-connect -n $ERDEMO_NS \
          -o=jsonpath='{.spec.template.spec.containers[].image}'
 
-    quay.io/btison/strimzi-debezium-postgresql:1.4.0-1.1.2.Final
+    quay.io/emergencyresponsedemo/strimzi-debezium-postgresql:1.4.0-1.1.2.Final
 
     ```
 
@@ -176,7 +176,7 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
     Notice that (as expected) there are zero records in the table due to the immediate deletion of records to this table.
 
 
-6. The code that writes to the *process_service_outbox* table when sending a message to the ER-Demo *responder service* is implemented in a [custom RH-PAM workItemHandler](https://github.com/btison/emergency-response-demo-process-service/blob/process-service-outbox/src/main/java/com/redhat/cajun/navy/process/wih/KafkaMessageSenderWorkItemHandler.java#L78-L85) :
+6. The code that writes to the *process_service_outbox* table when sending a message to the ER-Demo *responder service* is implemented in a [custom RH-PAM workItemHandler](https://github.com/Emergency-Response-Demo/process-service/blob/process-service-outbox/src/main/java/com/redhat/cajun/navy/process/wih/KafkaMessageSenderWorkItemHandler.java#L78-L85) :
    
    ```
    if (updateResponderCommandDestination.equals(destination)) {
@@ -191,7 +191,7 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
 
    ```
 
-7. The code that inserts and then immediately deletes the record in the *process_service_outbox* table is [here](https://github.com/btison/emergency-response-demo-process-service/blob/process-service-outbox/src/main/java/com/redhat/cajun/navy/process/entity/OutboxEventEmitter.java#L16) :
+7. The code that inserts and then immediately deletes the record in the *process_service_outbox* table is [here](https://github.com/Emergency-Response-Demo/process-service/blob/process-service-outbox/src/main/java/com/redhat/cajun/navy/process/entity/OutboxEventEmitter.java#L16) :
    
    ```
    @Component
