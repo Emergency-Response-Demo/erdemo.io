@@ -16,9 +16,11 @@
   - [4.3. **Grafana Dashboards**](#43-grafana-dashboards)
 - [5. Appendix](#5-appendix)
   - [5.1. OCP4 from RHPDS](#51-ocp4-from-rhpds)
-    - [5.1.1. Order OCP4](#511-order-ocp4)
-    - [5.1.2. Confirmation Emails](#512-confirmation-emails)
-    - [5.1.3. Access](#513-access)
+    - [5.1.1. Overview](#511-overview)
+    - [5.1.2. Risks and Challenges](#512-risks-and-challenges)
+    - [5.1.3. Order OCP4](#513-order-ocp4)
+    - [5.1.4. Confirmation Emails](#514-confirmation-emails)
+    - [5.1.5. Access](#515-access)
 
 
 # 1. Overview
@@ -64,10 +66,9 @@ MapBox APIs provide the Emergency Response application with an optimized route f
 
 ## 2.3. OpenShift
 
-You can utilize your own vanilla OpenShift 4 environment so long as it meets the minimum requirements described below in this section.
-The benefit of utilizing your own OpenShift environment is that you decide if/when to shut it down and the duration of its lifetime.  In addition, if there are any errors in the provisioning process of OpenShift, you will have some ability to troubleshoot the problem.
+You can utilize your own vanilla OpenShift 4 environment so long as it meets the minimum requirements described below in this section.  The benefit of utilizing your own OpenShift environment is that you decide if/when to shut it down and the duration of its lifetime.  In addition, if there are any errors in the provisioning process of OpenShift, you will have some ability to troubleshoot the problem.
 
-Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat's _Partner Demo System_ (RHPDS).  Using RHPDS, the minimum requirements described below are met.  However, your OpenShift environment will shut down at known periods (typically 10 hours) and will be deleted after a certain duration (typically 2 days).  Also, **the failure rates of provisioning a base OpenShift from RHPDS are known to be high**.  (Each provisioning attempt consists of hundreds of steps, many of which rely on third-party services). You may need to attempt numerous times over the course of days.  Details pertaining to accessing an OpenShift 4 environment from RHPDS are found in [the Appendix](##51-ocp4-from-rhpds) of this document.
+Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat's _Partner Demo System_ (RHPDS).  Using RHPDS, the minimum requirements described below are met.  However, there are known risks and challenges.  Details pertaining to these risks as well as accessing an OpenShift 4 environment from RHPDS are found in [the Appendix](##51-ocp4-from-rhpds) of this document.
 
 ### 2.3.1. Minimum Requirements
 To install the Emergency Response application, you will need an OpenShift Container Platform environment with the following minimum specs:
@@ -304,6 +305,8 @@ Further details regarding how to run the ER-Demo can be found in the [Getting St
 
 ## 5.1. OCP4 from RHPDS
 
+### 5.1.1. Overview
+
 The _Red Hat Product Demo System_ (RHPDS) provides a wide variety of cloud-based labs and demos showcasing Red Hat software.
 One of the offerings from RHPDS is a cloud-based OCP 4 environment that meets all of the minimum requirements to support an installation of the Emergency Response application.  The default shutdown and lifetime durations of this environment are as follows:
 
@@ -319,7 +322,16 @@ To utilize RHPDS, you will need the following:
 2. SFDC Opportunity, Campaign ID or Partner Registration
 
 
-### 5.1.1. Order OCP4
+### 5.1.2. Risks and Challenges
+
+* **Provisioning failure rates from RHPDS are known to be high**.  Each provisioning attempt for an OCP 4 cluster consists of hundreds of steps, many of which rely on third-party services. You may need to attempt numerous times over the course of days.
+  
+* **Shutdown and Restarts**   Your OpenShift environment will shut down at known periods (typically 10 hours) and will be deleted after a certain duration (typically 2 days).  The real problems typically occur with a restart of the cluster.  ie:  AWS EBS is known to go stale from time to time with the restart of a cluster.  
+  
+    <span style="color:red">WARNING: ALWAYS SMOKE TEST YOUR ER-DEMO ENVIRONMENT AFTER A CLUSTER RESTART </span>.
+
+
+### 5.1.3. Order OCP4
 
 
 1.  In a web browser, navigate to the *Red Hat Product Demo System* at:
@@ -341,7 +353,7 @@ To utilize RHPDS, you will need the following:
 
 7.  At the bottom of the same page, click `Submit`.
 
-### 5.1.2. Confirmation Emails
+### 5.1.4. Confirmation Emails
 
 The provisioning of your OpenShift environment from RHPDS typically takes about 1 hour.
 
@@ -360,7 +372,7 @@ Upon ordering the lab environment, you will receive the following various confir
     
 
 
-### 5.1.3. Access
+### 5.1.5. Access
 1. Upon reading through the completion email, you should authenticate into the OpenShift environment as a cluster admin.  You will execute a command similar to the following:
    ```
    oc login https://api.cluster-242b.242b.example.opentlc.com:6443 -u <cluster-admin user> -p '<cluster-admin passwd>'

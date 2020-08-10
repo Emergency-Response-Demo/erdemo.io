@@ -32,8 +32,8 @@ In addition, it allows for your audience to participate in this simulation of re
 The following is a list of *discussion vectors* that the Emergency Response demo application can help facilitate with your customers:
 
 1. **Power of Communities**
-2. **Event-Driven, Cloud-Native Architected Applications**
-3. **Red Hat Unified Application Environment**
+2. **Red Hat Unified Application Environment**
+3. **Event-Driven, Reactive Applications**
 4. **[50 Shades of Business Processes](/Business_Patterns.md)**
 5. **[Change Data Capture and Outbox Pattern](/process_service_outbox.md)**
 6. **Cloud-Native Security Protocols**
