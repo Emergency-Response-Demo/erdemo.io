@@ -1,6 +1,6 @@
 ---
 layout: page
-title: ER-Demo Process Service
+title: CDC
 subtitle: Outbox Pattern and Debezium
 ---
 
