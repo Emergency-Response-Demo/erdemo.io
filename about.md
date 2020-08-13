@@ -1,6 +1,6 @@
 ---
 layout: page
-title: About this demo
+title:
 subtitle: Emergency Response Demo
 ---
 
@@ -27,7 +27,7 @@ In addition, it allows for your audience to participate in this simulation of re
 ![dashboard](/images/dashboard.png)
 
 
-# What major themes can the Emergency Response demo application help you communicate to your customers:
+# Demo Themes 
 
 The following is a list of *discussion vectors* that the Emergency Response demo application can help facilitate with your customers:
 
@@ -43,10 +43,9 @@ The following is a list of *discussion vectors* that the Emergency Response demo
 10. **DevSecOps**
 11. **Hybrid / Multi Cloud Applications**
 
-# What technologies does the stack showcase?
+# Technologies Utilized?
 
-The Emergency Response Demo makes it easy for you to show the power of
-the integrated Red Hat Application Services Portfolio, running on OpenShift. If you are looking for more information on the products click the links below.
+The Emergency Response Demo makes it easy for you to show the power of the integrated Red Hat Application Services Portfolio, running on OpenShift. If you are looking for more information on the products click the links below.
 
   - [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift)
   - [Red Hat Runtimes](https://www.redhat.com/en/technologies/cloud-computing/openshift/application-runtimes)
@@ -58,3 +57,4 @@ the integrated Red Hat Application Services Portfolio, running on OpenShift. If 
   - KafkaConnect component of Red Hat AMQ Streams
   - Red Hat sponsored Debezium open-source project 
   - [Red Hat Single Sign-On](https://access.redhat.com/products/red-hat-single-sign-on)
+  - Jenkins (and its Kubernetes Plugin) along with [Scripted Pipelines](https://opensource.com/article/18/8/devops-jenkins-2) for each service.
