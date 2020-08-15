@@ -32,7 +32,7 @@ In addition, it allows for your audience to participate in this simulation of re
 The following is a list of *discussion vectors* that the Emergency Response demo application can help facilitate with your customers:
 
 1. **[Power of Communities](https://gcn.com/articles/2020/05/11/open-source-emergency-response-demo.aspx)**
-2. **Red Hat Unified Application Environment**
+2. **[Red Hat Unified Application Environment](https://developers.redhat.com/appenv)**
 3. **Event-Driven, Reactive Applications**
 4. **[50 Shades of Business Processes](/Business_Patterns.md)**
 5. **[Change Data Capture and Outbox Pattern](/process_service_outbox.md)**
