@@ -10,6 +10,8 @@
   - [3.2. Option A:  Pre-built Images](#32-option-a-pre-built-images)
   - [3.3. Option B: CI/CD](#33-option-b-cicd)
   - [3.4. Installation Complete !](#34-installation-complete-)
+    - [3.4.1. Sanity Checks](#341-sanity-checks)
+    - [3.4.2. Deployment Topology](#342-deployment-topology)
   - [3.5. Uninstalling](#35-uninstalling)
 - [4. ER-Demo Web Consoles](#4-er-demo-web-consoles)
   - [4.1. **Emergency Response Console**](#41-emergency-response-console)
@@ -194,6 +196,7 @@ This approach is best suited for code contributors to the Emergency Response app
 
 Congratulations on having installed the ER-Demo !
 
+### 3.4.1. Sanity Checks
 A few sanity-checks that you can execute prior to getting started with the demo are as follows:
 
 1. Ensure that the *statefulsets* that support the ER-Demo are healthy:
@@ -237,6 +240,7 @@ A few sanity-checks that you can execute prior to getting started with the demo 
    ```
 
 
+### 3.4.2. Deployment Topology
 A complete topology of all of the components that have been installed can be found [here](/images/project_topology.png).
 As you become more familiar with the ER-Demo, consider cross-referencing all the components listed in this diagram with what is actually deployed in your OpenShift cluster.
 
