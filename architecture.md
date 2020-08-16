@@ -316,11 +316,11 @@ Service in order to manage data creation / deletion.
 
   - **Runtime**: Quarkus
   
-  - **Middleware Components**: AMQ Streams
+  - **Middleware Components**: Red Hat AMQ Streams, Red Hat Data Grid
   
   - **Other Components**: PostgreSQL, Grafana
   
-The *Datawarehouse Service* is a Quarkus based service that listens in on all AMQ Streams based message traffic in the ER-Demo.  Using the data in these messages, it populates a de-normalized relational database (implemented using PostgreSQL) whose schema supports dashboard related queries.
+The *Datawarehouse Service* is a Quarkus based service that listens on all Red Hat AMQ Streams based message traffic in the ER-Demo.  Using the data in these messages, it populates a de-normalized relational database (implemented using PostgreSQL) whose schema supports dashboard related queries.  Temporary data accumulated during the lifecycle of the mission is stored in Red Hat Data Grid until the mission is completed and its history archived in the datawarehouse.  Grafana renders the dashboards generated from queries on the PostgreSQL based datawarehouse.
 
 
 ![](/images/mission_commander_kpis.png)
@@ -336,7 +336,7 @@ There are many ways in which this same *Business Activity Monitoring* (BAM) capa
 2. **Change Data Capture**
    
     Change Data Capture, or CDC, is an older term for a system that monitors and captures the changes in data so that other software can respond to those changes. Proprietary data warehouses often have built-in CDC support, since data warehouses need to stay up-to-date as the data changed in the upstream OLTP databases.
-    The [Red Hat sponsored Debezium project](https://debezium.io/) is a modern, distributed open source change data capture platform that integrates with the major open-source and proprietary databases in use today.
+    A modern, open-source change data capture platform is available via the [Red Hat sponsored Debezium project](https://debezium.io/). Debezium integrates with the major open-source and proprietary databases in use today.
    
 
 3. **Data Virtualization**
