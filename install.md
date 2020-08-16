@@ -3,11 +3,12 @@
   - [2.1. Local Tooling](#21-local-tooling)
   - [2.2. MapBox Access Token](#22-mapbox-access-token)
   - [2.3. OpenShift](#23-openshift)
-    - [2.3.1. Minimum Requirements](#231-minimum-requirements)
+    - [2.3.1. Overview](#231-overview)
+    - [2.3.2. Minimum Requirements](#232-minimum-requirements)
 - [3. Installation](#3-installation)
   - [3.1. Setup](#31-setup)
-  - [3.2. Pre-built Images](#32-pre-built-images)
-  - [3.3. CI/CD](#33-cicd)
+  - [3.2. Option A:  Pre-built Images](#32-option-a-pre-built-images)
+  - [3.3. Option B: CI/CD](#33-option-b-cicd)
   - [3.4. Installation Complete !](#34-installation-complete-)
   - [3.5. Uninstalling](#35-uninstalling)
 - [4. ER-Demo Web Consoles](#4-er-demo-web-consoles)
@@ -29,20 +30,6 @@ By this time you are excited and want to try out this application.  To do so, yo
 The approach currently taken is:  **Bring Your Own OpenShift 4 Cluster** .
 
 Once you've acquired your own OpenShift 4, the installation of the ER-Demo application on your OpenShift cluster is done using Ansible.
-
-Using Ansible, there are two options for the installation of the Emergency Response app on an OCP 4 environment:
-
-1. **Pre-built Linux container images** 
-   
-   This approach is best suited for those that want to utilize (ie: for a customer demo) the Emergency Response app.  This installation approach does not use Jenkins pipelines.  Instead, the OpenShift _deployments_ for each component of the Emergency Response application are started using pre-built Linux container images pulled from corresponding [public Quay image repositories](https://quay.io/organization/emergencyresponsedemo).  With this approach, the typical duration to build the Emergency Response app is about 20 minutes.  This is the default installation approach.
-
-2. **CI/CD**
-   
-   This approach is best suited for code contributors to the Emergency Response app.  Individual Jenkins pipelines are provided for each component of the app.  Each pipeline builds from source, tests, creates a Linux container image and deploys that image to OpenShift.  The typical duration to build the Emergency Response application from source using these pipelines is about an hour.  This approach is also of value if the focus of a demo to a customer and/or partner is to introduce them to CI/CD best practices of a microservice architected application deployed to OpenShift.
-
-
-
-
 
 # 2. Pre-requisites
 
@@ -66,19 +53,24 @@ MapBox APIs provide the Emergency Response application with an optimized route f
 
 ## 2.3. OpenShift
 
-You can utilize your own vanilla OpenShift 4 environment so long as it meets the minimum requirements described below in this section.  The benefit of utilizing your own OpenShift environment is that you decide if/when to shut it down and the duration of its lifetime.  In addition, if there are any errors in the provisioning process of OpenShift, you will have some ability to troubleshoot the problem.
+### 2.3.1. Overview
+
+<span style="color:blue">To host the Emergency Response demo, it is recommended that you use your own OpenShift 4 environment.</span>.
+
+The benefit of utilizing your own OpenShift environment is that you decide if/when to shut it down and the duration of its lifetime.  In addition, if there are any errors in the provisioning process of OpenShift, you will have some ability to troubleshoot the problem.
 
 Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat's _Partner Demo System_ (RHPDS).  Using RHPDS, the minimum requirements described below are met.  However, there are known risks and challenges.  Details pertaining to these risks as well as accessing an OpenShift 4 environment from RHPDS are found in [the Appendix](##51-ocp4-from-rhpds) of this document.
 
-### 2.3.1. Minimum Requirements
-To install the Emergency Response application, you will need an OpenShift Container Platform environment with the following minimum specs:
+### 2.3.2. Minimum Requirements
+To install the Emergency Response application, you will need a full OpenShift Container Platform environment with the following minimum specs:
 
 1. **OCP Version:**  4.4 or 4.5  
 2. **Memory:**    24 GBi allocated to one or more _worker_ node(s)
 3. **CPU:** 10 cores allocated to one or more _worker_ nodes
-4. **Disk:** 50 GB of storage that supports [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.4/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
+4. **Disk:** 20 Persistent Volumes that support [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.4/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
    
-   NOTE:  The Emergency Response application currently does not require Read-Write-Many (RWX).
+   The Emergency Response application does not require Read-Write-Many (RWX).
+   Every PV should be at least 5GB in size.
 
 5. **Credentials:**  You will need _cluster-admin_ credentials to your OpenShift environment.
 6. **CA signed certificate:** Optional
@@ -90,15 +82,13 @@ To install the Emergency Response application, you will need an OpenShift Contai
    Some Linux container images used in the Emergency Response application reside in the following secured image registry:  _registry.redhat.io_.
    Those images will need to be pulled to your OpenShift 4 environment.
    As part of the installation of OCP4, you should have already been prompted to provide your [pull secret](https://cloud.redhat.com/openshift/install/pull-secret) that enables access to various secured registries to include regisry.redhat.io.
-
-
-
-
+9. **OpenShift Monitoring Capabilities** 
+   <span style="color:red">WARNING: Avoid the use of CodeReady Containers to host the ER-Demo.  For one, the monitoring capabilities of the demo will not be available.</span>.
 
 
 
 # 3. Installation 
-Now that you have an OpenShift environment that meets the minimum requirements, you can now layer the Emergency Response application on that OpenShift.
+Now that you have an OpenShift environment that meets the minimum requirements, you can now layer the Emergency Response application on that OpenShift.  You will do so using an ansible playbook.
 
 ## 3.1. Setup
 
@@ -150,7 +140,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
 You will now execute the ansible to install the Emergency Response application.
 **Select one of the following two approaches:  _Pre-built Images_ or _CI/CD_**
 
-## 3.2. Pre-built Images
+## 3.2. Option A:  Pre-built Images
 This approach is best suited for those that want to utilize (ie: for a customer demo) the Emergency Response app.  This installation approach does not use Jenkins pipelines.  Instead, the OpenShift _deployments_ for each component of the Emergency Response application are started using pre-built Linux container images pulled from corresponding [public Quay image repositories](https://quay.io/organization/emergencyresponsedemo).  With this approach, the typical duration to build the Emergency Response app is about 20 minutes.  This is the default installation approach.
 
 1. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
@@ -165,7 +155,7 @@ This approach is best suited for those that want to utilize (ie: for a customer 
    ```
 
 
-## 3.3. CI/CD
+## 3.3. Option B: CI/CD
 
 This approach is best suited for code contributors to the Emergency Response app.  Individual Jenkins pipelines are provided for each component of the app.  Each pipeline builds from source, tests, creates a Linux container image and deploys that image to OpenShift.  The typical duration to build the Emergency Response application from source using these pipelines is about an hour.  This approach is also of value if the focus of a demo to a customer and/or partner is to introduce them to CI/CD best practices of a microservice architected application deployed to OpenShift.
 
