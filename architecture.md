@@ -319,8 +319,10 @@ Service in order to manage data creation / deletion.
   - **Middleware Components**: Red Hat AMQ Streams, Red Hat Data Grid
   
   - **Other Components**: PostgreSQL, Grafana
-  
-The *Datawarehouse Service* is a Quarkus based service that listens on all Red Hat AMQ Streams based message traffic in the ER-Demo.  Using the data in these messages, it populates a de-normalized relational database (implemented using PostgreSQL) whose schema supports dashboard related queries.  Temporary data accumulated during the lifecycle of the mission is stored in Red Hat Data Grid until the mission is completed and its history archived in the datawarehouse.  Grafana renders the dashboards generated from queries on the PostgreSQL based datawarehouse.
+
+The *Datawarehouse Service* supports the creation of business dashboards that could be used by a *Mission Commander*.
+The service is architected in an _Extract-Load-Transform_ (ELT) manner.  
+In particular, the *Datawarehouse Service* is a Quarkus based service that listens on all Red Hat AMQ Streams based message traffic in the ER-Demo.  Using the data in these messages, it populates a de-normalized relational database (implemented using PostgreSQL) whose schema supports dashboard related queries.  Temporary data accumulated during the lifecycle of the mission is stored in Red Hat Data Grid until the mission is completed and its history archived in the datawarehouse.  Grafana renders the dashboards generated from queries on the PostgreSQL based datawarehouse.
 
 
 ![](/images/mission_commander_kpis.png)
@@ -331,7 +333,7 @@ There are many ways in which this same *Business Activity Monitoring* (BAM) capa
 
 1. **Traditional ETL**
    
-   Process data in batches from source databases (ie: *incident* and *reporting* databases) to a data warehouse.  An ETL *pipeline* is typically implemented that validates, transforms and stages the data prior to pushing it to the production datawarehouse.  There are many mature proprietary products that serve this purpose.  [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) could also be utilized to implement this pipeline.
+   Process data in batches from source databases (ie: *incident* and *reporting* databases) to a data warehouse.  An ETL *pipeline* is typically implemented that validates, transforms and stages the data prior to pushing it to the production datawarehouse.  There are many mature proprietary products that serve this purpose.  [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) could also be utilized to implement this pipeline (most likely with more flexibility and less complication than typical proprietary ETL products).
 
 2. **Change Data Capture**
    
