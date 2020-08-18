@@ -99,8 +99,10 @@ emergency_response_demo=# \d reported_incident
 
 ## 3.1. ER-Demo Business Process
 The Process Service manages the overall business process flow of the Emergency Response Demo scenario.  
+It, along with the Red Hat AMQ Streams brokers, is at the heart of the ER-Demo's *Event Driven Architecture*.
+In particular, it serves as the orchestrator of _events in motion_ between the various services of the application.
 
-![application architecture](/images/incident-process.png)
+![application architecture](/images/incident-process-events-animated.gif)
 
 The business process is implemented using the *Business Process Management Notation* [(BPMN2) standard](https://www.omg.org/bpmn/).  BPMN2 is similar to other business process modelling technologies such as Visio.  However, unlike Visio, BPMN2 is a standard that is implemented as XML that can subsequently be parsed, validated, compiled and executed at runtime.  In the Emergency Response application, Red Hat's Process Automation Manager product is used to parse, validate, compile and execute BPMN2.
 
