@@ -253,7 +253,8 @@ To uninstall:
 ```
 $ ansible-playbook playbooks/install.yml \
                    -e ACTION=uninstall \
-                   -e project_admin=$OCP_USERNAME
+                   -e project_admin=$OCP_USERNAME \
+                   -e uninstall_cluster_resources=true
 ```
 
 # 4. ER-Demo Web Consoles

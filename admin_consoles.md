@@ -4,7 +4,8 @@
   - [1.3. Priority Zone](#13-priority-zone)
     - [1.3.1. Procedure](#131-procedure)
 - [2. SSO Admin Console](#2-sso-admin-console)
-- [3.  Red Hat Data Grid](#3-red-hat-data-grid)
+- [3. Kafdrop Web Console](#3-kafdrop-web-console)
+- [4. Red Hat Data Grid](#4-red-hat-data-grid)
 
 
 This guide details the privileged functions available to the Emergency Response Demo administrator or presenter.
@@ -27,7 +28,7 @@ The incident commander has the ability to change the location at which the disas
 
 ## 1.2. Procedure
 
-1. From the Disaster Location page, refer to the instructions on the wizard. *If you don't see a link for Disaster Location, you're probably not logged in as the correct user (incident_commander).*
+1. In the Emergency Response web console, authenticate in as:  _incident_commander_. From the Disaster Location page, refer to the instructions on the wizard. *If you don't see a link for Disaster Location, you're probably not logged in as the correct user (incident_commander).*
 
 _**Note** Be sure to perform this step **before** generating incidents and responders. Generated markers use disaster location data when they are **created**, so updating the location will not affect existing incidents and responders._
 
@@ -79,5 +80,37 @@ As an RH-SSO, you can manage all SSO Realms via the following:
     ![Realm selection](images/sso_select_realm.png)
 
 
-# 3.  Red Hat Data Grid
+# 3. Kafdrop Web Console
+The open-source [kafdrop](https://github.com/obsidiandynamics/kafdrop) admin console for Kakfa / Red Hat AMQ Streams is included as a KNative Service in the Emergency Response demo.  This admin console provides insight regarding topics, partitions, consumer groups and messages.  You can access this utilize this admin console as follows:
+
+1.  Point a browser tab to the output of the following command:
+    ```
+    OCP_USERNAME=user1  # CHANGE ME IF NEEDED
+
+     echo -en "\n\n$(oc get kservice $OCP_USERNAME-kafdrop --template='{{ .status.url }}' -n $OCP_USERNAME-er-demo)\n\n"
+    ```
+
+    NOTE:  Wait for about 15 seconds after invoking this URL.  The Kafdrop admin console is deployed as a KNative Serving service and configured to scale to zero.  It'll take a bit for a kafdrop pod to spin up.
+
+    ![Kafdrop Home Page](/images/kafdrop_homepage.png)
+
+2.  Scroll down the page to view the list of Kafka Topics
+    Notice the number of partitions per topic.  A partition is a single *commit log* in Kafka.  Messages are written to the partition in an append-only fashion, and are read in order from beginning to end.  Note that as a topic typically has multiple partitions, there is no guarantee of message time-ordering across the entire topic, just within a single partition.  Partitions are also the way that Kafka provides redundancy and scalability.  Each partition can be hosted on a different server, which means that a single topic can be scaled horizontally across multiple servers to provide performance far beyond the ability of a single server.
+3.  Click any of the topics
+
+    ![](/images/kafdrop_topic.png)
+
+    Notice the list of consumers registered to consume messages from this topic.  In addition notice the Partition Details.
+
+4.  In the top left corner of the topic panel, click:  *View Messages*.
+5.  For the *Message format* filter, select:  *DEFAULT*.
+    (The *DEFAULT* format corresponds to JSON serialization, which is what ER-DEMO currently uses for all async message traffic).
+6.  Notice the list of messages in this topic.
+    Any of the messages can be expanded to view the entire payload.
+    
+    ![](/images/kafdrop_message.png)
+
+    
+
+# 4. Red Hat Data Grid
 To-Do
