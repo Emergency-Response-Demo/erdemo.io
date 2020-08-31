@@ -81,7 +81,7 @@ As an RH-SSO, you can manage all SSO Realms via the following:
 
 
 # 3. Kafdrop Web Console
-The open-source [kafdrop](https://github.com/obsidiandynamics/kafdrop) admin console for Kakfa / Red Hat AMQ Streams is included as a KNative Service in the Emergency Response demo.  This admin console provides insight regarding topics, partitions, consumer groups and messages.  You can access this utilize this admin console as follows:
+The open-source [kafdrop](https://github.com/obsidiandynamics/kafdrop) admin console for Kakfa / Red Hat AMQ Streams is included as a KNative Service in the Emergency Response demo.  This admin console provides insight regarding topics, partitions, consumer groups and messages.  You can access and utilize this admin console as follows:
 
 1.  Point a browser tab to the output of the following command:
     ```
@@ -90,7 +90,7 @@ The open-source [kafdrop](https://github.com/obsidiandynamics/kafdrop) admin con
      echo -en "\n\n$(oc get kservice $OCP_USERNAME-kafdrop --template='{{ .status.url }}' -n $OCP_USERNAME-er-demo)\n\n"
     ```
 
-    NOTE:  Wait for about 15 seconds after invoking this URL.  The Kafdrop admin console is deployed as a KNative Serving service and configured to scale to zero.  It'll take a bit for a kafdrop pod to spin up.
+    NOTE:  You may have to wait for about 15 seconds after invoking this URL.  The Kafdrop admin console is deployed as a *KNative Serving* service and configured to scale to zero.  It'll take a bit for a new kafdrop pod to spin up.
 
     ![Kafdrop Home Page](/images/kafdrop_homepage.png)
 

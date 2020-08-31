@@ -5,7 +5,7 @@
 - [3. Process Service](#3-process-service)
   - [3.1. ER-Demo Business Process](#31-er-demo-business-process)
   - [3.2. Responsibilities](#32-responsibilities)
-  - [3.3. Interaction with other components](#33-interaction-with-other-components)
+  - [3.3. Interaction with other ER-Demo services](#33-interaction-with-other-er-demo-services)
   - [3.4. Assign Mission rules](#34-assign-mission-rules)
   - [3.5. Architecture](#35-architecture)
 - [4. Incident Priority Service](#4-incident-priority-service)
@@ -17,6 +17,8 @@
   - [9.1. Responder Simulator](#91-responder-simulator)
   - [9.2. Disaster Simulator](#92-disaster-simulator)
 - [10. Datawarehouse Service](#10-datawarehouse-service)
+- [11. Evacuee Find Service](#11-evacuee-find-service)
+- [12. Kafdrop](#12-kafdrop)
   
 
 # 1. Overview
@@ -47,6 +49,7 @@ Details of each of the core application components of the demo application are p
 
   - **Other Components**: Postgres DB
   - **Source code**: [incident-service](https://github.com/Emergency-Response-Demo/incident-service)
+  - **Serverless Enabled**:  no
 
 The Incident Service exposes an API for registering new Incidents and
 retrieving information about existing Incidents. An endpoint is also
@@ -95,6 +98,7 @@ emergency_response_demo=# \d reported_incident
     - [process-service](https://github.com/Emergency-Response-Demo/process-service)
     - [incident-process-kjar](https://github.com/Emergency-Response-Demo/incident-process-kjar)
     - [cajun-navy-rules](https://github.com/Emergency-Response-Demo/cajun-navy-rules)
+  - **Serverless Enabled**:  no
   - **Deep-dive video**: [The Value of Red Hat PAM to ER-Demo](https://youtu.be/lZr5B-Ms_6A)
 
 ## 3.1. ER-Demo Business Process
@@ -173,6 +177,7 @@ Incidentally, this architecture approach most closely resembles the architecture
     - AMQ Streams
 
   - **Source Code**: [incident-priority-service](https://github.com/Emergency-Response-Demo/incident-priority-service)
+  - **Serverless Enabled**:  no
 
 When the process service is unable to assign a responder to an incident, an IncidentAssignmentEvent is sent to an AMQ Streams broker.
 The incident priority service consumes these events and raises the priority for each failed assignment.
@@ -186,6 +191,9 @@ The rules engine uses a stateful rules session.
   - **Middleware Products / Components**: AMQ-Streams
 
   - **Other Components:** Postgres DB
+  
+  - **Source code**: [responder-service](https://github.com/Emergency-Response-Demo/responder-service)
+  - **Serverless Enabled**:  no
 
 The Responder Service exposes an API for managing Responders, including
 registering new Responders, retrieving information about all available
@@ -212,6 +220,9 @@ Kafka message to the topic test-topic.
   - **Runtime**: Vert.x
   
   - **Middleware Components:** JDG
+  
+  - **Source code**: [disaster-service](https://github.com/Emergency-Response-Demo/disaster-service)
+  - **Serverless Enabled**:  no
 
 The Disaster Service exposes an API for managing the disaster's metadata, including: the coordinates and magnification for the center of the disaster; the list of inclusion zones (geopolygons in which incidents and responders should spawn); and the list of shelters and their locations.
 
@@ -224,6 +235,9 @@ Tracking this data dynamically allows the incident commander to change the locat
   - **Middleware Products / Components:** JDG, AMQ Streams
 
   - **Other Components:** (MapBox API)[https://www.mapbox.com]
+  
+  - **Source code**: [mission-service](https://github.com/Emergency-Response-Demo/mission-service)
+  - **Serverless Enabled**:  no
 
 The Mission Service exposes an API for managing Missions, including
 getting a list of mission keys, getting a specific mission by key,
@@ -248,6 +262,9 @@ Responder is available for a new mission.
   - **Runtime**: Node.js, Angular
 
   - **Middleware Products / Components:** Red Hat SSO
+  
+  - **Source code**: [Emergency Console](https://github.com/Emergency-Response-Demo/emergency-console)
+  - **Serverless Enabled**:  no
 
 The emergency console is the front end UI for the Demo Solution. It provides the following main views:
 
@@ -278,6 +295,9 @@ Responder movement around the map).
   - **Middleware Components:** None
 
   - **Other Components:** None
+  
+  - **Source code**: [Responder Simulator](https://github.com/Emergency-Response-Demo/responder-simulator)
+  - **Serverless Enabled**:  no
 
 The Responder Simulator is responsible for moving responders (both bots
 and humans) around the map during missions. As the demo requires the
@@ -303,6 +323,10 @@ on the topic-responder-location-update Topic.
   - **Middleware Components:** None
 
   - **Other Components:** None
+  
+  - **Source code**: [Disaster Simulator](https://github.com/Emergency-Response-Demo/disaster-simulator)
+  - **Serverless Enabled**:  no
+  
 
 The Disaster Simulator is used for managing / coordinating the demo. It
 exposes a basic UI which allows a user to add and remove Incidents and
@@ -321,32 +345,54 @@ Service in order to manage data creation / deletion.
   - **Middleware Components**: Red Hat AMQ Streams, Red Hat Data Grid
   
   - **Other Components**: PostgreSQL, Grafana
+  
+  - **Source code**: [Datawarehouse Service](https://github.com/Emergency-Response-Demo/datawarehouse)
+  - **Serverless Enabled**:  Yes, scale to one
 
 The *Datawarehouse Service* supports the creation of business dashboards that could be used by a *Mission Commander*.
-The service is architected in an _Extract-Load-Transform_ (ELT) manner.  
-In particular, the *Datawarehouse Service* is a Quarkus based service that listens on all Red Hat AMQ Streams based message traffic in the ER-Demo.  Using the data in these messages, it populates a de-normalized relational database (implemented using PostgreSQL) whose schema supports dashboard related queries.  Temporary data accumulated during the lifecycle of the mission is stored in Red Hat Data Grid until the mission is completed and its history archived in the datawarehouse.  Grafana renders the dashboards generated from queries on the PostgreSQL based datawarehouse.
+The service is architected in an _Extract-Load-Transform_ (ELT) manner.  In particular, the *Datawarehouse Service* is a Quarkus based service that listens on all Red Hat AMQ Streams based message traffic in the ER-Demo.  Using the data in these messages, it populates a de-normalized relational database (implemented using PostgreSQL) whose schema supports dashboard related queries.  Temporary data accumulated during the lifecycle of the mission is stored in Red Hat Data Grid until the mission is completed and its history archived in the datawarehouse.  Grafana renders the dashboards generated from queries on the PostgreSQL based datawarehouse.
 
 
 ![](/images/mission_commander_kpis.png)
 
 Grafana provides [an SQL plugin for PostgreSQL](https://grafana.com/docs/grafana/latest/features/datasources/postgres/).  This plugin is leveraged to render various *Mission Commander Dashboards*.  More detail about each of these dashboards can be found in the [getting started](/gettingstarted.md) guide.
 
-There are many ways in which this same *Business Activity Monitoring* (BAM) capability could have been achieved.  A few alternative approaches might be as follows:
+Beyond and *ELT* approach, there are many ways in which similar *Business Activity Monitoring* (BAM) capabilities could have been achieved as follows:
 
-1. **Traditional ETL**
+1. **ETL**
    
-   Process data in batches from source databases (ie: *incident* and *reporting* databases) to a data warehouse.  An ETL *pipeline* is typically implemented that validates, transforms and stages the data prior to pushing it to the production datawarehouse.  There are many mature proprietary products that serve this purpose.  [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) could also be utilized to implement this pipeline (most likely with more flexibility and less complication than typical proprietary ETL products).
+   Extract-Transform-Load:  Process data in batches from source databases (ie: *incident* and *reporting* databases) to a data warehouse.  An ETL *pipeline* is typically implemented that validates, transforms and stages the data prior to pushing it to the production datawarehouse.  There are many proprietary products that serve this purpose.  ETL has the perceived benefit of saving time and storage because you don't need to store the data, modify it and store it again. The main drawback of this approach is that the transformations that happen to the data in the pipeline tie the hands of those who wish to process the data farther down the pipe. ie: If the pipeline between MongoDB and MySQL filters certain events or remove fields from records, all the users and applications who access the data in MySQL will only have access to partial data.  If they require access to the missing fields, the pipeline needs to be rebuilt and historical data will require reprocessing (assuming it is available). [Red Hat Fuse](https://www.redhat.com/en/technologies/jboss-middleware/fuse) could also be utilized to implement this pipeline (most likely with more flexibility and less complication than typical proprietary ETL products).
+
 
 2. **Change Data Capture**
    
     Change Data Capture, or CDC, is an older term for a system that monitors and captures the changes in data so that other software can respond to those changes. Proprietary data warehouses often have built-in CDC support, since data warehouses need to stay up-to-date as the data changed in the upstream OLTP databases.
     A modern, open-source change data capture platform is available via the [Red Hat sponsored Debezium project](https://debezium.io/). Debezium integrates with the major open-source and proprietary databases in use today.
    
-
-3. **Data Virtualization**
-
-    [Red Hat Managed Integration](https://access.redhat.com/documentation/en-us/red_hat_managed_integration/1/html/getting_started/concept-explanation-getting-started) (RHMI) includes a *data virtualization* technology based on the open-source [teiid](https://teiid.io/) project.  Using RHMI, a unified view of all of your backend datasources can be presented to a Business Activity Monitoring dashboards.  Specific to the ER-Demo, the *responder*, *incident* and *process engine* databases could be virtualized such that a single unified view could be presented to a BAM dashboard.
-
-4.  **AMQ Kafka Streams**
+3.  **AMQ Kafka Streams**
 
     Via the upstream community *Apache Kafka* and *Strimzi* communities, sophisticated dashboards could be created directly by querying [Kafka Streams](https://kafka.apache.org/documentation/streams/).
+
+4. **Data Virtualization**
+
+    [Red Hat Managed Integration](https://access.redhat.com/documentation/en-us/red_hat_managed_integration/1/html/getting_started/concept-explanation-getting-started) (RHMI) includes a *data virtualization* technology based on the open-source [teiid](https://teiid.io/) project.  Using RHMI, a unified view of all of your backend datasources can be presented to a Business Activity Monitoring dashboards.  Specific to the ER-Demo, the *responder*, *incident* and *process engine* databases could be virtualized such that a single unified view could be presented to a BAM dashboard.  Note:  As of August 2020, no new releases of Red Hat Data Virtualization are expected going forward.
+
+
+# 11. Evacuee Find Service
+
+  - **Runtime**: Quarkus
+  - **Source code**: [Evacuee Find Service](https://github.com/Emergency-Response-Demo/find-service)
+  - **Serverless Enabled**:  Yes, scale to zero
+
+The evacuee *find-service* exposes a RESTful API that allows for HTTP clients to locate the shelter where an evacuee was dropped off.  This service is expected to serve as the basis of the following future functionality in ER-Demo:
+
+  * API Management of _Find Service_ RESTful endpoint using Red Hat 3scale
+  * [Evacuee Find Service web application](https://github.com/Emergency-Response-Demo/findmyrelative-frontend)
+  
+
+# 12. Kafdrop
+
+  - **Runtime**: SpringBoot
+  - **Serverless Enabled**:  Yes, scale to zero
+
+For information on the use of Kafdrop in ER-Demo, please see the [Administration Guide](/admin_consoles.md#3-kafdrop-web-console)
