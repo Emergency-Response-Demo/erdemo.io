@@ -388,6 +388,8 @@ The evacuee *find-service* exposes a RESTful API that allows for HTTP clients to
 
   * API Management of _Find Service_ RESTful endpoint using Red Hat 3scale
   * [Evacuee Find Service web application](https://github.com/Emergency-Response-Demo/findmyrelative-frontend)
+
+More details regarding how to invoke the Evacuee Find Service can be found in the [readme](https://github.com/Emergency-Response-Demo/find-service/blob/master/README.md)
   
 
 # 12. Kafdrop
