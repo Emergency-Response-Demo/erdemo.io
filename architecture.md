@@ -266,7 +266,7 @@ Responder is available for a new mission.
   - **Source code**: [Emergency Console](https://github.com/Emergency-Response-Demo/emergency-console)
   - **Serverless Enabled**:  no
 
-The emergency console is the front end UI for the Demo Solution. It provides the following main views:
+The emergency console is the front end UI for the demo application. It provides the following main views:
 
   - Incident Commander Dashboard: The overall view of all Incidents,
     Responders and Missions
@@ -277,7 +277,15 @@ The emergency console is the front end UI for the Demo Solution. It provides the
 
   - Incidents: A tabular list of all incidents
 
-The console communicates with several of the back end services (Incident, Mission & Responder) to display real time data via WebSockets.
+The console communicates with several of the back end services (Incident, Mission & Responder) to display real time data via WebSockets.  In particular, the following technologies are utilized to render near realtime events in the web console:
+
+  - *[kafka-node](https://github.com/SOHU-Co/kafka-node#readme)* 
+     kafka-node is a Apache kafka client written in Javascript.  It runs in the server-side of the *emergency-console* and consumes messages from a variety of messaging topics.  Upon consumption of those topics, the side-side javascript of the *emergency-console* *emits* [a message to the client-side](https://github.com/Emergency-Response-Demo/emergency-console/blob/master/server.js#L72) javascript using socket.io .
+
+  - *[Socket.io](https://socket.io/)* :
+    socket.io is a javascript library that provides a layer of abstraction over native WebSockets.
+
+Via this approach, the Event Driven Architecture (EDA) of the Emergency Response demo application is visualized.  The events provide situational awareness to the Incident Commander and responders and assist those actors with decision making and action.
 
 The Emergency Web Console is secured via a *OpenID Connect clients* configured in a Red Hat SSO *realm*. 
 
