@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Red Hat Application Services
+title: Red Hat Kogito
 subtitle: Sub-Atomic ER-Demo Process Service using Red Hat Kogito
 ---
 # 1. Overview
