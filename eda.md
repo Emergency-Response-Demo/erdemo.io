@@ -14,29 +14,29 @@ The purpose of this article is to elaborate on this presentation from the perspe
 
 The *Emergency Response Demo* application characterizes an *Event Driven Architecture* (EDA).  The primary means of interaction between the various services of the application is via *events*.  
 
-Each of these events are in motion and provide a critical story from both a technical and business use case perspective.  Take for instance the ER-Demo's *CreateMissionCommand* event.  What significance does it provide from both a technical and business use-case perspective ?
+Each of these events are in motion and provide a critical story from both a technical and business use case perspective.  Take for instance the ER-Demo's *CreateMissionCommand* event.  What significance does it provide ?
 
--   **Technical value**
+-   **Technical value: **
     The *CreateMissionCommand* event is a trigger to the ER-Demo's *MissionService* to generate a *Mission* that maps a selected responder to an incident.  The ER-Demo's *datawarehouse service* also consumes this same event to populate a database that facilities business activity monitoring.
 
--    **Business value**
-     In a real-world scenario, the *CreateMissionCommand* event would be an actual assignment of a volunteer responder to a specific evacuee who is in need of assistance and has called for aid.
+-    **Business value: **
+     In a real-world scenario, the *CreateMissionCommand* event would be an actual assignment of a volunteer responder to a specific evacuee who is in need of assistance and has called for aid.  An event reflects an action in the real-world.
 
- For the remainder of this section, I would like to further elaborate on the business value of events.
+For the remainder of this section, I will further elaborate on the business value of events.
 
-For one, events can be generated from systems and devices across the globe.  These events can then be exposed to business owners to provide *situational awareness* in near real-time.  In the Emergency Response Demo application, this *situational awareness* is exposed to the *incident commander* via the web console.  The web console is a consumer of the same events that are being produced and consumed by all other ER-Demo services.
+Events can be exposed to business owners to provide *situational awareness* in near real-time.  In the Emergency Response Demo application, this *situational awareness* is exposed to the *incident commander* via the web console.  The web console is a consumer of the same events that are being produced and consumed by all other ER-Demo services.
 
 A natural consequence of this *situational awareness* via *events in motion* is that business owners are now in a better position to make business decisions.
 
 ![](images/sa_business_decisions.png)
 
-For example, from the ER-Demo web console snapshot above, what could be deduced and what decisions might an *incident commander* make ?  Notice that at this particular point in time, there are no longer any incidents in the priority zone.  We can deduce that responders have rescued all evacuees in this zone.  Subsequently, maybe the incident commander is now in a better position to make some adjustments.  Maybe the incident commander could decide to add a new shelter ?  Or maybe the incident commander now feels comfortable with how rescuee operations have progressed thus far and is now in a position to re-focus their personal attention on whatever is the next priority ?
+For example, from the snapshot above of the ER-Demo web console, what could be deduced and what decisions might an *incident commander* make ?  Notice that at this particular point in time, there are no longer any incidents in the circular _priority zone_.  We can deduce that responders have rescued all evacuees in this zone.  Subsequently, maybe the incident commander is now in a better position to make some adjustments.  Maybe the incident commander could decide to add a new shelter ?  Or maybe the incident commander now feels comfortable with how rescuee operations have progressed thus far and is now in a position to re-focus their personal attention to whatever is the next priority ?
 
 
 
 # 2. Orchestration of *Events in Motion*
 
-From a technical perspective, each of the events used in the Emergency Response demo application could have been produced and consumed by services without a central coordinator.  However, this approach can lead to a system that can be more opaque than if there was a central coordinator.  As an alternative approach to a *choreography* (with no central coordinator), the ER-Demo implements a business process (in the form of BPMN2) that explicitly *orchestrates* the event-driven interactions between business services.
+From a technical perspective, each of the events used in the Emergency Response demo application could have been produced and consumed by services without a central coordinator.  This is known as a *choreography*.  However, this approach can lead to a system that can be fairly opaque.  As an alternative approach to a *choreography* (with no central coordinator), the ER-Demo implements a business process (in the form of BPMN2) that explicitly *orchestrates* the event-driven interactions between business services.
 
 ![](site/images/../../images/incident-process-events-animated.gif)
 
@@ -49,10 +49,10 @@ Afterwards, the *audit trail* of each business process can be collected and aggr
 ![](site/images/../../images/mission_commander_kpis.png)
 
 # 3. Scaling of *Events in Motion*
-In modern applications, the volumes of events that need to be processed and transformed into business inteligence can be enormous.  In order to scale to meet these volumes, there are many considerations at various levels of the application software stack that need to be taken into account:
+In modern applications, the volumes of events that need to be processed and transformed into business intelligence can be enormous.  In order to scale to meet these volumes, there are many considerations at various levels of the application software stack that should be taken into account:
 
 - **Service Thread-model**
-  The services of a modern application should leverage a non-blocking, reactive runtime that implements an event-loop.  In the Java ecosystem, the [vert.x](https://vertx.io/) platform provides exactly that.  However, for developers writing applications in a reactive manner, this can sometimes be a challenge.  Subsequently, the [Red Hat Quarkus](https://www.redhat.com/en/topics/cloud-native-apps/what-is-quarkus) framework allows developers (among many other benefits) to program in a more intuitive imperative style while the runtime is always reactive.
+  The services of a modern application should leverage a non-blocking, reactive runtime that implements [an event-loop](https://vertx.io/docs/vertx-core/java/#_reactor_and_multi_reactor).  In the Java ecosystem, the [vert.x](https://vertx.io/) platform provides exactly that.  However, for developers writing applications in a reactive manner, this can sometimes be a challenge.  Subsequently, the [Red Hat Quarkus](https://www.redhat.com/en/topics/cloud-native-apps/what-is-quarkus) framework allows developers to program in a more intuitive imperative style while the runtime is always reactive.
 
   In the ER-Demo, the majority of services are currently written directly in vert.x or in Quarkus.  The remainder are written in SpringBoot.  The intent is to migrate all SpringBoot services to Quarkus.
 
@@ -68,6 +68,7 @@ In modern applications, the volumes of events that need to be processed and tran
 
 - **On-Demand Elasticity**
   Red Hat's OpenShift Container Platform allows for scaling services of an application via configuration.  In addition, OpenShift also comes out-of-the-box with [OpenShift Serverless](https://red.ht/31Qm6My).  OpenShift Serverless leverages the innovation from the [KNative community](https://developers.redhat.com/topics/serverless-architecture/) to provide demand based *scale-out* and *scale-to-zero* capabilities.  In the Emergency Response demo, several of its services (ie:  the datawarehouse service) are implemented as *Knative services*.  The intent is that more of the core Emergency Response Demo services will be migrated to KNative and be configured to *scale to 1*.
+  The services that are expected to scale elastically on demand via KNative require very fast boot-times.  In the Java ecosystem, Quarkus has become the framework enabling serverless.  One aspect of Quarkus is as a build-time tool that implements *ahead-of-time* compilation on your Java application code [to drastically reduce memory consumption and startup time](https://in.relation.to/2019/03/08/why-quarkus/).
 
 # 4. Monitoring of *Events in Motion*
 To support and evolve a modern Event Driven Architected application, both Dev and Ops teams need visibility to the events.  Currently, the Emergency Response demo application provides some degree of visibility via the following:
@@ -86,6 +87,6 @@ Going forward in future releases of AMQ Streams, expect new innovative improveme
 
 Events can be produced in massive quantities from a wide variety of sources.
 
-However, what about all of the data that is typically siloed in traditional relational databases ?  Capturing state changes to this data and transforming these state changes into another source of *events in motion* can be incredibly valuable.
+However, what about all of the data that is typically siloed in traditional relational databases ?  Capturing state changes on this data and transforming these state changes into another source of *events in motion* can be incredibly valuable. In particular, if you can do so without making any code changes to any existing apps.
 
-The Red Hat sponsored [Debezium](https://debezium.io/) community project provides the technology to do exactly that.  You could read more details about how the Emergency Response Demo application makes use of Debezium in the following blog post: [Outbox Pattern implementation in ER-Demo process service](/process_service_outbox.md).
+The Red Hat sponsored [Debezium](https://debezium.io/) community project provides the technology to do exactly that.  You can read more details about how the Emergency Response Demo application makes use of Debezium in the following blog post: [Outbox Pattern implementation in ER-Demo process service](/process_service_outbox.md).
