@@ -113,4 +113,13 @@ The open-source [kafdrop](https://github.com/obsidiandynamics/kafdrop) admin con
     
 
 # 4. Red Hat Data Grid
-To-Do
+Red Hat Data Grid serves as a *distributed* data store for *mission* and *disaster* (ie:  priority zones, shelter locations, disaster-area, etc) information.  Red Hat Data Grid provides a web based administration console that can be enabled as follows:
+
+1. Create a route that exposes the *datagrid-service*
+   ```
+   ```
+2. Using your browser, navigate to the URL of this new route:
+   ```
+   ```
+3. Authenticate in using the following credentials:   *demo* / *demo*
+4. View the details of each of the configured remote caches
