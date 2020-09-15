@@ -306,10 +306,9 @@ The _Red Hat Product Demo System_ (RHPDS) provides a wide variety of cloud-based
 One of the offerings from RHPDS is a cloud-based OCP 4 environment that meets all of the minimum requirements to support an installation of the Emergency Response application.  The default shutdown and lifetime durations of this environment are as follows:
 
 * **Runtime:**  10 hours;
-  You have the ability to extend the runtime (one time only) and re-start if it was shutdown.
+You have the ability to extend the runtime (one time only) and re-start if it was shutdown.
 
 * **Lifetime:** 2 days;
-  You have the ability 
 
 To utilize RHPDS, you will need the following:
 
