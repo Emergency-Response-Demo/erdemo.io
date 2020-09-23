@@ -36,7 +36,9 @@ For example, from the snapshot above of the ER-Demo web console, what could be d
 
 # 2. Orchestration of *Events in Motion*
 
-From a technical perspective, each of the events used in the ER-Demo application could have been produced and consumed by services without a central coordinator.  This is known as a *choreography*.  However, this approach can lead to a system that can be fairly opaque.  As an alternative approach to a *choreography* (with no central coordinator), the ER-Demo implements a business process (in the form of BPMN2) that explicitly *orchestrates* the event-driven interactions between business services.
+From a technical perspective, each of the events used in the ER-Demo application could have been produced and consumed by services without a central coordinator.  This is known as a *choreography*.  However, this approach can lead to a system that can be fairly opaque.  For example, several years ago, Netflix attempted choreography and ran into [several of these types of problems](https://netflixtechblog.com/netflix-conductor-a-microservices-orchestrator-2e8d4771bf40).  
+
+As an alternative approach to a *choreography* (with no central coordinator), the ER-Demo implements a business process (in the form of BPMN2) that explicitly *orchestrates* the event-driven interactions between business services.
 
 ![](site/images/../../images/incident-process-events-animated.gif)
 
@@ -47,6 +49,10 @@ Among other benefits, the use of a business process orchestration engine brings 
 Afterwards, the *audit trail* of each business process can be collected and aggregated to expose powerful business related dashboards.
 
 ![](site/images/../../images/mission_commander_kpis.png)
+
+A matrix comparison between Orchestration and Choreography patterns (both of which fall in the categorization of SAGA patterns) can be seen in the following:
+
+![](site/images/../../images/saga_options.png)
 
 # 3. Scaling of *Events in Motion*
 In modern applications, the volumes of events that need to be processed and transformed into business intelligence can be enormous.  In order to scale to meet these volumes, there are many considerations at various levels of the application software stack that should be taken into account:
