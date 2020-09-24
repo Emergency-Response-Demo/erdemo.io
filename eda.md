@@ -50,7 +50,7 @@ Afterwards, the *audit trail* of each business process can be collected and aggr
 
 ![](site/images/../../images/mission_commander_kpis.png)
 
-A matrix comparison between Orchestration and Choreography patterns (both of which fall in the categorization of SAGA patterns) can be seen in the following:
+A matrix comparison between Orchestration and Choreography patterns (both of which are types of [SAGAs](https://microservices.io/patterns/data/saga.html)) can be seen in the following:
 
 ![](site/images/../../images/saga_options.png)
 
