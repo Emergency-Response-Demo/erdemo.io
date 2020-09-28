@@ -1,10 +1,12 @@
 ---
 layout: page
 title: Serverless
-subtitle: Knative Serving and Eventing
+subtitle: Knative Serving and Eventing in ER-Demo
 ---
 
 # 1. Introduction
+
+Several ER-Demo services are *serverless* enabled using the capabilities of [Knative](https://red.ht/31Qm6My) on OpenShift.
 
 Knative extends facilities in Openshift and Kubernetes to provide a scalable environment for deploying services that scale up and down based on demand. 
 It also provides an eventing mechanism to provide decoupled messaging to applications running inside an Openshift or Kubernetes cluster.
@@ -36,6 +38,8 @@ kafdrop         http://kafdrop-user1-er-demo.apps.ratwater.xyz         kafdrop-w
 Details pertaining to each type of Knative capability are found in the following sections:
 
 # 2. Knative Serving:
+
+This section provides details how to verify the installation of *Knative Serving* functionality in ER-Demo.
 
 
 1. Verify the successful installation of the knative operator in the *openshift-operators* namespace:
@@ -85,16 +89,26 @@ Details pertaining to each type of Knative capability are found in the following
       0s          Normal    Pulled              pod/kafdrop-wn479-deployment-687449d4b6-p7btj       Container image "registry.redhat.io/openshift-serverless-1/serving-queue-rhel8@sha256:8d45d901a58ec5da58e97b5e0d38ce22a9318837a13926ef6c21bb5b81f0bcb0" already present on machine
       `````
 
+      If interested, the following [write-up](https://github.com/knative/serving/blob/master/docs/scaling/SYSTEM.md) and [webinar](https://www.youtube.com/watch?v=sh9mfUExX9o) details the internals of the Knative Serving *auto-scaling* implementation.
+
 
    
 # 3. Knative Eventing:
+
+The *datawarehouse* service of the ER-Demo is Knative Eventing enabled and implemented using a *Source to Sink* approach.  The Knative tutorial mentions the following about the *Source to Sink* usage pattern:
+
+*Source to Sink provides the simplest getting started experience with Knative Eventing. It provides single Sink — that is, event receiving service --, with no queuing, backpressure, and filtering. The Source to Service does not support replies, which means the response from the Sink service is ignored. The responsibility of the Event Source is just to deliver the message without waiting for the response from the Sink, hence it is comparable to the fire and forget messaging pattern*.
+
+![Source To Sink](images/source-to-sink.png)
+
+This section provides details how to verify the installation of *Knative Eventing* functionality in ER-Demo.
+
 
 1. Verify the successful installation of Knative Eventing:
    `````
    $ oc get knativeeventing.operator.knative.dev/knative-eventing \
         -n knative-eventing \
         --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
-  
 
    InstallSucceeded=True
    Ready=True
@@ -120,6 +134,12 @@ Details pertaining to each type of Knative capability are found in the following
    datawarehouse-source   [topic-incident-command]   [kafka-cluster-kafka-bootstrap.user1-er-demo.svc:9092]   False   NotFound   4d3h
    `````
 
+4. Verify that the *datawarehouse-service* is configured to *scale-to-1*:
+   `````
+   $ oc get kservice datawarehouse -o template --template {{.spec.template.metadata.annotations}}
+
+     map[autoscaling.knative.dev/minScale:1]
+   `````
 
 
 # 4. Appendix
