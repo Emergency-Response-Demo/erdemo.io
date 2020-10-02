@@ -1,6 +1,5 @@
 - [1. Overview](#1-overview)
   - [1.1. Application Architecture](#11-application-architecture)
-  - [1.2. Service Communication](#12-service-communication)
 - [2. Incident Service](#2-incident-service)
 - [3. Process Service](#3-process-service)
   - [3.1. ER-Demo Business Process](#31-er-demo-business-process)
@@ -19,6 +18,8 @@
 - [10. Datawarehouse Service](#10-datawarehouse-service)
 - [11. Evacuee Find Service](#11-evacuee-find-service)
 - [12. Kafdrop](#12-kafdrop)
+- [13. Appendix](#13-appendix)
+  - [13.1. Service Communication](#131-service-communication)
   
 
 # 1. Overview
@@ -32,23 +33,18 @@ The Emergency Response Demo application consists of multiple runtimes and framew
 ![application architecture](/images/application-architecture.png)
 
 
-## 1.2. Service Communication
-
-
-![service communication](/images/erd-communication.png)
-
 
 Details of each of the core application components of the demo application are provided in the remainder of this document.
 
 # 2. Incident Service
 
-  - **Runtime**: Spring Boot
+  - **Runtime**: Quarkus
 
   - **Application Services Products / Components**: 
     - Red Hat AMQ-Streams
 
   - **Other Components**: Postgres DB
-  - **Source code**: [incident-service](https://github.com/Emergency-Response-Demo/incident-service)
+  - **Source code**: [incident-service](https://github.com/Emergency-Response-Demo/incident-service-quarkus)
   - **Serverless Enabled**:  no
 
 The Incident Service exposes an API for registering new Incidents and
@@ -186,13 +182,13 @@ The rules engine uses a stateful rules session.
 
 # 5. Responder Service
 
-  - **Runtime**: Spring Boot
+  - **Runtime**: Quarkus
 
   - **Middleware Products / Components**: AMQ-Streams
 
   - **Other Components:** Postgres DB
   
-  - **Source code**: [responder-service](https://github.com/Emergency-Response-Demo/responder-service)
+  - **Source code**: [responder-service](https://github.com/Emergency-Response-Demo/responder-service-quarkus)
   - **Serverless Enabled**:  no
 
 The Responder Service exposes an API for managing Responders, including
@@ -205,15 +201,14 @@ managing and resetting the demo).
 When a new Responder is registered, the Responder details are stored in
 the database.
 
-The Service also listens on Kafka to the topic test-topic for updates to
-Responders and stores the latest Responder state in the Database. If the
-update to the responder includes an Incident Id (i.e. if the responder
-has been assigned to work on an Incident) the services also sends a new
-Kafka message to the topic test-topic.
+When a Responder is create, updated or deleted, the service will send a corresponding message to the _topic-responder_event Kakfa topic.
 
-  - Send: test-topic
+At the same time, the service also listens on the _topic-responder-command_ Kafka topic for updates to
+Responders (ie:  mission complete and corresponding responder is now available again for a new mission) and stores the latest responder state in the database.
 
-  - Listen: test-topic
+  - Produce: topic-responder-event
+
+  - Consume: topic-responder-command
 
 # 6. Disaster Service
 
@@ -230,13 +225,13 @@ Tracking this data dynamically allows the incident commander to change the locat
 
 # 7. Mission Service
 
-  - **Runtime**: Vert.x
+  - **Runtime**: Quarkus
 
   - **Middleware Products / Components:** JDG, AMQ Streams
 
   - **Other Components:** (MapBox API)[https://www.mapbox.com]
   
-  - **Source code**: [mission-service](https://github.com/Emergency-Response-Demo/mission-service)
+  - **Source code**: [mission-service](https://github.com/Emergency-Response-Demo/mission-service-quarkus)
   - **Serverless Enabled**:  no
 
 The Mission Service exposes an API for managing Missions, including
@@ -406,3 +401,9 @@ More details regarding how to invoke the Evacuee Find Service can be found in th
   - **Serverless Enabled**:  Yes, scale to zero
 
 For information on the use of Kafdrop in ER-Demo, please see the [Administration Guide](/admin_consoles.md#3-kafdrop-web-console)
+
+# 13. Appendix
+## 13.1. Service Communication
+
+
+![service communication](/images/erd-communication.png)

@@ -12,7 +12,10 @@
   - [3.4. Installation Complete !](#34-installation-complete-)
     - [3.4.1. Sanity Checks](#341-sanity-checks)
     - [3.4.2. Deployment Topology](#342-deployment-topology)
-  - [3.5. Uninstalling](#35-uninstalling)
+  - [3.5. Troubleshooting A Failed Deployment](#35-troubleshooting-a-failed-deployment)
+    - [3.5.1. Ansible Hints](#351-ansible-hints)
+    - [3.5.2. Idempotency](#352-idempotency)
+  - [3.6. Uninstalling](#36-uninstalling)
 - [4. ER-Demo Web Consoles](#4-er-demo-web-consoles)
   - [4.1. **Emergency Response Console**](#41-emergency-response-console)
   - [4.2. **Disaster Simulator**](#42-disaster-simulator)
@@ -24,6 +27,7 @@
     - [5.1.3. Order OCP4](#513-order-ocp4)
     - [5.1.4. Confirmation Emails](#514-confirmation-emails)
     - [5.1.5. Access](#515-access)
+  - [5.2. Advanced Multi-User Installation](#52-advanced-multi-user-installation)
 
 
 # 1. Overview
@@ -109,7 +113,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
 
 4. Checkout the latest tag:
    ```
-   git checkout 2.6.1
+   git checkout 2.7
    ```
 
 5. Copy the _inventory.template_
@@ -134,10 +138,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
    ```
    **NOTE:** If you previously cloned the ER-Demo install ansible and the values in your inventory file are now out of date, be sure to update as per the inventory.template.
 
-11. Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
-   ```
-   OCP_USERNAME=user1
-   ```
+
 
 You will now execute the ansible to install the Emergency Response application.
 **Select one of the following two approaches:  _Pre-built Images_ or _CI/CD_**
@@ -147,8 +148,7 @@ This approach is best suited for those that want to utilize (ie: for a customer 
 
 1. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
    ```
-   ansible-playbook -i inventories/inventory playbooks/install.yml \
-                    -e project_admin=$OCP_USERNAME
+   ansible-playbook -i inventories/inventory playbooks/install.yml
    ```
 2. After about 20 minutes, you should see ansible log messages similar to the following:
    ```
@@ -164,8 +164,7 @@ This approach is best suited for code contributors to the Emergency Response app
 1. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
    ```
    ansible-playbook -i inventories/inventory playbooks/install.yml \
-                    -e deploy_from=source \
-                    -e project_admin=$OCP_USERNAME
+                    -e deploy_from=source
    ```
    
 2. After about an hour, the provisioning should be complete.
@@ -173,18 +172,18 @@ This approach is best suited for code contributors to the Emergency Response app
 3. You can review any of the CI/CD pipelines that ran as part of this provisioning process:
    1. List all build pipelines:
        ```
-       oc get build -n $OCP_USERNAME-tools-erd | grep pipeline
+       oc get build -n user1-tools-erd | grep pipeline
 
        ...
 
-       user2-incident-service-pipeline-1         JenkinsPipeline            Complete   2 hours ago         
-       user2-mission-service-pipeline-1          JenkinsPipeline            Complete   2 hours ago         
-       user2-responder-service-pipeline-1        JenkinsPipeline            Complete   2 hours ago         
-       user2-assignment-rules-model-pipeline-1   JenkinsPipeline            Complete   2 hours ago  
+       user1-incident-service-pipeline-1         JenkinsPipeline            Complete   2 hours ago         
+       user1-mission-service-pipeline-1          JenkinsPipeline            Complete   2 hours ago         
+       user1-responder-service-pipeline-1        JenkinsPipeline            Complete   2 hours ago         
+       user1-assignment-rules-model-pipeline-1   JenkinsPipeline            Complete   2 hours ago  
        ```
    2. From that list, pick any of the builds to get the URL to the corresponding Jenkins pipeline:
       ```
-      oc logs user2-incident-service-pipeline-1 -n $OCP_USERNAME-tools-erd
+      oc logs user2-incident-service-pipeline-1 -n user1-tools-erd
 
       info: logs available at https://jenkins-user2-tools-erd.apps.cluster-denver-8ab6.denver-8ab6.example.opentlc.com/blue/organizations/jenkins/user2-tools-erd%2Fuser2-tools-erd-user2-mission-service-pipeline/detail/user2-tools-erd-user2-mission-service-pipeline/1/
       ```
@@ -202,7 +201,7 @@ A few sanity-checks that you can execute prior to getting started with the demo 
 1. Ensure that the *statefulsets* that support the ER-Demo are healthy:
 
    ```
-   $ oc get statefulset -n $OCP_USERNAME-er-demo
+   $ oc get statefulset -n user1-er-demo
 
    NAME                      READY   AGE
    datagrid-service          3/3     6d13h
@@ -213,7 +212,7 @@ A few sanity-checks that you can execute prior to getting started with the demo 
 2. Ensure that the ER-Demo *deployments* are healthy:
 
    ```
-   $ oc get dc -n $OCP_USERNAME-er-demo
+   $ oc get dc -n user1-er-demo
 
    NAME                              DESIRED   CURRENT
    dw-postgresql                     1         1      
@@ -236,9 +235,8 @@ A few sanity-checks that you can execute prior to getting started with the demo 
 
 3. Ensure that all of pods are stable and are not being restarted:
    ```
-   $ oc get pods -w -n $OCP_USERNAME-er-demo
+   $ oc get pods -w -n user1-er-demo
    ```
-
 
 ### 3.4.2. Deployment Topology
 A complete topology of all of the components that have been installed can be found [here](/images/project_topology.png).
@@ -246,14 +244,66 @@ As you become more familiar with the ER-Demo, consider cross-referencing all the
 
 Also, the ER-Demo [Architecture Guide](/architecture.md) provides details of the various components that make up the ER-Demo.
 
+## 3.5. Troubleshooting A Failed Deployment
+Considering that the automated provisioning of ER-Demo consists of many hundreds of discrete steps, errors can occur from time to time.
 
-## 3.5. Uninstalling
+The good news is that at least you have full cluster-admin access to your OpenShift cluster to troubleshoot.  This is where your OpenShift skills will be of great assistance.
+
+### 3.5.1. Ansible Hints
+
+Normally you can get a ball-park approximation as to where the provisioning failed by studying the ansible output. ie:
+
+````
+TASK [../roles/openshift_process_service : deploy postgresql] ****************************************************************************************************************************************************
+fatal: [localhost]: FAILED! => {"changed": false, "msg": {"cmd": "oc create -f /tmp/process-service-4LN1V4/postgresql.yml -n user1-er-demo", "results": {}, "returncode": 1, "stderr": "Error from server (AlreadyExists): persistentvolumeclaims \"process-service-postgresql\" already exists\n", "stdout": "service/process-service-postgresql created\ndeploymentconfig.apps.openshift.io/process-service-postgresql created\n"}}
+
+NO MORE HOSTS LEFT ***********************************************************************************************************************************************************************************************
+
+PLAY RECAP *******************************************************************************************************************************************************************************************************
+localhost                  : ok=16   changed=8    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0  
+````
+
+The above log alludes to a problem provisioning the postgresql database for the _process-service_.
+For further troubleshooting assistance, feel free to reach out to the community at:  emer-demo-team at redhat dot com .
+
+### 3.5.2. Idempotency
+
+Also of good news is that the ansible itself is idempotent.
+In particular, it is feasible to re-run the ansible more than one time without introducing unintended consequences.
+
+As a short-cut, you may not have to re-run the entire install playbook.
+Included are playbooks for each service that make up the ER-Demo.
+
+`````
+$ ls playbooks/
+
+assignment_rules_model.yml      emergency_console.yml          incident_service.yml  kafka_lag_exporter.yml  monitoring.yml       responder_client_app.yml
+assignment_rules.yml            erd_monitoring.yml             install.yml           kafka_topics.yml        nexus.yml            responder_service.yml
+datagrid.yml                    find_service.yml               jenkins.yml           knative.yml             pgadmin4.yml         responder_simulator_service.yml
+datawarehouse.yml               group_vars                     kafdrop.yml           library                 postgresql.yml       sso_realm.yml
+disaster_service.yml            incident_priority_service.yml  kafka_cluster.yml     mission_service.yml     process_service.yml  sso.yml
+disaster_simulator_service.yml  incident_process.yml           kafka_connect.yml     module_utils            process_viewer.yml   strimzi_operator.yml
+
+`````
+
+For example, to re-install just the _process-service_, the following could be executed:
+
+`````
+$ ansible-playbook -i inventories/inventory playbooks/process_service.yml -e ACTION=uninstall
+
+$ ansible-playbook -i inventories/inventory playbooks/process_service.yml
+`````
+
+
+
+
+
+## 3.6. Uninstalling
 
 To uninstall:
 ```
 $ ansible-playbook playbooks/install.yml \
                    -e ACTION=uninstall \
-                   -e project_admin=$OCP_USERNAME \
                    -e uninstall_cluster_resources=true
 ```
 
@@ -265,7 +315,7 @@ Now that installation of the Emergency Response app is complete, you should be a
  - Navigate to the URL from the following command:
 
    ```
-   echo -en "\nhttps://$(oc get route $OCP_USERNAME-emergency-console -n $OCP_USERNAME-er-demo --template='{{ .spec.host }}')\n\n"
+   echo -en "\nhttps://$(oc get route emergency-console -n user1-er-demo --template='{{ .spec.host }}')\n\n"
    ```
    ![](/images/erdemo_home.png)
 - More information about the *Emergency Response Console* is found in the [Getting Started Guide](/gettingstarted.md).
@@ -274,7 +324,7 @@ Now that installation of the Emergency Response app is complete, you should be a
  - Navigate to the URL from the following command:
 
    ```
-   echo -en "\nhttp://$(oc get route $OCP_USERNAME-disaster-simulator -n $OCP_USERNAME-er-demo --template='{{.spec.host}}')\n\n"
+   echo -en "\nhttp://$(oc get route disaster-simulator -n user1-er-demo --template='{{.spec.host}}')\n\n"
    ```
    ![](/images/disaster_simulator.png)
  - More information about the *Disaster Simulator* is found in the [Getting Started Guide](/gettingstarted.md).
@@ -283,7 +333,7 @@ Now that installation of the Emergency Response app is complete, you should be a
  - Navigate to the URL from the following command:
 
    ```
-      echo -en "\nhttps://$(oc get route grafana-route -n $OCP_USERNAME-er-metrics --template='{{ .spec.host }}')\n\n"
+      echo -en "\nhttps://$(oc get route grafana-route -n user1-er-metrics --template='{{ .spec.host }}')\n\n"
    ```
    ![](/images/grafana_home.png)
 
@@ -309,6 +359,8 @@ One of the offerings from RHPDS is a cloud-based OCP 4 environment that meets al
 You have the ability to extend the runtime (one time only) and re-start if it was shutdown.
 
 * **Lifetime:** 2 days;
+You have the ability to extend the lifetime three times for 3 days each.
+Subsequently, the max lifetime could be up to 11 days.
 
 To utilize RHPDS, you will need the following:
 
@@ -318,11 +370,11 @@ To utilize RHPDS, you will need the following:
 
 ### 5.1.2. Risks and Challenges
 
-* **Provisioning failure rates from RHPDS are known to be high**.  Each provisioning attempt for an OCP 4 cluster consists of hundreds of steps, many of which rely on third-party services. You may need to attempt numerous times over the course of days.
+* **Provisioning failure rates from RHPDS can be high**.  Each provisioning attempt for an OCP 4 cluster consists of hundreds of steps, many of which rely on third-party services. You may need to attempt numerous times over the course of days.
   
 * **Shutdown and Restarts**   Your OpenShift environment will shut down at known periods (typically 10 hours) and will be deleted after a certain duration (typically 2 days).  The real problems typically occur with a restart of the cluster.  ie:  AWS EBS is known to go stale from time to time with the restart of a cluster.  
   
-    <span style="color:red">WARNING: ALWAYS SMOKE TEST YOUR ER-DEMO ENVIRONMENT AFTER A CLUSTER RESTART </span>.
+    <span style="color:red">WARNING: ALWAYS SMOKE TEST YOUR ER-DEMO ENVIRONMENT AFTER A CLUSTER RESTART !!! </span>.
 
 
 ### 5.1.3. Order OCP4
@@ -411,3 +463,35 @@ Upon ordering the lab environment, you will receive the following various confir
       oc get identity
       ```
 Now that your OpenShift 4 environment has been provisioned from RHPDS, please return to the section above entitled: [Installation Procedure](#3-installation-procedure).
+
+
+## 5.2. Advanced Multi-User Installation
+
+The ER-Demo ansible provisioning allows for more than one ER-Demo installations per OpenShift cluster.
+This becomes useful, for example, when using the ER-Demo as the basis of customer and/or partner workshops where each student would be assigned their own demo environment.
+
+Its often the case that a fresh OpenShift cluster can accommodate more than one ER-Demo environment. 
+Mileage will vary depending on the amount of available hardware resources.
+For example, the _OCP4 for ER-Demo_ cluster available through RHPDS can typically run about 5 concurrent ER-Demo environments.
+
+The ansible provisioning segregates ER-Demo environments on the same OpenShift cluster by OpenShift users.
+This can be done by applying the _project_admin_ environment variable to each ansible command as follows:
+
+1. Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
+   ```
+   OCP_USERNAME=user2
+   ```
+   
+2. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
+   ```
+   ansible-playbook -i inventories/inventory playbooks/install.yml \
+                    -e project_admin=$OCP_USERNAME
+   ```
+
+3. To uninstall:
+   ```
+    $ ansible-playbook playbooks/install.yml \
+                   -e ACTION=uninstall \
+                   -e project_admin=$OCP_USERNAME \
+                   -e uninstall_cluster_resources=true
+   ```

@@ -43,7 +43,7 @@ Your attendees of this demonstration might have a wide variety of interests :
 
 ## 1.2. Pre-requisites
 This document assumes that you already have an Emergency Response Demo environment available to you.  Details of the installation procedure can be found in the ER-Demo [install documentation](install.md).
-If you have any questions or problems, please email: "emer-demo-team at redhat dot com" .
+If you have any questions or problems, please email: "emer-demo at redhat dot com" .
 
 
 ## 1.3. Scenario

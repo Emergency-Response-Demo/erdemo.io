@@ -133,8 +133,8 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
 4. The same Debezium configuration information can be pulled directly from Debezium's RESTful API:
 
       ```
-      $ oc rsh `oc get pod -n $ERDEMO_NS \ 
-           | grep "^process-service-postgresql" \ 
+      $ oc rsh `oc get pod -n $ERDEMO_NS \
+           | grep "^process-service-postgresql" \
            | grep "Running" | awk '{print $1}'`
 
   

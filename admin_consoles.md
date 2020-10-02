@@ -87,7 +87,7 @@ The open-source [kafdrop](https://github.com/obsidiandynamics/kafdrop) admin con
     ```
     OCP_USERNAME=user1  # CHANGE ME IF NEEDED
 
-     echo -en "\n\n$(oc get kservice $OCP_USERNAME-kafdrop --template='{{ .status.url }}' -n $OCP_USERNAME-er-demo)\n\n"
+     echo -en "\n\n$(oc get kservice kafdrop --template='{{ .status.url }}' -n $OCP_USERNAME-er-demo)\n\n"
     ```
 
     NOTE:  You may have to wait for about 15 seconds after invoking this URL.  The Kafdrop admin console is deployed as a *KNative Serving* service and configured to scale to zero.  It'll take a bit for a new kafdrop pod to spin up.
