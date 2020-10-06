@@ -4,7 +4,19 @@ title: CDC
 subtitle: Outbox Pattern and Debezium
 ---
 
-# 1. *Happy Path* Business Processes
+# 1. Overview
+This post is about the following powerhouse components of the Red Hat Application Services portfolio working in close collaboration with one another to solve both business and technical problems:
+
+* **Red Hat Process Automation Manager**
+* **Red Hat AMQ Streams**
+* **Change Data Capture component (Debezium) of Red Hat Integration**
+  Change Data Capture (CDC) is an architecture pattern that traditionally has been implemented to expose *events in motion* from what otherwise are typically fairly static data silos. (ie:  relational databases).  The Debezium component of the Red Hat Integration product is a CDC implementation.
+
+In particular, this post documents a rather novel use of Debezium to solve the problem of *dual-writes* in a business process.
+
+
+
+# 2. *Happy Path* Business Processes
 
 The Emergency Response demo is an event-driven architected application using Red Hat AMQ Streams (aka: Apache Kafka) on OpenShift Container Platform.  Red Hat Process Automation Manager (RH-PAM) is also used to orchestrate the message-driven interactions between all of the services of the application.  The BPMN2 business process model (named: [incident-process.bpmn](https://github.com/Emergency-Response-Demo/incident-process-kjar/blob/master/src/main/resources/com/redhat/cajun/navy/process/incident-process.bpmn)) that represents this orchestration at runtime is as follows:
 
@@ -25,7 +37,7 @@ However, between these wait-states, the business process executes *synchronously
 So to recap, the ER-Demo business process is asynchronous when viewed in its entirety but is synchronous when executing between wait-states.  Under idealistic circumstances this approach generally works fine.
 
 
-# 2. Pitfalls of Dual-Writes 
+# 3. Pitfalls of Dual-Writes 
 
 In the ER-Demo application, even though the use of synchronous transactions is isolated to execution between wait-states and these transactions tend to be short lived (ie:  ~ 10 millis), problems still occur.
 
@@ -36,11 +48,12 @@ This problem most often occurs during execution of the *Update Responder Availab
 ![](/images/incident-process-update-responder-problem.png)
 
 
-# 3. *Outbox Pattern* to the Rescue
+# 4. *Outbox Pattern* to the Rescue
 
 To some degree, this problem could be resolved if [AMQ Streams / Apache Kafka supported XA transactions](https://gps2nowhere.wordpress.com/2019/09/22/xa-transactions-2-phase-commit-in-kafka/) (aka: Two-Phase Commit (2PC) ).  Even then, however, 2PC introduces its own slew of unintended consequences and considerations.
 
 To resolve the problem of *dual-writes in a single transaction* experienced in the ER-Demo application, the *outbox pattern* has been implemented using technology from the Red Hat sponsored [Debezium open-source project](https://debezium.io/) .  The approach taken is best discussed in [this blog post](https://debezium.io/blog/2019/02/19/reliable-microservices-data-exchange-with-the-outbox-pattern/).
+
 
 Using the *outbox pattern*, the problem of dual-writes is resolved in the ER-Demo application via the following series of steps:
 
@@ -63,7 +76,7 @@ With the outbox pattern, the message to the `topic-responder-command` is only se
 
 
 
-# 4. GIVE ME THE DETAILS !!!!
+# 5. GIVE ME THE DETAILS !!!!
 
 Details about the implementation of the *outbox pattern* in the ER-Demo application are as follows:
 
@@ -208,7 +221,7 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
    }
    ```
     
-# 5. Conclusion
+# 6. Conclusion
 
 The Red Hat sponsored Debezium community project provides powerful capabilities to be employed in modern *cloud-native* architected business applications.
 
