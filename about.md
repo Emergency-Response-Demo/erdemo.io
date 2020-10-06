@@ -1,10 +1,7 @@
----
-layout: page
-title:
-subtitle: Emergency Response Demo
----
-
-# Demo Discussion Vectors
+- [1. Demo Discussion Vectors](#1-demo-discussion-vectors)
+- [2. Technologies Utilized?](#2-technologies-utilized)
+  
+# 1. Demo Discussion Vectors
 
 The following is a list of *discussion vectors* that the Emergency Response demo application can help facilitate with your customers:
 
@@ -20,7 +17,7 @@ The following is a list of *discussion vectors* that the Emergency Response demo
 10. **DevSecOps**
 11. **Hybrid / Multi Cloud Applications**
 
-# Technologies Utilized?
+# 2. Technologies Utilized?
 
 The Emergency Response Demo makes it easy for you to show the power of the integrated Red Hat Application Services Portfolio, running on OpenShift. If you are looking for more information on the products click the links below.
 
