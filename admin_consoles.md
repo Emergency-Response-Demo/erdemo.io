@@ -115,11 +115,16 @@ The open-source [kafdrop](https://github.com/obsidiandynamics/kafdrop) admin con
 # 4. Red Hat Data Grid
 Red Hat Data Grid serves as a *distributed* data store for *mission* and *disaster* (ie:  priority zones, shelter locations, disaster-area, etc) information.  Red Hat Data Grid provides a web based administration console that can be enabled as follows:
 
-1. Create a route that exposes the *datagrid-service*
-   ```
-   ```
-2. Using your browser, navigate to the URL of this new route:
-   ```
-   ```
-3. Authenticate in using the following credentials:   *demo* / *demo*
-4. View the details of each of the configured remote caches
+1.  Point a browser tab to the output of the following command:
+    ```
+    OCP_USERNAME=user1  # CHANGE ME IF NEEDED
+
+     echo -en "\n\nhttps://$(oc get route datagrid-service-external --template='{{ .spec.host }}' -n $OCP_USERNAME-er-demo)/console\n\n"
+    ```
+2. Authenticate using the following credentials:   *demo* / *demo*
+3. View the details of each of the configured remote caches in the *Data Container* tab:
+   ![](images/rhdg_admin_console.png)
+4. Click on any of the caches and notice the quantity of cache *entries*
+   ![](/images/rhdg_cache_entries_count.png)
+5. For more metrics about a specific cache, click on the *Metrics* tab
+   ![](/images/rhdg_cache_entries_metrics.png)
