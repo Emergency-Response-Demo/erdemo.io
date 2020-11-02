@@ -113,7 +113,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
 
 4. Checkout the latest tag:
    ```
-   git checkout 2.7
+   git checkout 2.8
    ```
 
 5. Copy the _inventory.template_
@@ -304,7 +304,8 @@ To uninstall:
 ```
 $ ansible-playbook playbooks/install.yml \
                    -e ACTION=uninstall \
-                   -e uninstall_cluster_resources=true
+                   -e uninstall_cluster_resources=true \
+                   -e uninstall_delete_project=true
 ```
 
 # 4. ER-Demo Web Consoles
@@ -493,5 +494,6 @@ This can be done by applying the _project_admin_ environment variable to each an
     $ ansible-playbook playbooks/install.yml \
                    -e ACTION=uninstall \
                    -e project_admin=$OCP_USERNAME \
-                   -e uninstall_cluster_resources=true
+                   -e uninstall_cluster_resources=true \
+                   -e uninstall_delete_project=true
    ```
