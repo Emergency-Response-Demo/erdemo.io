@@ -6,8 +6,6 @@ The target user of the demo are Red Hat Solution Architects, Consultants and Red
 
 The Emergency Response application clarifies how the accelerating pace of open-source innovation can be harnessed today in a supported, enterprise manner for your customer's line of business in a hybrid-cloud environment.  Mission critical applications that your customer's business relies on can be built and run on open-source innovation *TODAY*.
 
-The theme for the Emergency Response demo application is inspired by the [volunteer community collaboration](https://en.wikipedia.org/wiki/Cajun_Navy) that occurred in 2017 during the aftermath of Hurricane Harvey.  A similar community-driven, collaborative approach was used to develop the demo application and maintain it going forward.
-
 The Emergency Response demo application is a treasure chest of technical insight and best practices.  It entails a micro-service, event driven architecture using the products that comprise Red Hat's [Unified Application Environment](https://developers.redhat.com/appenv).  
 
 ![Red Hat Middelware](/images/redhatmiddleware.png)
@@ -15,6 +13,8 @@ The Emergency Response demo application is a treasure chest of technical insight
  It is deployed to and scales horizontally on the premier hybrid cloud platform for enterprise business workloads: [Red Hat OpenShift Container Platform](https://www.openshift.com/products/container-platform).
   
 Check out the [About](/about.md),  [Install](/install.md) and [Getting Started](/gettingstarted.md) guide to dig in.
+
+This demo complements the outstanding content available at [developers.redhat.com](https://developers.redhat.com/).  If you are a business application developer, architect or project manager using Red Hat technologies, be sure to [register for an account](https://sso.redhat.com/auth/realms/redhat-external/login-actions/registration?client_id=rhd-web&tab_id=bgA6OQkO1y4)!
 
 ## Demo Scenario
 In August 2017, Hurricane Harvey caused massive flooding in Southeast Texas, USA. 
@@ -30,6 +30,8 @@ Cajun Navy has been operating in various forms since Hurricane Katrina
 in 2005.
 
 ![volunteer boaters stock photo](/images/volunteerboatersstockphoto.png)
+
+A similar community-driven, collaborative approach has been used to develop the demo application and maintain it going forward.
 
 ## Demo Solution
 

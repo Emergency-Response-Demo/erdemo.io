@@ -293,13 +293,16 @@ Responder movement around the map).
 
 ## 9.1. Responder Simulator
 
-  - **Runtime**: Vert.x
+  - **Runtime**: Red Hat Build of Quarkus
 
-  - **Middleware Components:** None
+  - **Middleware Components:**
+    - Red Hat Data Grid
+    - Red Hat AMQ Streams (to include Kafka Streams component)
+    - SmallRye Microprofile implementation
 
   - **Other Components:** None
   
-  - **Source code**: [Responder Simulator](https://github.com/Emergency-Response-Demo/responder-simulator)
+  - **Source code**: [Responder Simulator](https://github.com/Emergency-Response-Demo/responder-simulator-quarkus)
   - **Serverless Enabled**:  no
 
 The Responder Simulator is responsible for moving responders (both bots
@@ -308,12 +311,10 @@ movement of personnel to function and since we can not have real people
 actually moving many miles for each Mission, this simulator is required
 to allow the demo to function.
 
-The Responder simulator listens on the topic-mission-event for details
+The Responder simulator listens on the *topic-mission-event* for details
 of active responders that need to be moved on the map. The simulator
-them periodically updates (default every 10 seconds) the responders
-location (based on the mission route received) to show the responder at
-the next location. As the simulator moves responders, it emits messages
-on the topic-responder-location-update Topic.
+then periodically updates the responders location (based on the mission route received) to show the responder at the next location. As the simulator moves responders, it emits messages
+on the *topic-responder-location-update* Topic.
 
   - Send: topic-mission-event
 

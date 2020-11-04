@@ -1,7 +1,7 @@
 - [1. Overview](#1-overview)
   - [1.1. Purpose](#11-purpose)
   - [1.2. Pre-requisites](#12-pre-requisites)
-  - [1.3. Scenario](#13-scenario)
+  - [1.3. Scenario / Terminology](#13-scenario--terminology)
   - [1.4. Consoles](#14-consoles)
 - [2. Optional:  Alternative Disaster Location and Priority Zones](#2-optional-alternative-disaster-location-and-priority-zones)
 - [3. Incidents](#3-incidents)
@@ -46,7 +46,7 @@ This document assumes that you already have an Emergency Response Demo environme
 If you have any questions or problems, please email: "emer-demo at redhat dot com" .
 
 
-## 1.3. Scenario
+## 1.3. Scenario / Terminology
 
 A hurricane has hit Wilmington, North Carolina (or some other *disaster area*).  There is a dire need to evacuate residents from their homes.  Local community members are willing and able to assist their neighbors.  The following terms are used throughout this scenario:
 
