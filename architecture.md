@@ -33,12 +33,13 @@ The Emergency Response Demo application consists of multiple runtimes and framew
 ![application architecture](/images/application-architecture.png)
 
 
-
 Details of each of the core application components of the demo application are provided in the remainder of this document.
 
 # 2. Incident Service
 
   - **Runtime**: Quarkus
+
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
 
   - **Application Services Products / Components**: 
     - Red Hat AMQ-Streams
@@ -80,6 +81,7 @@ emergency_response_demo=# \d reported_incident
 # 3. Process Service
 
   - **Runtime**: Spring Boot
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
 
   - **Application Services Products**:
     
@@ -168,6 +170,8 @@ Incidentally, this architecture approach most closely resembles the architecture
 
   - **Runtime**: Vert.x
 
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
+
   - **Middleware Products / Components**:
     - Red Hat Decision Manager
     - AMQ Streams
@@ -183,6 +187,8 @@ The rules engine uses a stateful rules session.
 # 5. Responder Service
 
   - **Runtime**: Quarkus
+
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
 
   - **Middleware Products / Components**: AMQ-Streams
 
@@ -214,6 +220,8 @@ Responders (ie:  mission complete and corresponding responder is now available a
 
   - **Runtime**: Vert.x
   
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
+
   - **Middleware Components:** JDG
   
   - **Source code**: [disaster-service](https://github.com/Emergency-Response-Demo/disaster-service)
@@ -226,6 +234,8 @@ Tracking this data dynamically allows the incident commander to change the locat
 # 7. Mission Service
 
   - **Runtime**: Quarkus
+
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
 
   - **Middleware Products / Components:** JDG, AMQ Streams
 
@@ -295,6 +305,8 @@ Responder movement around the map).
 
   - **Runtime**: Red Hat Build of Quarkus
 
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
+
   - **Middleware Components:**
     - Red Hat Data Grid
     - Red Hat AMQ Streams (to include Kafka Streams component)
@@ -324,6 +336,8 @@ on the *topic-responder-location-update* Topic.
 
   - **Runtime**: Vert.x
 
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
+
   - **Middleware Components:** None
 
   - **Other Components:** None
@@ -346,6 +360,8 @@ Service in order to manage data creation / deletion.
 
   - **Runtime**: Quarkus
   
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
+
   - **Middleware Components**: Red Hat AMQ Streams, Red Hat Data Grid
   
   - **Other Components**: PostgreSQL, Grafana
@@ -385,6 +401,9 @@ Beyond and *ELT* approach, there are many ways in which similar *Business Activi
 # 11. Evacuee Find Service
 
   - **Runtime**: Quarkus
+
+  - **Base Image**: [Red Hat ubi8-openjdk-11](https://catalog.redhat.com/software/containers/ubi8/openjdk-11/5dd6a4b45a13461646f677f4?tag=latest&push_date=1603991958000&container-tabs=overview&gti-tabs=get-the-source)
+
   - **Source code**: [Evacuee Find Service](https://github.com/Emergency-Response-Demo/find-service)
   - **Serverless Enabled**:  Yes, scale to zero
 
