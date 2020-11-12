@@ -1,5 +1,6 @@
 - [1. Overview](#1-overview)
-  - [1.1. Application Architecture](#11-application-architecture)
+  - [1.1. Deployment Topology :  Core](#11-deployment-topology--core)
+  - [1.2. Deployment Topology : Supplemental](#12-deployment-topology--supplemental)
 - [2. Incident Service](#2-incident-service)
 - [3. Process Service](#3-process-service)
   - [3.1. ER-Demo Business Process](#31-er-demo-business-process)
@@ -27,13 +28,19 @@
 The Emergency Response Demo application consists of multiple runtimes and frameworks: Quarkus, Node, Vert.x, JBoss Data Grid, AMQ Streams (Kafka on OpenShift), RH-SSO, Prometheus and much more.
 
 
-## 1.1. Application Architecture
+## 1.1. Deployment Topology :  Core
 
+![core](/images/ER-Demo_Core_Runtime_Deployment_Topology.png)
 
+<!-- 
 ![application architecture](/images/application-architecture.png)
+-->
+
 
 
 Details of each of the core application components of the demo application are provided in the remainder of this document.
+
+## 1.2. Deployment Topology : Supplemental 
 
 # 2. Incident Service
 
