@@ -92,7 +92,7 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
 
    ```
 
-2.  Debezium builds upon the [Kafka Connect](https://kafka.apache.org/documentation/#connect) project.  As such, implementation of the outbox pattern in the ER-Demo, requires a *Kafka Connect* deployment (provided by Red Hat AMQ Streams).  This deployment can be viewed as follows:
+2.  Debezium builds upon the [Kafka Connect](https://kafka.apache.org/documentation/#connect) project.  As such, implementation of the outbox pattern in the ER-Demo requires a *Kafka Connect* deployment (provided by Red Hat AMQ Streams).  This deployment can be viewed as follows:
 
     ```
     $ oc get kafkaconnect.kafka.strimzi.io -n $ERDEMO_NS
@@ -100,7 +100,7 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
     kafka-connect   1
 
 
-    $ oc get deployment kafka-connect-connect -n ERDEMO_NS
+    $ oc get deployment kafka-connect-connect -n $ERDEMO_NS
     NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
     kafka-connect-connect   1/1     1            1           2d2h
 

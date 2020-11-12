@@ -177,10 +177,35 @@ This class manages the lifecycle of this Responder Location state in Data Grid.
 
 
 ## 4.3. TopologyProducer.java
+The purpose of the *ApplicationScope* *TopologyProducer* is to create a Kafka Streams *ktable* that facilitates lookups of *responders* with their latest locations.
+
+It implements a function that randomly selects the distance of the next responder move based on a configuration variation.
+
 ## 4.4. ResponderService.java
+
+The purpose of the *ApplicationScope* *ResponderService* is to serve as a Kafka Streams client that can retrieve details of a *responder* from a Kafka Streams *ktable*.
+
+It implements a function called that returns a *Responder* object given the responderId.
+
 ## 4.5. Simulator.java
 
-This ApplicationScope Java object tranforms MissionCreated events into a ResponderLocation object that subsequently is persisted in Red Hat Data Grid via the ResponderLocationRepository object.
+The purpose of the *ApplicationScope* *Simulator* object is to simulate movement of *responders* during a *mission*.
+
+This *Simulator* object tranforms *MissionCreated* events into a *ResponderLocation* object.
+This *ResponderLocation* object is persisted in *Red Hat Data Grid* by invoking the *ResponderLocationRepository* object.
 
 # 5. Test Your Understanding
-1. What is the status of the *outgoing* message ?
+1. Given the default configurations in the *responder-simulator-quarkus* project, what is the range of a possible distances that a *responder* can move  ?
+2. The return type of the ResponderService.responder(String id) function is:  Uni<JsonObject> .
+   What is the value add of leveraging this MicroProfile API as the return type as an alternative to returning a *Responder* domain model object ?
+
+<!--
+Answers to questions:
+
+1. As pert TopologyProducer:    1200.00 -> 1800.00
+   `````
+   minDistanceUnit = 1500.0 * (1 - .2) = 1200.00
+   maxDistanceUnit = 1500.0 * (1 + .2) = 1800.00
+   `````
+
+-->
