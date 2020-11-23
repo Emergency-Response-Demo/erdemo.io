@@ -48,7 +48,7 @@ If you have any questions or problems, please email: "emer-demo at redhat dot co
 
 ## 1.3. Scenario / Terminology
 
-A hurricane has hit Wilmington, North Carolina (or some other *disaster area*).  There is a dire need to evacuate residents from their homes.  Local community members are willing and able to assist their neighbors.  The following terms are used throughout this scenario:
+A hurricane has hit Wilmington, North Carolina (or some other *disaster area*).  There is a dire need to evacuate residents from their homes.  Local community members are willing and able to assist their neighbors.  The overall goal is to rescue the victims of the flooding in the quickest way possible.  The following terms are used throughout this scenario:
 
 1. **Rescuees**
     There are people that are in need of being rescued.  Their homes have been flooded and their vehicles are inoperable.  In addition, streets are also flooded and are saturated with dangerous debris.  Rescuees are prepared to evacuate their homes and leave their valuables behind.  The rescuees home is known as the *pick-up* point.  A *rescuee* in need of evacuation at their *pick-up* point is known as an:  *incident*.
@@ -57,7 +57,7 @@ A hurricane has hit Wilmington, North Carolina (or some other *disaster area*). 
    A request for help from an individual (or group of individuals) that are in need of rescue. Details of an Incident include the location (Lat, Long), the number of people stranded and whether medical assistance is required
     
 3. **Responders**
-    These are members of the community that have volunteered to assist their neighbors during this dire situation.  They sometimes are also referred to as:  *Rescuers*.  Responders either own or have access to a small boat.
+    These are members of the community that have volunteered to assist their neighbors during this dire situation.  They sometimes are also referred to as:  *Rescuers*.  Responders either own or have access to a small boat.  Responders (boats) have a location, a seating capacity, and a boolean that indicates whether they are prepared to administer first aid or not.
 
     In a real-world scenario, responders would install the *Emergency Response* application to their mobile phones.  They would then use the mobile app to register details about themselves and their equipment.  For demo purposes, responders are your audience members.  Your audience members use their browser (either from thier laptop or mobile device) to log into the Emergency Response web console to register and fictitiously set their location on a map.
 
@@ -67,7 +67,8 @@ A hurricane has hit Wilmington, North Carolina (or some other *disaster area*). 
    Where the rescuee resides.  Also known as a *way-point*.
     
 5. **Shelters**
-   Also known as *Evacuation Centers* or *Drop-off points*.  This is where the responders need to drop off rescuees.  
+   Also known as *Evacuation Centers* or *Drop-off points*.  This is where the responders need to drop off rescuees.  There are multiple rescue shelters that they can deliver each boatload of evacuees to.  Shelters are currently assumed to have an infinite capacity.  Shelters can be added or removed by an *incident commander*.
+
 
 6. **Disaster Location**
    The default *disaster location* of the Emergency Response application is the city / beach resort of Wilmington, North Carolina, USA.
@@ -80,6 +81,9 @@ A hurricane has hit Wilmington, North Carolina (or some other *disaster area*). 
 
 8. **Mission**
    When a Responder is assigned an Incident, a Mission is created. The Mission defines where the Responder needs to go to collect the victims of the Incident (the Way Point) and what shelter the victims should be dropped off at (the Target Location). The mission also has details of the responders location history.
+
+9. **Priority Zone**
+   A *priority zone* might be defined.  A *priority zone* is a geographic region that the Incident Commander has created that indicates an area within which the evacuation of Incidents should be prioritized, other things being equal (the area has some aspect of heightened danger, more flooding anticipated, fire, etc).
    
 Upon the existence of an evacuation *incident* and a suitable volunteer *responder*, the Emergency Response application then simulates the responder navigating to the *pick-up point* and then to the *drop-off point*.
 
