@@ -45,7 +45,7 @@ To install the Emergency Response application, you will need the following tools
 
 1. **Unix flavor OS with BASH shell**:  ie; Fedora, RHEL, CentOS, Ubuntu, OSX
 2. **git**
-3. **[oc utility v4.4](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.4/)** or 4.5
+3. **[oc utility v4.6](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.6/)**
 4. **[Ansible](https://www.redhat.com/en/technologies/management/ansible)**
    
    Installation of the Emergency Response application is tested using the _ansible-playbook_ utility from the _ansible_ package of Fedora 31.  Others in the community have also succeeded in installing the app using ansible on OSX.
@@ -70,7 +70,7 @@ Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an O
 ### 2.3.2. Minimum Requirements
 To install the Emergency Response application, you will need a full OpenShift Container Platform environment with the following minimum specs:
 
-1. **OCP Version:**  4.4 or 4.5  
+1. **OCP Version:**  4.6 
 2. **Memory:**    24 GBi allocated to one or more _worker_ node(s)
 3. **CPU:** 10 cores allocated to one or more _worker_ nodes
 4. **Disk:** 20 Persistent Volumes that support [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.4/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
