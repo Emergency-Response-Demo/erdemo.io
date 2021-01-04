@@ -159,8 +159,8 @@ Details about the implementation of the *outbox pattern* in the ER-Demo applicat
 5. The *outbox* table that stores the json message to be delivered by Debezium to the *topic-responder-command* topic resides in the *rhpam* database and can be viewed as follows:
 
     ```
-    $ oc rsh `oc get pod -n $ERDEMO_NS \ 
-        | grep "^process-service-postgresql" \ 
+    $ oc rsh `oc get pod -n $ERDEMO_NS \
+        | grep "^process-service-postgresql" \
         | grep "Running" | awk '{print $1}'`
     
 
