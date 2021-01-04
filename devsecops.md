@@ -59,7 +59,7 @@ Integration with Nexus
         <envVars>
             <org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
               <key>MAVEN_MIRROR_URL</key>
-              <value>http://nexus.user1-tools-erd.svc:8081/content/groups/public</value>
+              <value>http://nexus.user1-er-tools.svc:8081/content/groups/public</value>
             </org.csanchez.jenkins.plugins.kubernetes.model.KeyValueEnvVar>
         </envVars>
 ````

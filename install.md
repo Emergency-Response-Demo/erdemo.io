@@ -172,7 +172,7 @@ This approach is best suited for code contributors to the Emergency Response app
 3. You can review any of the CI/CD pipelines that ran as part of this provisioning process:
    1. List all build pipelines:
        ```
-       oc get build -n user1-tools-erd | grep pipeline
+       oc get build -n user1-er-tools | grep pipeline
 
        ...
 
@@ -183,9 +183,9 @@ This approach is best suited for code contributors to the Emergency Response app
        ```
    2. From that list, pick any of the builds to get the URL to the corresponding Jenkins pipeline:
       ```
-      oc logs user2-incident-service-pipeline-1 -n user1-tools-erd
+      oc logs user2-incident-service-pipeline-1 -n user1-er-tools
 
-      info: logs available at https://jenkins-user2-tools-erd.apps.cluster-denver-8ab6.denver-8ab6.example.opentlc.com/blue/organizations/jenkins/user2-tools-erd%2Fuser2-tools-erd-user2-mission-service-pipeline/detail/user2-tools-erd-user2-mission-service-pipeline/1/
+      info: logs available at https://jenkins-user2-er-tools.apps.cluster-denver-8ab6.denver-8ab6.example.opentlc.com/blue/organizations/jenkins/user2-er-tools%2Fuser2-er-tools-user2-mission-service-pipeline/detail/user2-er-tools-user2-mission-service-pipeline/1/
       ```
    3. Open a browser tab and navigate to the provided URL:
       ![](/images/pipeline_example.png)

@@ -100,9 +100,9 @@ Before starting the Emergency Response demo with your audience, it is recommende
 * **Disaster simulator**
 * **Openshift Console** with access to the following namespaces:
     - userX-er-demo
-    - userX-tools-erd
+    - userX-er-tools
     - userX-er-metrics
-    - user-sso
+    - er-sso
     - kafka-operator-erd
 * **Grafana Dashboard**
 
