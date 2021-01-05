@@ -1,21 +1,15 @@
 - [1. Overview](#1-overview)
 - [2. Pre-requisites](#2-pre-requisites)
-  - [2.1. Local Tooling](#21-local-tooling)
-  - [2.2. MapBox Access Token](#22-mapbox-access-token)
-  - [2.3. OpenShift](#23-openshift)
-    - [2.3.1. Overview](#231-overview)
-    - [2.3.2. Minimum Requirements](#232-minimum-requirements)
+  - [2.1. MapBox Access Token](#21-mapbox-access-token)
+  - [2.2. OpenShift](#22-openshift)
+    - [2.2.1. Overview](#221-overview)
+    - [2.2.2. Minimum Requirements](#222-minimum-requirements)
 - [3. Installation](#3-installation)
-  - [3.1. Setup](#31-setup)
-  - [3.2. Option A:  Pre-built Images](#32-option-a-pre-built-images)
-  - [3.3. Option B: CI/CD](#33-option-b-cicd)
-  - [3.4. Installation Complete !](#34-installation-complete-)
-    - [3.4.1. Sanity Checks](#341-sanity-checks)
-    - [3.4.2. Deployment Topology](#342-deployment-topology)
-  - [3.5. Troubleshooting A Failed Deployment](#35-troubleshooting-a-failed-deployment)
-    - [3.5.1. Ansible Hints](#351-ansible-hints)
-    - [3.5.2. Idempotency](#352-idempotency)
-  - [3.6. Uninstalling](#36-uninstalling)
+  - [3.1. Operator](#31-operator)
+  - [3.2. ERDEMO Resource](#32-erdemo-resource)
+  - [3.3. Installation Complete !](#33-installation-complete-)
+    - [3.3.1. Sanity Checks](#331-sanity-checks)
+    - [3.3.2. Deployment Topology](#332-deployment-topology)
 - [4. ER-Demo Web Consoles](#4-er-demo-web-consoles)
   - [4.1. **Emergency Response Console**](#41-emergency-response-console)
   - [4.2. **Disaster Simulator**](#42-disaster-simulator)
@@ -27,39 +21,27 @@
     - [5.1.3. Order OCP4](#513-order-ocp4)
     - [5.1.4. Confirmation Emails](#514-confirmation-emails)
     - [5.1.5. Access](#515-access)
-  - [5.2. Advanced Multi-User Installation](#52-advanced-multi-user-installation)
 
 
 # 1. Overview
 By this time you are excited and want to try out this application.  To do so, you will need to install the application on an OpenShift Container Platform (OCP) 4.* environment.
 
-The approach currently taken is:  **Bring Your Own OpenShift 4 Cluster** .
+The approach currently taken is with an ER-Demo installation is:  **Bring Your Own OpenShift 4 Cluster** .
 
-Once you've acquired your own OpenShift 4, the installation of the ER-Demo application on your OpenShift cluster is done using Ansible.
+Once you've acquired your own OpenShift 4 cluster, the installation of the ER-Demo application on your OpenShift cluster is done using an Ansible based operator.
 
 # 2. Pre-requisites
 
-## 2.1. Local Tooling
-
-To install the Emergency Response application, you will need the following tools on your local machine:
-
-1. **Unix flavor OS with BASH shell**:  ie; Fedora, RHEL, CentOS, Ubuntu, OSX
-2. **git**
-3. **[oc utility v4.6](https://mirror.openshift.com/pub/openshift-v4/clients/oc/4.6/)**
-4. **[Ansible](https://www.redhat.com/en/technologies/management/ansible)**
-   
-   Installation of the Emergency Response application is tested using the _ansible-playbook_ utility from the _ansible_ package of Fedora 31.  Others in the community have also succeeded in installing the app using ansible on OSX.
-
-## 2.2. MapBox Access Token
+## 2.1. MapBox Access Token
 
 The Emergency Response application makes use of a third-party SaaS API called [MapBox](https://www.mapbox.com/).
 MapBox APIs provide the Emergency Response application with an optimized route for a responder to travel given pick-up and drop-off locations.  To invoke its APIs, MapBox requires an [access token](https://docs.mapbox.com/help/how-mapbox-works/access-tokens).  For normal use of the Emergency Response application the _free-tier_ account provides ample rate-limits.
 
 ![MapBox token](/images/mapbox_token.png)
 
-## 2.3. OpenShift
+## 2.2. OpenShift
 
-### 2.3.1. Overview
+### 2.2.1. Overview
 
 <span style="color:blue">To host the Emergency Response demo, it is recommended that you use your own OpenShift 4 environment.</span>.
 
@@ -67,7 +49,7 @@ The benefit of utilizing your own OpenShift environment is that you decide if/wh
 
 Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an OpenShift 4 environment from Red Hat's _Partner Demo System_ (RHPDS).  Using RHPDS, the minimum requirements described below are met.  However, there are known risks and challenges.  Details pertaining to these risks as well as accessing an OpenShift 4 environment from RHPDS are found in [the Appendix](##51-ocp4-from-rhpds) of this document.
 
-### 2.3.2. Minimum Requirements
+### 2.2.2. Minimum Requirements
 To install the Emergency Response application, you will need a full OpenShift Container Platform environment with the following minimum specs:
 
 1. **OCP Version:**  4.6 
@@ -96,106 +78,92 @@ To install the Emergency Response application, you will need a full OpenShift Co
 # 3. Installation 
 Now that you have an OpenShift environment that meets the minimum requirements, you can now layer the Emergency Response application on that OpenShift.  You will do so using an ansible playbook.
 
-## 3.1. Setup
-
-1. Using the oc utility on your local machine, ensure that your are authenticated in your OCP 4 environment as a cluster-admin.
-2. Using the git utility on your local machine, clone the _install_ project of the Emergency Response application:
-    ```
-    git clone https://github.com/Emergency-Response-Demo/install.git
-
-    ```
-    This installer uses Ansible. There is a comprehensive list of roles and playbooks that install the application.
-
-3. Change directories into the _ansible_ directory of the cloned project:
-   ```
-   cd install/ansible
-   ```
-
-4. Checkout the latest tag:
-   ```
-   git checkout 2.9
-   ```
-
-5. Copy the _inventory.template_
-   ```
-   cp inventories/inventory.template inventories/inventory
-   ```
-
-6. Using your favorite text editor, open the copied file: _inventories/inventory_
-7. Replace the sample MapBox access token (`map_token`) with a real MapBox token.
-   ```
-   # MapBox API token, see https://docs.mapbox.com/help/how-mapbox-works/access-tokens/
-   map_token=pk.egfdgewrthfdiamJyaWRERKLJWRIONEWRwerqeGNjamxqYjA2323czdXBrcW5mbmg0amkifQ.iBEb0APX1Vmo-2934rj
-   ```
-8. Save the changes.
-9.  Diff your inventory file with the inventory template and ensure only the value of the _map_token_ is different:
-   ```
-   $ diff inventories/inventory inventories/inventory.template 
-     3c3
-     < map_token=pk.eyJ1IjoiamdyaWRlIiwiYSI6ImNqeGNjamxq5jAxeXczdXBrcW5mbml0amkifQ.iBEb0APX1Vmo_VtsDj-Y3g
-     ---
-     > map_token=replaceme
-   ```
-   **NOTE:** If you previously cloned the ER-Demo install ansible and the values in your inventory file are now out of date, be sure to update as per the inventory.template.
-
-
-
-You will now execute the ansible to install the Emergency Response application.
-**Select one of the following two approaches:  _Pre-built Images_ or _CI/CD_**
-
-## 3.2. Option A:  Pre-built Images
-This approach is best suited for those that want to utilize (ie: for a customer demo) the Emergency Response app.  This installation approach does not use Jenkins pipelines.  Instead, the OpenShift _deployments_ for each component of the Emergency Response application are started using pre-built Linux container images pulled from corresponding [public Quay image repositories](https://quay.io/organization/emergencyresponsedemo).  With this approach, the typical duration to build the Emergency Response app is about 20 minutes.  This is the default installation approach.
-
-1. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
-   ```
-   ansible-playbook -i inventories/inventory playbooks/install.yml
-   ```
-2. After about 20 minutes, you should see ansible log messages similar to the following:
-   ```
-   PLAY RECAP ********************************************************************************
-   localhost : ok=432  changed=240  unreachable=0    failed=0    skipped=253  rescued=0    ignored=0 
-   ```
-
-
-## 3.3. Option B: CI/CD
-
-This approach is best suited for code contributors to the Emergency Response app.  Individual Jenkins pipelines are provided for each component of the app.  Each pipeline builds from source, tests, creates a Linux container image and deploys that image to OpenShift.  The typical duration to build the Emergency Response application from source using these pipelines is about an hour.  This approach is also of value if the focus of a demo to a customer and/or partner is to introduce them to CI/CD best practices of a microservice architected application deployed to OpenShift.
-
-1. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
-   ```
-   ansible-playbook -i inventories/inventory playbooks/install.yml \
-                    -e deploy_from=source
-   ```
+## 3.1. Operator
+1. Login to an OpenShift cluster as a `cluster-admin`
+2. Create a new `CatalogSource` for enabling the ER-Demo operator in `Operator Hub`
+   1. In the top left corner of the OpenShift console, navigate to the `Developer Perspective` :
    
-2. After about an hour, the provisioning should be complete.
+      ![](images/ocp_console_dev_perspective.png)
 
-3. You can review any of the CI/CD pipelines that ran as part of this provisioning process:
-   1. List all build pipelines:
-       ```
-       oc get build -n user1-er-tools | grep pipeline
-
-       ...
-
-       user1-incident-service-pipeline-1         JenkinsPipeline            Complete   2 hours ago         
-       user1-mission-service-pipeline-1          JenkinsPipeline            Complete   2 hours ago         
-       user1-responder-service-pipeline-1        JenkinsPipeline            Complete   2 hours ago         
-       user1-assignment-rules-model-pipeline-1   JenkinsPipeline            Complete   2 hours ago  
-       ```
-   2. From that list, pick any of the builds to get the URL to the corresponding Jenkins pipeline:
-      ```
-      oc logs user2-incident-service-pipeline-1 -n user1-er-tools
-
-      info: logs available at https://jenkins-user2-er-tools.apps.cluster-denver-8ab6.denver-8ab6.example.opentlc.com/blue/organizations/jenkins/user2-er-tools%2Fuser2-er-tools-user2-mission-service-pipeline/detail/user2-er-tools-user2-mission-service-pipeline/1/
-      ```
-   3. Open a browser tab and navigate to the provided URL:
-      ![](/images/pipeline_example.png)
+   2. In the left pallet, select: `+Add` , specify the `openshift-marketplace` project and then select the `Yaml` option:
+   
+      ![](images/ocp_add_yaml.png)
 
 
-## 3.4. Installation Complete !
+   3. Populate the contents of the new yaml file with the following and then:
+      `````
+      apiVersion: operators.coreos.com/v1alpha1
+      kind: CatalogSource
+      metadata:
+        name: erdemo-operators
+        namespace: openshift-marketplace
+      spec:
+        sourceType: grpc
+        image: quay.io/emergencyresponsedemo/erdemo-operator-catalog:2.10.3
+        displayName: Emergency Response Demo Operator
+        publisher: RedHatGov
+      `````
+   4.  Click the `Create` button at the bottom
+
+   5.  NOTE:  in the `openshift-marketplace` namespace, there should now be a pod called:  `erdemo-operators-XXXXX`
+
+3. Create a project named **erdemo-operator-system** for your operator deployment to live.
+   1. While still in the `Developer Perspective`, click the `Project` dropdown and then select `Create Project`:
+      ![](images/ocp_console_create_project.png)
+
+   2. Set the name as `erdemo-operator-system` and click `Create` :
+   
+      ![](images/ocp_console_create_project_popup.png)
+
+
+4. Install the ER-Demo operator
+   1. Switch to the `Administrator` perspective of the Openshift web console.
+   2. Switch to the `erdemo-operator-system` project.
+   3. Navigate to **Operators -> OperatorHub** and search for "Emergency Response Demo Operator". Select it.
+   
+      ![](images/olm_erdemo_option.png)
+
+   4.  On the operator overview page, click **Install**.
+      ![](images/olm_operator_overview.png)
+
+   5.  Set **Installation Mode** to *A specific namespace on the cluster* and set **Installed Namespace** to *erdemo-operator-system*.
+      ![](images/olm_select_namespace.png)
+  
+   6.  Leave other options as default and click **Install** once more.
+
+   7.  Wait until the operator has installed, then click **View Operator**
+   ![](images/olm_view_operator.png)
+
+   8. NOTE: A deployment called `erdemo-operator-controller-manager` will have been created in the `erdemo-operator-system` namespace.
+
+
+## 3.2. ERDEMO Resource
+
+1. Create an `erdemo` resource
+   1.  Ensure that your project remains set to `erdemo-operator-system` and then in the ErDemo tab, click **Create ErDemo**:
+      ![](images/olm_create_erdemo.png)
+
+   2.  In the ErDemo Operator page, set the value of **mapToken** to match [your own mapbox API token](https://account.mapbox.com/access-tokens/).
+      ![](images/olm_add_mapbox_token.png)
+
+   3.  The status of your **erdemo** installation should be: *Running*.
+      Wait about 20 minutes until the status of the ER-Demo installation changes to: `Succeeded`
+
+2. Validate Deployment
+   1. Notice the existence of the `keycloak` operator in the `er-sso` namespace:
+      ![](images/erdemo_keycloak_operator.png)
+   
+   2. Notice the existence of the `AMQ Streams` operator:
+      ![](images/erdemo_amq_streams_operator.png)
+
+   3. Notice the existence of the `Serverless` operator:
+      ![](images/erdemo_serverless_operator_install.png)
+
+## 3.3. Installation Complete !
 
 Congratulations on having installed the ER-Demo !
 
-### 3.4.1. Sanity Checks
+### 3.3.1. Sanity Checks
 A few sanity-checks that you can execute prior to getting started with the demo are as follows:
 
 1. Ensure that the *statefulsets* that support the ER-Demo are healthy:
@@ -238,75 +206,13 @@ A few sanity-checks that you can execute prior to getting started with the demo 
    $ oc get pods -w -n user1-er-demo
    ```
 
-### 3.4.2. Deployment Topology
+### 3.3.2. Deployment Topology
 A complete topology of all of the components that have been installed can be found [here](/images/project_topology.png).
 As you become more familiar with the ER-Demo, consider cross-referencing all the components listed in this diagram with what is actually deployed in your OpenShift cluster.
 
 Also, the ER-Demo [Architecture Guide](/architecture.md) provides details of the various components that make up the ER-Demo.
 
-## 3.5. Troubleshooting A Failed Deployment
-Considering that the automated provisioning of ER-Demo consists of many hundreds of discrete steps, errors can occur from time to time.
 
-The good news is that at least you have full cluster-admin access to your OpenShift cluster to troubleshoot.  This is where your OpenShift skills will be of great assistance.
-
-### 3.5.1. Ansible Hints
-
-Normally you can get a ball-park approximation as to where the provisioning failed by studying the ansible output. ie:
-
-````
-TASK [../roles/openshift_process_service : deploy postgresql] ****************************************************************************************************************************************************
-fatal: [localhost]: FAILED! => {"changed": false, "msg": {"cmd": "oc create -f /tmp/process-service-4LN1V4/postgresql.yml -n user1-er-demo", "results": {}, "returncode": 1, "stderr": "Error from server (AlreadyExists): persistentvolumeclaims \"process-service-postgresql\" already exists\n", "stdout": "service/process-service-postgresql created\ndeploymentconfig.apps.openshift.io/process-service-postgresql created\n"}}
-
-NO MORE HOSTS LEFT ***********************************************************************************************************************************************************************************************
-
-PLAY RECAP *******************************************************************************************************************************************************************************************************
-localhost                  : ok=16   changed=8    unreachable=0    failed=1    skipped=1    rescued=0    ignored=0  
-````
-
-The above log alludes to a problem provisioning the postgresql database for the _process-service_.
-For further troubleshooting assistance, feel free to reach out to the community at:  emer-demo-team at redhat dot com .
-
-### 3.5.2. Idempotency
-
-Also of good news is that the ansible itself is idempotent.
-In particular, it is feasible to re-run the ansible more than one time without introducing unintended consequences.
-
-As a short-cut, you may not have to re-run the entire install playbook.
-Included are playbooks for each service that make up the ER-Demo.
-
-`````
-$ ls playbooks/
-
-assignment_rules_model.yml      emergency_console.yml          incident_service.yml  kafka_lag_exporter.yml  monitoring.yml       responder_client_app.yml
-assignment_rules.yml            erd_monitoring.yml             install.yml           kafka_topics.yml        nexus.yml            responder_service.yml
-datagrid.yml                    find_service.yml               jenkins.yml           knative.yml             pgadmin4.yml         responder_simulator_service.yml
-datawarehouse.yml               group_vars                     kafdrop.yml           library                 postgresql.yml       sso_realm.yml
-disaster_service.yml            incident_priority_service.yml  kafka_cluster.yml     mission_service.yml     process_service.yml  sso.yml
-disaster_simulator_service.yml  incident_process.yml           kafka_connect.yml     module_utils            process_viewer.yml   strimzi_operator.yml
-
-`````
-
-For example, to re-install just the _process-service_, the following could be executed:
-
-`````
-$ ansible-playbook -i inventories/inventory playbooks/process_service.yml -e ACTION=uninstall
-
-$ ansible-playbook -i inventories/inventory playbooks/process_service.yml
-`````
-
-
-
-
-
-## 3.6. Uninstalling
-
-To uninstall:
-```
-$ ansible-playbook playbooks/install.yml \
-                   -e ACTION=uninstall \
-                   -e uninstall_cluster_resources=true \
-                   -e uninstall_delete_project=true
-```
 
 # 4. ER-Demo Web Consoles
 
@@ -334,7 +240,7 @@ Now that installation of the Emergency Response app is complete, you should be a
  - Navigate to the URL from the following command:
 
    ```
-      echo -en "\nhttps://$(oc get route grafana-route -n user1-er-metrics --template='{{ .spec.host }}')\n\n"
+      echo -en "\nhttps://$(oc get route grafana-route -n user1-er-monitoring --template='{{ .spec.host }}')\n\n"
    ```
    ![](/images/grafana_home.png)
 
@@ -464,36 +370,3 @@ Upon ordering the lab environment, you will receive the following various confir
       oc get identity
       ```
 Now that your OpenShift 4 environment has been provisioned from RHPDS, please return to the section above entitled: [Installation Procedure](#3-installation-procedure).
-
-
-## 5.2. Advanced Multi-User Installation
-
-The ER-Demo ansible provisioning allows for more than one ER-Demo installations per OpenShift cluster.
-This becomes useful, for example, when using the ER-Demo as the basis of customer and/or partner workshops where each student would be assigned their own demo environment.
-
-Its often the case that a fresh OpenShift cluster can accommodate more than one ER-Demo environment. 
-Mileage will vary depending on the amount of available hardware resources.
-For example, the _OCP4 for ER-Demo_ cluster available through RHPDS can typically run about 5 concurrent ER-Demo environments.
-
-The ansible provisioning segregates ER-Demo environments on the same OpenShift cluster by OpenShift users.
-This can be done by applying the _project_admin_ environment variable to each ansible command as follows:
-
-1. Set an environment variable that reflects the userId of your non cluster-admin user.  ie:
-   ```
-   OCP_USERNAME=user2
-   ```
-   
-2. From the _install/ansible_ directory, kick-off the Emergency Response app provisioning:
-   ```
-   ansible-playbook -i inventories/inventory playbooks/install.yml \
-                    -e project_admin=$OCP_USERNAME
-   ```
-
-3. To uninstall:
-   ```
-    $ ansible-playbook playbooks/install.yml \
-                   -e ACTION=uninstall \
-                   -e project_admin=$OCP_USERNAME \
-                   -e uninstall_cluster_resources=true \
-                   -e uninstall_delete_project=true
-   ```

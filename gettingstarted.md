@@ -101,7 +101,7 @@ Before starting the Emergency Response demo with your audience, it is recommende
 * **Openshift Console** with access to the following namespaces:
     - userX-er-demo
     - userX-er-tools
-    - userX-er-metrics
+    - userX-er-monitoring
     - er-sso
     - kafka-operator-erd
 * **Grafana Dashboard**
@@ -359,9 +359,9 @@ Some of these dashboards are technical.  Some of these dashboards have more of a
 
 These dashboards can bee seen as follows:
 
-1. Navigate to your Grafana route from the *userX-er-metrics* namespace as seen from the following:
+1. Navigate to your Grafana route from the *userX-er-monitoring* namespace as seen from the following:
    ```
-         echo -en "\nhttps://$(oc get route grafana-route -n $OCP_USERNAME-er-metrics --template='{{ .spec.host }}')\n\n"
+         echo -en "\nhttps://$(oc get route grafana-route -n $OCP_USERNAME-er-monitoring --template='{{ .spec.host }}')\n\n"
    ```
 
 2. Authenticate in using the admin user of that namespace or the cluster admin user of the OpenShift cluster.
