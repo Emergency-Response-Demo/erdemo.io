@@ -99,7 +99,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
         namespace: openshift-marketplace
       spec:
         sourceType: grpc
-        image: quay.io/emergencyresponsedemo/erdemo-operator-catalog:2.10.3
+        image: quay.io/emergencyresponsedemo/erdemo-operator-catalog:2.10.4
         displayName: Emergency Response Demo Operator
         publisher: RedHatGov
       `````
