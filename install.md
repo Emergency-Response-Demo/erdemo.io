@@ -53,7 +53,7 @@ Otherwise, if you are a Red Hat associate or Red Hat partner, you can order an O
 To install the Emergency Response application, you will need a full OpenShift Container Platform environment with the following minimum specs:
 
 1. **OCP Version:**  4.6 
-2. **Memory:**    24 GBi allocated to one or more _worker_ node(s)
+2. **Memory:**    32 GBi allocated to one or more _worker_ node(s)
 3. **CPU:** 10 cores allocated to one or more _worker_ nodes
 4. **Disk:** 20 Persistent Volumes that support [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.4/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
    
