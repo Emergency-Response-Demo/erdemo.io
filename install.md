@@ -118,6 +118,8 @@ Upon ordering the lab environment, you will receive the following various confir
         
         ![rhpds_completed_email](/images/rhpds_completed_email_turnkey.png)
 
+    5.  After having received this email, please wait another 15 minutes to allow the underlying services to complete provisioning.
+
 ### 3.2.2. ER-Demo Web Consoles
 
 Now that installation of the Emergency Response app is complete, you should be able to navigate your browser to its web consoles.  
