@@ -1,6 +1,7 @@
 - [1. Emergency Response Admin Console](#1-emergency-response-admin-console)
-  - [1.1. Disaster Location](#11-disaster-location)
-  - [1.2. Procedure](#12-procedure)
+  - [1.1. Modify Disaster Location](#11-modify-disaster-location)
+    - [Overview](#overview)
+    - [1.2. Procedure](#12-procedure)
   - [1.3. Priority Zone](#13-priority-zone)
     - [1.3.1. Procedure](#131-procedure)
 - [2. SSO Admin Console](#2-sso-admin-console)
@@ -22,17 +23,37 @@ As part of the Emergency Response Demo installation process, a privileged user i
 
 This user has the ability to manage priority zones as well as the location of the disaster. Further details about these functions can be found below.
 
-## 1.1. Disaster Location
+## 1.1. Modify Disaster Location
 
-The incident commander has the ability to change the location at which the disaster simluation is set. If your audience is unfamiliar with Wilmington, North Carolina, this is a great opportunity to use a location that is more well-known or colloquial.
+### Overview
 
-## 1.2. Procedure
+The incident commander has the ability to change the location at which the disaster simulation is set.
+If your audience is unfamiliar with Wilmington, North Carolina, this is a great opportunity to use a location that is more well-known.
 
-1. In the Emergency Response web console, authenticate in as:  _incident_commander_. From the Disaster Location page, refer to the instructions on the wizard. *If you don't see a link for Disaster Location, you're probably not logged in as the correct user (incident_commander).*
+The Emergency Response Demo comes pre-loaded with the following disaster locations:
 
-_**Note** Be sure to perform this step **before** generating incidents and responders. Generated markers use disaster location data when they are **created**, so updating the location will not affect existing incidents and responders._
+1. Wilmington, North Carolina, United States  (default)
+2. New York City, New York, United States
+3. Rio De Janeiro, Brazil
+4. London, England, United Kingdom
+5. Singapore
 
-![Change Disaster Location](images/change_disaster_location.png)
+### 1.2. Procedure
+
+_**Note** Be sure to perform this step **before** generating incidents and responders. If you already have incidents, responders and missions in a different disaster location, use the capabilities of the _disaster simulator_ to delete these resources before changing disaster locations.
+
+1. In the Emergency Response web console, authenticate in as:  _incident_commander_. 
+2. In the left panel, navigate to *Disaster Location*.
+   ![Initial Disaster Location](images/initial_disaster_location.png)
+
+   NOTE: *If you don't see a link for Disaster Location, you're probably not logged in as the correct user: (incident_commander).*
+
+3. Read the instructions provided
+4. If all you want to do is change to a different pre-loaded disaster location, then select from the drop down from Option 1.
+   ![Change Disaster Location](images/change_disaster_location.png)
+5. Upon selection, the emergency response console will refresh and display the new disaster location
+6. Beyond just changing the disaster location, this page also allows for drawing of additional disaster areas and adding additional shelters to those disaster locations.  Please follow the instructions provided in the page  (steps #2 and #3) and then save your changes  (step #4)
+
 
 ## 1.3. Priority Zone
 
