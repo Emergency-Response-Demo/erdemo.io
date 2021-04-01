@@ -38,6 +38,9 @@ The Emergency Response Demo comes pre-loaded with the following disaster locatio
 4. London, England, United Kingdom
 5. Singapore
 
+One important note is that these changes to disaster location are ephemeral.
+If your OpenShift environment is shutdown, these changes will be lost.
+
 ### 1.2. Procedure
 
 _**Note** Be sure to perform this step **before** generating incidents and responders. If you already have incidents, responders and missions in a different disaster location, use the capabilities of the _disaster simulator_ to delete these resources before changing disaster locations.
