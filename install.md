@@ -177,7 +177,7 @@ To install the Emergency Response application, you will need a full OpenShift Co
 
 1. **OCP Version:**  4.6 
 2. **Memory:**    32 GBi allocated to one or more _worker_ node(s)
-3. **CPU:** 10 cores allocated to one or more _worker_ nodes
+3. **CPU:** 12 cores available across one or more _worker_ nodes (and not being consumed by OCP itself)
 4. **Disk:** 20 Persistent Volumes that support [Read Write Once (RWO)](https://docs.openshift.com/container-platform/4.4/storage/understanding-persistent-storage.html#pv-access-modes_understanding-persistent-storage).
    
    The Emergency Response application does not require Read-Write-Many (RWX).
@@ -213,7 +213,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
       ![](images/ocp_add_yaml.png)
 
 
-   3. Populate the contents of the new yaml file with the following and then:
+   3. Populate the contents of the new yaml file with the following:
       `````
       apiVersion: operators.coreos.com/v1alpha1
       kind: CatalogSource
@@ -222,7 +222,7 @@ Now that you have an OpenShift environment that meets the minimum requirements, 
         namespace: openshift-marketplace
       spec:
         sourceType: grpc
-        image: quay.io/emergencyresponsedemo/erdemo-operator-catalog:2.10.4
+        image: quay.io/emergencyresponsedemo/erdemo-operator-catalog:2.12.0
         displayName: Emergency Response Demo Operator
         publisher: RedHatGov
       `````
