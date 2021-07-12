@@ -15,6 +15,8 @@ This post is about the following powerhouse components of the Red Hat Applicatio
 In particular, this post documents a rather novel use of Debezium to solve the problem of *dual-writes* in a business process.
 
 
+Related Tech Talk: [Friends don't let friends do dual writes!](|https://developers.redhat.com/devnation/tech-talks/dual-writes-kafka-debezium?sc_cid=7013a000002wMgZAAU)
+
 
 # 2. *Happy Path* Business Processes
 
@@ -80,7 +82,7 @@ With the outbox pattern, the message to the `topic-responder-command` is only se
 
 Details about the implementation of the *outbox pattern* in the ER-Demo application are as follows:
 
-1. Debezium requires use of a PostgreSQL 10 database that [includes a *decoding output plugin*](https://debezium.io/documentation/reference/1.2/connectors/postgresql.html).  This *decoding output pluting* extracts changes committed to the PostgreSQL transaction log.  In the ER-Demo application, the RH-PAM process engine embedded in the *process-service* leverages a PostgreSQL 10 database that includes this *decoding output plugins*:
+1. Debezium requires use of a PostgreSQL 10 database that [includes a *decoding output plugin*](https://debezium.io/documentation/reference/1.2/connectors/postgresql.html).  This *decoding output plugin* extracts changes committed to the PostgreSQL transaction log.  In the ER-Demo application, the RH-PAM process engine embedded in the *process-service* leverages a PostgreSQL 10 database that includes this *decoding output plugin*:
    ```
    $ ERDEMO_NS=user1-er-demo    # CHANGE ME (if needed)
 
