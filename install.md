@@ -195,7 +195,17 @@ To install the Emergency Response application, you will need a full OpenShift Co
    As part of the installation of OCP4, you should have already been prompted to provide your [pull secret](https://cloud.redhat.com/openshift/install/pull-secret) that enables access to various secured registries to include regisry.redhat.io.
 9. **OpenShift Monitoring Capabilities** 
    <span style="color:red">WARNING: Avoid the use of CodeReady Containers to host the ER-Demo.  For one, the monitoring capabilities of the demo will not be available.</span>.
+10. **Operator Lifecycle Manager (OLM) Operators**
 
+    OLM needs to be installed and the following operators need to be available for installation (NOTE: You do not need to install them manually .... they will be installed automatically via the ER-Demo installer):
+
+    1. **Red Hat Single Sign-On Operator**
+    1. **Red Hat Integration - AMQ Streams**
+    1. **Red Hat OpenShift Serverless**
+    1. **Data Grid**
+    1. **Prometheus Operator**
+    1. **Grafana Operator**
+ 
 
 
 ## 4.2. Installation 
