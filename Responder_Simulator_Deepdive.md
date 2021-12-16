@@ -32,11 +32,11 @@ The purpose of the document is to provide a technical deep-dive into the *Respon
 # 2. Pre-reqs
 ## 2.1. Skills
 1. Familiarity with [terminology](gettingstarted.md#13-scenario--terminology) used in the Red Hat's Emergency Response Demo application
-2. Foundational knowledge of Red Hat Data Grid
-3. Foundational knowledge of Red Hat AMQ Streams / Apache Kafka
-4. Foundational knowledge of Apache Kafka Streams
-5. Foundational knowledge of Red Hat Build of Quarkus
-6. Foundational knowledge of the Microprofile specification along with SmallRye implementation
+2. Experience with Red Hat Data Grid
+3. Experience with Red Hat AMQ Streams / Apache Kafka
+4. Experience with Red Hat Build of Quarkus
+5. Experience with Microprofile specification along with SmallRye / [Mutiny Reactive framework](https://quarkus.io/guides/mutiny-primer)
+6. Experience with [Apache Kafka Streams with Quarkus](https://piotrminkowski.com/2021/11/24/kafka-streams-with-quarkus/)
    
 ## 2.2. Tools
 You will need an Java IDE.
